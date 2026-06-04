@@ -10,18 +10,49 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Proffitt Family Yellowstone Trip — Locked In</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
 <style>
 :root { color-scheme: light; --text: #1a1a1a; --text-muted: #5a5a5a; --border: #e3e3e3; --bg: #ffffff; --accent: #1e6b8a; --accent-light: #e4f1f6; --accent-dark: #15506b; --bg-soft: #f7f9fa; }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Helvetica, Arial, sans-serif; color: var(--text); background: var(--bg); line-height: 1.5; -webkit-font-smoothing: antialiased; font-size: 15px; }
 .container { max-width: 1000px; margin: 0 auto; padding: 24px 20px 40px; }
-.hero { background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%); color: white; padding: 28px 24px; border-radius: 12px; margin-bottom: 24px; }
-.hero .eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; opacity: 0.85; margin-bottom: 6px; }
-.hero h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
-.hero .subtitle { font-size: 15px; opacity: 0.95; margin-bottom: 16px; }
-.hero .meta { display: flex; flex-wrap: wrap; gap: 16px; font-size: 13px; }
-.hero .meta span { opacity: 0.9; }
+.hero { position: relative; color: white; border-radius: 16px; margin-bottom: 24px; overflow: hidden; min-height: 220px; display: flex; align-items: flex-end; }
+.hero-img { position: absolute; inset: 0; background-image: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&q=80'); background-size: cover; background-position: center 40%; }
+.hero-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(10,30,50,0.88) 0%, rgba(10,30,50,0.45) 55%, rgba(10,30,50,0.15) 100%); }
+.hero-content { position: relative; z-index: 1; padding: 28px 24px 24px; width: 100%; }
+.hero .eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; opacity: 0.85; margin-bottom: 8px; }
+.hero h1 { font-size: 30px; font-weight: 800; margin-bottom: 6px; line-height: 1.2; text-shadow: 0 1px 4px rgba(0,0,0,0.4); }
+.hero .subtitle { font-size: 14px; opacity: 0.9; margin-bottom: 16px; }
+.hero .meta { display: flex; flex-wrap: wrap; gap: 12px 20px; font-size: 13px; }
+.hero .meta span { opacity: 0.9; background: rgba(255,255,255,0.12); padding: 5px 10px; border-radius: 20px; backdrop-filter: blur(4px); }
 .hero .meta strong { font-weight: 600; opacity: 1; }
+.hero-tray-btn { display: inline-flex; align-items: center; gap: 6px; margin-top: 16px; background: rgba(255,255,255,0.18); backdrop-filter: blur(6px); border: 1px solid rgba(255,255,255,0.35); color: white; font-size: 13px; font-weight: 700; padding: 9px 18px; border-radius: 24px; cursor: pointer; letter-spacing: 0.2px; transition: background 0.2s; }
+.hero-tray-btn:hover { background: rgba(255,255,255,0.28); }
+/* Bottom tray */
+.tray-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 100; }
+.tray-backdrop.open { display: block; }
+.tray { position: fixed; bottom: 0; left: 0; right: 0; z-index: 101; background: white; border-radius: 20px 20px 0 0; box-shadow: 0 -4px 32px rgba(0,0,0,0.2); transform: translateY(100%); transition: transform 0.35s cubic-bezier(0.32,0.72,0,1); max-height: 82vh; display: flex; flex-direction: column; }
+.tray.open { transform: translateY(0); }
+.tray-handle { width: 40px; height: 4px; background: #ddd; border-radius: 2px; margin: 12px auto 0; flex-shrink: 0; }
+.tray-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px 10px; flex-shrink: 0; border-bottom: 1px solid var(--border); }
+.tray-tabs { display: flex; gap: 6px; }
+.tray-tab { padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 700; cursor: pointer; border: none; background: var(--bg-soft); color: var(--text-muted); transition: all 0.15s; }
+.tray-tab.active { background: var(--accent); color: white; }
+.tray-close { background: none; border: none; font-size: 20px; color: var(--text-muted); cursor: pointer; padding: 0 4px; line-height: 1; }
+.tray-body { overflow-y: auto; padding: 16px 20px 32px; flex: 1; }
+.tray-panel { display: none; }
+.tray-panel.active { display: block; }
+.tray-qr-row { padding: 12px 0; border-bottom: 1px solid var(--border); font-size: 14px; line-height: 1.6; }
+.tray-qr-row:last-child { border-bottom: none; }
+.tray-qr-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--accent-dark); margin-bottom: 3px; }
+.tray-qr-row a { color: var(--accent-dark); font-weight: 600; text-decoration: none; }
+.tray-qr-row .mono { font-family: ui-monospace, "SF Mono", Monaco, monospace; font-size: 12px; background: var(--bg-soft); padding: 1px 5px; border-radius: 4px; }
+.tray-confirm-list { list-style: none; padding: 0; margin: 0; }
+.tray-confirm-list li { padding: 11px 0; border-bottom: 1px solid var(--border); font-size: 14px; font-weight: 600; color: var(--text); display: flex; align-items: center; gap: 10px; }
+.tray-confirm-list li:last-child { border-bottom: none; }
+.confirm-check { color: #2e7d32; font-size: 16px; flex-shrink: 0; }
+.tray-confirm-note { font-size: 12px; color: var(--text-muted); font-style: italic; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); }
 .route { background: var(--accent-light); padding: 16px 20px; border-radius: 10px; margin-bottom: 28px; overflow-x: auto; }
 .route-label { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--accent-dark); margin-bottom: 10px; }
 .route-stops { display: flex; align-items: center; flex-wrap: nowrap; gap: 8px; font-size: 13px; font-weight: 600; color: var(--text); min-width: max-content; }
@@ -29,26 +60,66 @@ body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe 
 .route-stops .stop-num { display: inline-flex; align-items: center; justify-content: center; min-width: 22px; height: 20px; padding: 0 4px; background: var(--accent); color: white; font-size: 10px; font-weight: 800; border-radius: 12px; letter-spacing: 0.3px; }
 .route-stops .stop-return { border-style: dashed; opacity: 0.75; }
 .route-stops .arrow { color: var(--accent); font-weight: 700; }
+/* Integrated day + map section */
+.trip-section { margin-bottom: 32px; }
+.day-tabs { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+.day-tabs::-webkit-scrollbar { display: none; }
+.day-chip { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 10px; min-width: 56px; background: var(--bg-soft); border: 1.5px solid var(--border); border-radius: 12px; cursor: pointer; transition: all 0.18s; flex-shrink: 0; }
+.day-chip:hover { border-color: var(--accent); background: var(--accent-light); }
+.day-chip.active { background: var(--accent); border-color: var(--accent); }
+.day-chip.camp { border-color: #3e7b3e; }
+.day-chip.camp.active { background: #3e7b3e; border-color: #3e7b3e; }
+.dc-num { font-size: 11px; font-weight: 800; color: var(--accent-dark); letter-spacing: 0.3px; }
+.dc-date { font-size: 10px; color: var(--text-muted); font-weight: 600; }
+.dc-icon { font-size: 18px; line-height: 1; }
+.day-chip.active .dc-num, .day-chip.active .dc-date { color: rgba(255,255,255,0.9); }
+.day-chip.camp .dc-num { color: #2d5020; }
+.day-chip.camp.active .dc-num, .day-chip.camp.active .dc-date { color: rgba(255,255,255,0.9); }
+/* Day detail panel */
+.day-detail { background: var(--bg-soft); border-radius: 12px; border: 1px solid var(--border); overflow: hidden; }
+.dd-header { background: white; padding: 14px 18px; border-bottom: 1px solid var(--border); }
+.dd-header-top { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+.dd-num { background: var(--accent); color: white; font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 6px; letter-spacing: 0.5px; flex-shrink: 0; }
+.dd-num.camp { background: #3e7b3e; }
+.dd-date { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+.dd-miles { display: flex; gap: 5px; flex-wrap: wrap; }
+.dd-title { font-size: 16px; font-weight: 800; color: var(--text); line-height: 1.3; margin-bottom: 4px; }
+.dd-hotel { font-size: 13px; color: var(--accent-dark); font-weight: 600; }
+.dd-body { padding: 14px 18px; max-height: 380px; overflow-y: auto; }
+.dd-highlights { list-style: none; padding: 0; margin: 0 0 14px; }
+.dd-highlights li { padding: 5px 0; font-size: 14px; color: var(--text); line-height: 1.55; border-bottom: 1px solid var(--border); }
+.dd-highlights li:last-child { border-bottom: none; }
+.dd-highlights .ei { display: inline-block; width: 26px; }
+.dd-bookings { background: #f0f8ed; border-radius: 8px; padding: 11px 14px; font-size: 13px; line-height: 1.65; border-left: 3px solid #4a7c3a; margin-bottom: 12px; }
+.dd-bookings .row { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: baseline; padding: 2px 0; }
+.dd-bookings .label { font-weight: 700; color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.4px; }
+.dd-bookings a { color: #2d5020; font-weight: 600; text-decoration: underline; }
+.dd-bookings strong { color: #2d5020; }
+.dd-locations { padding: 10px 12px; background: var(--accent-light); border-radius: 8px; font-size: 13px; line-height: 2; }
+.dd-locations .label { display: block; font-weight: 700; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--accent-dark); margin-bottom: 6px; }
+.dd-locations .map-chip { display: inline-block; margin: 3px 4px 3px 0; color: var(--accent-dark); text-decoration: none; padding: 6px 12px; background: white; border-radius: 8px; border: 1px solid var(--accent); font-weight: 600; font-size: 13px; line-height: 1.3; }
+.dd-locations .map-chip.web { background: #fffbe5; border-color: #d4a000; color: #6e5500; }
+.day-chip-all { border-color: var(--accent); background: var(--accent-light); }
+.day-chip-all .dc-num, .day-chip-all .dc-date { color: var(--accent-dark); }
+.day-chip-all.active { background: var(--accent); border-color: var(--accent); }
+.map-caption { font-size: 11px; color: var(--text-muted); font-style: italic; padding: 8px 4px 2px; text-align: center; }
+.map-legend { display: flex; gap: 16px; justify-content: center; padding: 4px 4px 6px; flex-wrap: wrap; }
+.map-legend span { font-size: 11px; font-weight: 700; }
+.ml-hw { color: #1e6b8a; }
+.ml-lz { color: #d4761a; }
 .section-title { font-size: 18px; font-weight: 700; margin: 32px 0 14px; padding-bottom: 8px; border-bottom: 2px solid var(--accent); color: var(--text); display: flex; align-items: center; gap: 8px; }
 .section-title .emoji { font-size: 18px; }
 .map-wrapper { background: var(--bg-soft); border-radius: 12px; padding: 12px; border: 1px solid var(--border); margin-bottom: 28px; }
-svg.map { width: 100%; height: auto; display: block; max-height: 1000px; }
+#trip-map { width: 100%; height: 480px; border-radius: 8px; z-index: 0; }
+@media (max-width: 480px) { #trip-map { height: 360px; } }
+.map-pin { display: flex; align-items: center; justify-content: center; min-width: 36px; width: auto; padding: 0 5px; height: 36px; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); border: 2px solid white; box-shadow: 0 2px 6px rgba(0,0,0,0.3); }
+.map-pin-inner { transform: rotate(45deg); font-size: 13px; font-weight: 800; color: white; line-height: 1; white-space: nowrap; }
+.leaflet-popup-content-wrapper { border-radius: 10px; box-shadow: 0 4px 16px rgba(0,0,0,0.15); }
+.leaflet-popup-content { margin: 12px 14px; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif; }
+.popup-day { font-size: 10px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; color: var(--accent-dark); margin-bottom: 3px; }
+.popup-title { font-size: 14px; font-weight: 700; color: #1a1a1a; margin-bottom: 4px; }
+.popup-hotel { font-size: 12px; color: #5a5a5a; }
 .map-caption { font-size: 12px; color: var(--text-muted); font-style: italic; margin: 10px 4px 0; }
-.mp-state { fill: #faf5e9; stroke: #d0b78e; stroke-width: 2; }
-.mp-state-label { font-size: 28px; font-weight: 700; fill: #d0b78e; opacity: 0.55; text-anchor: middle; pointer-events: none; font-family: inherit; letter-spacing: 1.5px; }
-.mp-park { fill: #d9ead6; stroke: #3e7b3e; stroke-width: 2; stroke-dasharray: 4 3; }
-.mp-park-label { font-size: 13px; font-weight: 700; fill: #3e7b3e; text-anchor: middle; pointer-events: none; font-family: inherit; letter-spacing: 0.5px; text-transform: uppercase; }
-.mp-route { fill: none; stroke: var(--accent); stroke-width: 5; stroke-linejoin: round; stroke-linecap: round; }
-.mp-pass-marker { fill: #888; opacity: 0.6; }
-.mp-pass-label { font-size: 12px; font-weight: 600; fill: #555; font-family: inherit; text-anchor: middle; font-style: italic; }
-.mp-city-sm { fill: #999; }
-.mp-city-sm-label { font-size: 12px; fill: #555; font-family: inherit; font-weight: 600; }
-.mp-pin-icon { font-size: 26px; text-anchor: middle; dominant-baseline: central; font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif; }
-.mp-pin-label { font-size: 14px; font-weight: 700; fill: var(--text); font-family: inherit; }
-.mp-day-badge { fill: var(--accent); }
-.mp-day-badge-text { font-size: 14px; font-weight: 700; fill: white; text-anchor: middle; dominant-baseline: middle; font-family: inherit; }
-.mp-feature-emoji { font-size: 22px; text-anchor: middle; font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif; }
-.mp-feature-label { font-size: 11px; fill: #444; text-anchor: middle; font-family: inherit; font-weight: 700; font-style: italic; }
 .day-drawers { display: flex; flex-direction: column; gap: 10px; }
 .day-drawer { border: 1px solid var(--border); border-radius: 10px; background: var(--bg); overflow: hidden; transition: box-shadow 0.15s; }
 .day-drawer:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
@@ -89,10 +160,16 @@ svg.map { width: 100%; height: auto; display: block; max-height: 1000px; }
 .quickref-row .qrlabel { font-weight: 700; display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 0.4px; color: var(--text-muted); margin-bottom: 2px; }
 .quickref-row a { color: var(--accent-dark); text-decoration: none; font-weight: 600; }
 .quickref-row .mono { font-family: ui-monospace, "SF Mono", Monaco, monospace; font-size: 12px; }
-.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-top: 10px; }
-.stat { background: var(--bg-soft); border-radius: 10px; padding: 16px; text-align: center; border-left: 4px solid var(--accent); }
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px; }
+.stat { background: var(--bg-soft); border-radius: 12px; padding: 16px 12px; text-align: center; border: 1px solid var(--border); position: relative; overflow: hidden; }
+.stat.countdown { background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%); border-color: transparent; grid-column: span 3; display: flex; align-items: center; justify-content: space-between; padding: 18px 22px; text-align: left; }
+.stat.countdown .stat-value { font-size: 42px; color: white; margin-bottom: 0; }
+.stat.countdown .stat-label { color: rgba(255,255,255,0.8); font-size: 12px; letter-spacing: 0.5px; }
+.stat.countdown .countdown-right { text-align: right; }
+.stat.countdown .countdown-date { font-size: 14px; font-weight: 700; color: white; }
+.stat.countdown .countdown-sub { font-size: 12px; color: rgba(255,255,255,0.75); margin-top: 2px; }
 .stat-value { font-size: 22px; font-weight: 700; color: var(--accent-dark); margin-bottom: 4px; }
-.stat-label { font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--text-muted); }
+.stat-label { font-size: 10px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; color: var(--text-muted); line-height: 1.4; }
 .legend { display: flex; flex-wrap: wrap; gap: 10px; font-size: 12px; color: var(--text-muted); padding: 10px 14px; background: var(--bg-soft); border-radius: 8px; margin-bottom: 14px; }
 .legend span { display: inline-flex; align-items: center; gap: 6px; }
 .legend .chip-example { padding: 3px 8px; border-radius: 10px; font-weight: 700; font-size: 11px; }
@@ -126,16 +203,20 @@ svg.map { width: 100%; height: auto; display: block; max-height: 1000px; }
 @media (max-width: 480px) {
   body { font-size: 15px; }
   .container { padding: 16px 14px 30px; }
-  .hero { padding: 22px 18px; }
+  .hero { min-height: 190px; }
+  .hero-content { padding: 22px 16px 20px; }
   .hero h1 { font-size: 24px; }
-  .hero .subtitle { font-size: 14px; }
-  .hero .meta { font-size: 13px; gap: 12px; }
+  .hero .subtitle { font-size: 13px; }
+  .hero .meta { font-size: 12px; gap: 8px; }
+  .hero-tray-btn { font-size: 12px; padding: 8px 14px; }
   .section-title { font-size: 17px; margin: 24px 0 12px; }
   .quickref { padding: 14px 16px; }
   .quickref-grid { grid-template-columns: 1fr; gap: 14px; }
-  .stats { grid-template-columns: 1fr 1fr; gap: 10px; }
-  .stat { padding: 14px 10px; }
-  .stat-value { font-size: 20px; }
+  .stats { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .stat { padding: 12px 8px; }
+  .stat-value { font-size: 18px; }
+  .stat.countdown { padding: 16px 18px; }
+  .stat.countdown .stat-value { font-size: 36px; }
   .activities { grid-template-columns: 1fr; gap: 10px; }
   .day-drawer summary { padding: 12px 14px; gap: 10px; }
   .drawer-info { min-width: 0; }
@@ -143,8 +224,7 @@ svg.map { width: 100%; height: auto; display: block; max-height: 1000px; }
   .drawer-content { padding: 14px; }
   .drawer-locations .map-chip { padding: 9px 14px; font-size: 14px; margin: 5px 6px 5px 0; }
   .drawer-bookings { font-size: 13.5px; padding: 12px; }
-  svg.map { max-height: 600px; }
-  .route { padding: 14px 16px; }
+.route { padding: 14px 16px; }
   .legend { font-size: 11px; padding: 10px 12px; }
   .confirmations { padding: 14px 16px; }
   .confirmations li { padding: 6px 0; font-size: 14px; }
@@ -157,103 +237,397 @@ svg.map { width: 100%; height: auto; display: block; max-height: 1000px; }
 <div class="container">
 
   <div class="hero">
-    <div class="eyebrow">✓ LOCKED IN · Bridge Bay Camping + Horseback</div>
-    <h1>Proffitt Family Yellowstone Adventure 🏔️</h1>
-    <div class="subtitle">July 9–18, 2026 · Seth + Nico depart July 9 · ~1,775 mi</div>
-    <div class="meta"><span><strong>Crew:</strong> Seth, Krystal, Noah (17), Nico (14), Neelan (10)</span><span><strong>Vehicle:</strong> 🚙 Suburban Z71 + roof box</span></div>
-  </div>
-
-  <div class="quickref">
-    <h3>📞 Quick Reference (have this open during the trip)</h3>
-    <div class="quickref-grid">
-      <div class="quickref-row"><span class="qrlabel">🚙 Suburban — Turo (Sam)</span>Res <span class="mono">#56457407</span><br><a href="https://maps.apple.com/?q=25200+E+68th+Ave+Aurora+CO+80019">Pickup/Return: 25200 E 68th Ave, Aurora, CO</a><br>Limit: 2,000 mi · $0.46/mi over</div>
-      <div class="quickref-row"><span class="qrlabel">✈️ Flying home Sat 7/18</span>Krystal · Nico · Neelan<br>(Noah drives home with Seth)</div>
-      <div class="quickref-row"><span class="qrlabel">🆘 Emergency in park</span>Park dispatch: <a href="tel:307-344-2640">307-344-2640</a><br>911 from cell (works in most areas)</div>
-      <div class="quickref-row"><span class="qrlabel">📞 Xanterra (Yellowstone)</span><a href="tel:307-344-7311">307-344-7311</a><br>Camp + horseback + marina</div>
-      <div class="quickref-row"><span class="qrlabel">🛣️ Yellowstone road conditions</span><a href="tel:307-344-2117">307-344-2117</a> (recorded)<br>SMS alerts: text "82190" to 888-777</div>
-      <div class="quickref-row"><span class="qrlabel">🚨 Park alerts pages</span><a href="https://www.nps.gov/yell/planyourvisit/conditions.htm">Yellowstone alerts</a> · <a href="https://www.nps.gov/grte/planyourvisit/conditions.htm">Grand Teton alerts</a></div>
-      <div class="quickref-row"><span class="qrlabel">🎫 Park entry</span>America the Beautiful Pass — buy at any entrance ($80 cash/card)</div>
+    <div class="hero-img"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="eyebrow">✓ All Booked · Bridge Bay Camping + Horseback</div>
+      <h1>Proffitt Family Yellowstone 🏔️</h1>
+      <div class="subtitle">July 9–18, 2026 · ~1,775 mi · Seth + Nico pre-trip Jul 9</div>
+      <div class="meta">
+        <span><strong>Crew:</strong> Seth · Krystal · Noah · Nico · Neelan</span>
+        <span>🚙 Suburban Z71 + roof box</span>
+      </div>
+      <button class="hero-tray-btn" onclick="openTray()">📋 Quick Ref &amp; Bookings</button>
     </div>
   </div>
 
-  <div class="confirmations">
-    <h3>✅ All confirmations on file</h3>
-    <ul>
-      <li>🚙 Suburban (Turo)</li>
-      <li>🛏️ Day 1 · Residence Inn Golden / Red Rocks</li>
-      <li>🛏️ Day 2 · Fairfield Marriott Rawlins</li>
-      <li>🦌 Days 3–4 · 49er Inn &amp; Suites Jackson</li>
-      <li>⛺ Days 5–7 · Bridge Bay Campground</li>
-      <li>🛏️ Day 8 · Residence Inn Casper</li>
-      <li>✈️ Krystal + Neelan RT (UA via Experiences Mktpl · KYQDFG)</li>
-      <li>✈️ Noah one-way IAH→DEN (UA · KZBBJF)</li>
-      <li>✈️ Nico one-way DEN→IAH (UA · K0T774)</li>
-    </ul>
-    <div class="note">Conf #s + total costs are inside each day's drawer below + in the Budget Tracker at the bottom.</div>
+  <!-- Bottom tray -->
+  <div class="tray-backdrop" id="trayBackdrop" onclick="closeTray()"></div>
+  <div class="tray" id="tray">
+    <div class="tray-handle"></div>
+    <div class="tray-header">
+      <div class="tray-tabs">
+        <button class="tray-tab active" onclick="switchTab('quickref')">📞 Quick Ref</button>
+        <button class="tray-tab" onclick="switchTab('bookings')">✅ Bookings</button>
+      </div>
+      <button class="tray-close" onclick="closeTray()">✕</button>
+    </div>
+    <div class="tray-body">
+      <div class="tray-panel active" id="panel-quickref">
+        <div class="tray-qr-row"><div class="tray-qr-label">🚙 Suburban — Turo (Sam)</div>Res <span class="mono">#56457407</span> · <a href="https://maps.apple.com/?q=25200+E+68th+Ave+Aurora+CO+80019">Pickup: 25200 E 68th Ave, Aurora, CO</a><br>Limit: 2,000 mi · $0.46/mi over</div>
+        <div class="tray-qr-row"><div class="tray-qr-label">✈️ Flying home Sat 7/18</div>Krystal · Nico · Neelan — Noah drives home with Seth</div>
+        <div class="tray-qr-row"><div class="tray-qr-label">🆘 Emergency in park</div>Park dispatch: <a href="tel:307-344-2640">307-344-2640</a> · 911 works in most areas</div>
+        <div class="tray-qr-row"><div class="tray-qr-label">📞 Xanterra (Yellowstone)</div><a href="tel:307-344-7311">307-344-7311</a> — camp + horseback + marina</div>
+        <div class="tray-qr-row"><div class="tray-qr-label">🛣️ Road conditions</div><a href="tel:307-344-2117">307-344-2117</a> (recorded) · SMS: text "82190" to 888-777</div>
+        <div class="tray-qr-row"><div class="tray-qr-label">🚨 Park alerts</div><a href="https://www.nps.gov/yell/planyourvisit/conditions.htm">Yellowstone alerts</a> · <a href="https://www.nps.gov/grte/planyourvisit/conditions.htm">Grand Teton alerts</a></div>
+        <div class="tray-qr-row"><div class="tray-qr-label">🎫 Park entry</div>America the Beautiful Pass — buy at any entrance ($80 cash/card)</div>
+      </div>
+      <div class="tray-panel" id="panel-bookings">
+        <ul class="tray-confirm-list">
+          <li><span class="confirm-check">✅</span>🚙 Suburban — Turo (Sam)</li>
+          <li><span class="confirm-check">✅</span>🛏️ Day 1 · Residence Inn Golden / Red Rocks</li>
+          <li><span class="confirm-check">✅</span>🛏️ Day 2 · Fairfield Marriott Rawlins</li>
+          <li><span class="confirm-check">✅</span>🦌 Days 3–4 · 49er Inn &amp; Suites Jackson</li>
+          <li><span class="confirm-check">✅</span>⛺ Days 5–7 · Bridge Bay Campground</li>
+          <li><span class="confirm-check">✅</span>🛏️ Day 8 · Residence Inn Casper</li>
+          <li><span class="confirm-check">✅</span>✈️ Krystal + Neelan RT · UA <span class="mono">KYQDFG</span></li>
+          <li><span class="confirm-check">✅</span>✈️ Noah IAH→DEN · UA <span class="mono">KZBBJF</span></li>
+          <li><span class="confirm-check">✅</span>✈️ Nico DEN→IAH · UA <span class="mono">K0T774</span></li>
+        </ul>
+        <div class="tray-confirm-note">Conf #s + costs inside each day's drawer below and in the Budget Tracker.</div>
+      </div>
+    </div>
   </div>
+  <script>
+    function openTray() {
+      document.getElementById('tray').classList.add('open');
+      document.getElementById('trayBackdrop').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeTray() {
+      document.getElementById('tray').classList.remove('open');
+      document.getElementById('trayBackdrop').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    function switchTab(tab) {
+      document.querySelectorAll('.tray-tab').forEach(function(t) { t.classList.remove('active'); });
+      document.querySelectorAll('.tray-panel').forEach(function(p) { p.classList.remove('active'); });
+      event.target.classList.add('active');
+      document.getElementById('panel-' + tab).classList.add('active');
+    }
+    // Swipe down to close
+    var trayEl = document.getElementById('tray');
+    var startY = 0;
+    trayEl.addEventListener('touchstart', function(e) { startY = e.touches[0].clientY; }, { passive: true });
+    trayEl.addEventListener('touchend', function(e) { if (e.changedTouches[0].clientY - startY > 60) closeTray(); }, { passive: true });
+  </script>
 
-  <div class="section-title">📊 At a Glance</div>
-  <div class="stats">
-    <div class="stat"><div class="stat-value">9</div><div class="stat-label">Days</div></div>
-    <div class="stat"><div class="stat-value">8</div><div class="stat-label">Nts · 4 Hotels + ⛺</div></div>
+  <div class="stats" style="margin-bottom:28px">
+    <div class="stat countdown">
+      <div>
+        <div class="stat-value" id="countdown-days">—</div>
+        <div class="stat-label">DAYS UNTIL DEPARTURE</div>
+      </div>
+      <div class="countdown-right">
+        <div class="countdown-date">🗓️ Jul 9, 2026</div>
+        <div class="countdown-sub">Seth + Nico hit the road</div>
+      </div>
+    </div>
+    <div class="stat"><div class="stat-value">9</div><div class="stat-label">Trip Days</div></div>
+    <div class="stat"><div class="stat-value">8</div><div class="stat-label">Nights Away</div></div>
     <div class="stat"><div class="stat-value">~1,775</div><div class="stat-label">Total Miles</div></div>
-    <div class="stat"><div class="stat-value">9</div><div class="stat-label">Booked ✅</div></div>
+    <div class="stat"><div class="stat-value">5 🏨 · 3 ⛺</div><div class="stat-label">Hotel + Camp Nights</div></div>
+    <div class="stat"><div class="stat-value">9 / 9</div><div class="stat-label">Bookings Done ✅</div></div>
     <div class="stat"><div class="stat-value">$2,536</div><div class="stat-label">Paid So Far</div></div>
   </div>
-
-  <div class="route" style="margin-top:24px"><div class="route-label">The Loop · Seth + Nico pre-trip: Houston 🏠 → Amarillo ⛺ (Jul 9)</div><div class="route-stops"><span class="stop stop-return"><span class="stop-num">0</span>Amarillo ⛺</span><span class="arrow">→</span><span class="stop"><span class="stop-num">1</span>Golden ✓</span><span class="arrow">→</span><span class="stop"><span class="stop-num">2</span>Rawlins ✓</span><span class="arrow">→</span><span class="stop"><span class="stop-num">3-4</span>Jackson ✓</span><span class="arrow">→</span><span class="stop"><span class="stop-num">5-7</span>Bridge Bay ⛺ ✓</span><span class="arrow">→</span><span class="stop"><span class="stop-num">8</span>Casper ✓</span><span class="arrow">→</span><span class="stop stop-return">🏁 Denver</span></div></div>
+  <script>
+    (function() {
+      var depart = new Date('2026-07-09T08:00:00');
+      var now = new Date();
+      var days = Math.ceil((depart - now) / 86400000);
+      var el = document.getElementById('countdown-days');
+      if (days > 0) el.textContent = days;
+      else if (days === 0) el.textContent = 'TODAY!';
+      else el.textContent = '🚗 On Trip';
+    })();
+  </script>
 
   <div class="section-title"><span class="emoji">🗺️</span> Route Map</div>
   <div class="map-wrapper">
-    <svg class="map" viewBox="80 50 580 660" xmlns="http://www.w3.org/2000/svg">
-      <rect x="0" y="0" width="730" height="760" fill="#f4f1e8"/>
-      <rect class="mp-state" x="0" y="0" width="657" height="100"/><text class="mp-state-label" x="370" y="60">MONTANA</text>
-      <rect class="mp-state" x="0" y="100" width="146" height="300"/><text class="mp-state-label" x="100" y="260" font-size="22">IDAHO</text>
-      <rect class="mp-state" x="146" y="100" width="511" height="400"/><text class="mp-state-label" x="380" y="320">WYOMING</text>
-      <rect class="mp-state" x="146" y="500" width="584" height="260"/><text class="mp-state-label" x="380" y="640">COLORADO</text>
-      <rect class="mp-state" x="657" y="0" width="73" height="500"/>
-      <rect class="mp-park" x="139" y="90" width="95" height="110"/>
-      <text class="mp-park-label" x="186" y="128">Yellowstone</text><text class="mp-park-label" x="186" y="143" font-size="11">NP</text>
-      <rect class="mp-park" x="150" y="200" width="42" height="58"/>
-      <text class="mp-park-label" x="171" y="218" font-size="9">Grand</text><text class="mp-park-label" x="171" y="232" font-size="9">Teton</text>
-      <text class="mp-feature-emoji" x="225" y="120">🦬</text><text class="mp-feature-label" x="225" y="135">Lamar</text>
-      <text class="mp-feature-emoji" x="155" y="178">♨️</text><text class="mp-feature-label" x="155" y="192">Old Faithful</text>
-      <text class="mp-feature-emoji" x="220" y="125">🐴</text>
-      <circle class="mp-pass-marker" cx="219" cy="225" r="4"/><text class="mp-pass-label" x="252" y="227">🏔️ Togwotee</text>
-      <circle class="mp-pass-marker" cx="257" cy="103" r="4"/><text class="mp-pass-label" x="295" y="98">🏔️ Beartooth</text>
-      <circle class="mp-city-sm" cx="597" cy="486" r="3.5"/><text class="mp-city-sm-label" x="603" y="491">Cheyenne</text>
-      <circle class="mp-city-sm" cx="541" cy="469" r="3.5"/><text class="mp-city-sm-label" x="535" y="463" text-anchor="end">Laramie</text>
-      <circle class="mp-city-sm" cx="488" cy="313" r="4.5"/><text class="mp-city-sm-label" x="496" y="318" font-weight="700">Casper</text>
-      <circle class="mp-city-sm" cx="350" cy="235" r="3.5"/><text class="mp-city-sm-label" x="356" y="240">Thermopolis</text>
-      <circle class="mp-city-sm" cx="420" cy="421" r="4.5"/><text class="mp-city-sm-label" x="426" y="426" font-weight="700">Rawlins</text>
-      <circle class="mp-city-sm" cx="245" cy="246" r="3.5"/><text class="mp-city-sm-label" x="208" y="254" text-anchor="end">Dubois</text>
-      <circle class="mp-city-sm" cx="274" cy="82" r="3.5"/><text class="mp-city-sm-label" x="280" y="78">Red Lodge</text>
-      <g id="route-e">
-        <path class="mp-route" d="M 585 626 L 564 599"/>
-        <path class="mp-route" d="M 564 599 L 541 469 L 420 421"/>
-        <path class="mp-route" d="M 420 421 L 337 298 L 245 246 L 219 225 L 164 252"/>
-        <path class="mp-route" d="M 164 252 L 169 190 L 178 165 L 190 150"/>
-        <path class="mp-route" d="M 190 150 L 235 150 L 288 147 L 350 235 L 488 313"/>
-        <path class="mp-route" d="M 488 313 L 597 486 L 585 626"/>
-      </g>
-      <text class="mp-pin-icon" x="585" y="626">🏙️</text><text class="mp-pin-label" x="608" y="631">Denver</text>
-      <text class="mp-pin-icon" x="564" y="599">🎓</text><text class="mp-pin-label" x="544" y="603" text-anchor="end">Boulder</text>
-      <text class="mp-pin-icon" x="164" y="252">🦌</text><text class="mp-pin-label" x="142" y="256" text-anchor="end">Jackson</text>
-      <text class="mp-pin-icon" x="169" y="190">🏕️</text><text class="mp-pin-label" x="148" y="194" text-anchor="end">Flagg Ranch</text>
-      <text class="mp-pin-icon" x="190" y="150">⛺</text><text class="mp-pin-label" x="208" y="154">Bridge Bay</text>
-      <text class="mp-pin-icon" x="168" y="102">🏛️</text><text class="mp-pin-label" x="148" y="106" text-anchor="end">Mammoth</text>
-      <text class="mp-pin-icon" x="288" y="147">🤠</text><text class="mp-pin-label" x="312" y="151">Cody</text>
-      <g id="daynums-e"><circle class="mp-day-badge" cx="595" cy="640" r="11"/><text class="mp-day-badge-text" x="595" y="640">1</text><circle class="mp-day-badge" cx="432" cy="433" r="11"/><text class="mp-day-badge-text" x="432" y="433">2</text><circle class="mp-day-badge" cx="180" cy="270" r="13"/><text class="mp-day-badge-text" x="180" y="270" font-size="11">3-4</text><circle class="mp-day-badge" cx="213" cy="170" r="13"/><text class="mp-day-badge-text" x="213" y="170" font-size="11">5-7</text><circle class="mp-day-badge" cx="503" cy="328" r="11"/><text class="mp-day-badge-text" x="503" y="328" font-size="11">8</text></g>
-    </svg>
-    <div class="map-caption">🏙️ Denver · 🎓 Boulder · 🦌 Jackson · 🏕️ Flagg Ranch · ⛺ Bridge Bay · 🏛️ Mammoth · 🤠 Cody</div>
+    <div id="trip-map"></div>
+    <div class="map-caption">Tap any pin for details · Numbered pins = where you sleep · Emoji pins = the highlight of each day</div>
+  </div>
+  <script>
+  (function() {
+    var accent = '#1e6b8a';
+    var campGreen = '#3e7b3e';
+
+    var map = L.map('trip-map', { zoomControl: true, scrollWheelZoom: false }).setView([42, -108], 6);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>', maxZoom: 18
+    }).addTo(map);
+    window.tripMap = map;
+
+    function pin(label, color) {
+      return L.divIcon({ className: '',
+        html: '<div class="map-pin" style="background:'+color+'"><div class="map-pin-inner">'+label+'</div></div>',
+        iconSize: [36,36], iconAnchor: [18,36], popupAnchor: [0,-38] });
+    }
+    function epin(emoji) {
+      return L.divIcon({ className: '',
+        html: '<div style="font-size:24px;line-height:1;filter:drop-shadow(0 1px 4px rgba(0,0,0,0.5))">'+emoji+'</div>',
+        iconSize: [30,30], iconAnchor: [15,15], popupAnchor: [0,-18] });
+    }
+    function pop(day, title, note) {
+      return '<div class="popup-day">'+day+'</div><div class="popup-title">'+title+'</div>'+(note?'<div class="popup-hotel">'+note+'</div>':'');
+    }
+
+    // Full route polyline — always visible as context
+    var fullRoute = [
+      [39.7555,-105.2211],[40.0150,-105.2705],[41.7911,-107.2387],
+      [42.8320,-108.7306],[43.5330,-109.6299],[43.7626,-110.0569],
+      [43.4799,-110.7624],[44.0988,-110.7026],[44.1375,-110.6642],
+      [44.4166,-110.5766],[44.5393,-110.4268],[44.4894,-110.0022],
+      [44.4800,-109.8800],[44.5263,-109.0565],[43.6441,-108.2122],
+      [42.8501,-106.3252],[39.7392,-104.9903]
+    ];
+    // Faint context line — always present, active route drawn on top per selection
+    L.polyline(fullRoute, { color: accent, weight: 3, opacity: 0.18, smoothFactor: 1.5 }).addTo(map);
+
+    // Per-day data: view, highlighted route segment, pins
+    var leisure = '#d4761a'; // amber — local/exploration travel
+
+    // highway = solid teal driving segments; leisure = dashed amber exploration loops
+    var dayData = {
+      0: { caption:'Seth + Nico · Houston → Amarillo (pre-trip)',
+           highway:[[29.7604,-95.3698],[35.2220,-101.8313]],
+           leisure:[],
+           overnight:null,
+           acts:[ {ll:[34.9388,-101.6671], e:'🏜️', t:'Palo Duro Canyon', n:'Camp — "Grand Canyon of Texas"'} ] },
+
+      1: { caption:'Golden, CO · crew arrives · Red Rocks sunset',
+           highway:[[39.7392,-104.9903],[39.7555,-105.2211]],   // Denver→Golden
+           leisure:[[39.7555,-105.2211],[39.6654,-105.2050],[39.7555,-105.2211]],  // Golden↔Red Rocks
+           overnight:{ll:[39.7555,-105.2211], label:'1', color:accent, t:'Golden, CO', n:'Residence Inn Golden/Red Rocks'},
+           acts:[ {ll:[39.6654,-105.2050], e:'🎸', t:'Red Rocks Amphitheater', n:'Sunset visit + Trading Post Trail'} ] },
+
+      2: { caption:'Boulder campus walk → push north to Rawlins',
+           highway:[[39.7555,-105.2211],[40.0150,-105.2705],[41.0000,-105.5500],[41.7911,-107.2387]],
+           leisure:[],
+           overnight:{ll:[41.7911,-107.2387], label:'2', color:accent, t:'Rawlins, WY', n:'Fairfield Marriott Rawlins'},
+           acts:[ {ll:[40.0150,-105.2705], e:'🎓', t:'CU Boulder', n:'Campus walk + Pearl Street lunch'} ] },
+
+      3: { caption:'Rawlins → Lander → Dubois → Togwotee Pass → Jackson',
+           highway:[[41.7911,-107.2387],[42.8320,-108.7306],[43.0000,-109.1000],[43.5330,-109.6299],[43.7626,-110.0569],[43.4799,-110.7624]],
+           leisure:[],
+           overnight:{ll:[43.4799,-110.7624], label:'3', color:accent, t:'Jackson, WY', n:'49er Inn & Suites · night 1 of 2'},
+           acts:[ {ll:[43.7626,-110.0569], e:'🏔️', t:'Togwotee Pass', n:'The Teton reveal ⭐ — last 90 min of drive'} ] },
+
+      4: { caption:'Full Tetons day — all local from Jackson (no highway miles)',
+           highway:[],
+           leisure:[ [43.4799,-110.7624],[43.7289,-110.7624],[43.8641,-110.5156],  // Jackson→Jenny Lake→Oxbow
+                     [43.8000,-110.5500],[43.7289,-110.7624],[43.4799,-110.7624] ], // back via Mormon Row→Jackson
+           overnight:{ll:[43.4799,-110.7624], label:'4', color:accent, t:'Jackson, WY', n:'49er Inn & Suites · night 2 of 2'},
+           acts:[ {ll:[43.8641,-110.5156], e:'🌅', t:'Oxbow Bend Sunrise', n:'4:30am alarm · sunrise ~5:55am ⭐'},
+                  {ll:[43.7289,-110.7624], e:'⛵', t:'Jenny Lake', n:'Boat shuttle → Hidden Falls → Inspiration Point'} ] },
+
+      5: { caption:'Jackson → Flagg Ranch → South Entrance → West Thumb → Bridge Bay',
+           highway:[[43.4799,-110.7624],[44.0988,-110.7026],[44.1375,-110.6642],[44.4166,-110.5766],[44.5393,-110.4268]],
+           leisure:[],
+           overnight:{ll:[44.5393,-110.4268], label:'5', color:campGreen, t:'Bridge Bay Campground', n:'Night 1 of 3 · Yellowstone Lake'},
+           acts:[ {ll:[44.4166,-110.5766], e:'♨️', t:'West Thumb Geyser Basin', n:'First stop in YNP · geysers on the lakeshore'} ] },
+
+      6: { caption:'Old Faithful · Grand Prismatic · Fairy Falls — all local loops from Bridge Bay',
+           highway:[],
+           leisure:[ [44.5393,-110.4268],[44.4605,-110.8282],          // Bridge Bay→Old Faithful
+                     [44.5302,-110.8384],[44.5700,-110.4000],           // Grand Prismatic→Fishing Bridge
+                     [44.5393,-110.4268] ],                             // back to camp
+           overnight:{ll:[44.5393,-110.4268], label:'6', color:campGreen, t:'Bridge Bay Campground', n:'Night 2 of 3'},
+           acts:[ {ll:[44.4605,-110.8282], e:'♨️', t:'Old Faithful', n:'Erupts every ~90 min · walk Geyser Hill Loop'},
+                  {ll:[44.5302,-110.8384], e:'🌈', t:'Grand Prismatic Overlook', n:'Fairy Falls hike ⭐ · 5 mi RT'} ] },
+
+      7: { caption:'Canyon horseback + Artist Point — local loops from Bridge Bay',
+           highway:[],
+           leisure:[ [44.5393,-110.4268],[44.6500,-110.4979],[44.7366,-110.4979],  // camp→Hayden Valley→Canyon
+                     [44.7366,-110.4979],[44.6500,-110.4979],[44.5393,-110.4268],  // Canyon→back to camp
+                     [44.5393,-110.4268],[44.5393,-110.3800] ],                    // camp→marina (walk)
+           overnight:{ll:[44.5393,-110.4268], label:'7', color:campGreen, t:'Bridge Bay Campground', n:'Night 3 of 3'},
+           acts:[ {ll:[44.7366,-110.4979], e:'🐴', t:'Canyon Corral + Artist Point', n:'8am horseback · Lower Falls 308 ft ⭐'},
+                  {ll:[44.5393,-110.3800], e:'🛶', t:'Bridge Bay Marina', n:'Walk from camp · kayak / cruise / fishing'} ] },
+
+      8: { caption:'Break camp → East Entrance → Sylvan Pass → Cody → Thermopolis → Casper',
+           highway:[[44.5393,-110.4268],[44.4894,-110.0022],[44.4800,-109.8800],[44.5263,-109.0565],[43.6441,-108.2122],[42.8501,-106.3252]],
+           leisure:[],
+           overnight:{ll:[42.8501,-106.3252], label:'8', color:accent, t:'Casper, WY', n:'Residence Inn Casper · real shower!'},
+           acts:[ {ll:[44.5263,-109.0565], e:'🦬', t:'Cody, WY', n:'Buffalo Bill Center of the West'} ] },
+
+      9: { caption:'Casper → Denver · crew splits · everyone heads home',
+           highway:[[42.8501,-106.3252],[41.1400,-104.8200],[39.7392,-104.9903]],
+           leisure:[],
+           overnight:null,
+           acts:[ {ll:[39.7392,-104.9903], e:'🏁', t:'Denver Airport', n:'Krystal/Nico/Neelan fly UA 1585 · Seth+Noah drive home'} ] }
+    };
+
+    // All overnight stops for the full-route view
+    var allStops = [
+      {ll:[39.7555,-105.2211], label:'1',   color:accent,     t:'Golden, CO',          n:'Day 1 · Residence Inn Golden'},
+      {ll:[41.7911,-107.2387], label:'2',   color:accent,     t:'Rawlins, WY',         n:'Day 2 · Fairfield Marriott'},
+      {ll:[43.4799,-110.7624], label:'3–4', color:accent,     t:'Jackson, WY',         n:'Days 3–4 · 49er Inn & Suites'},
+      {ll:[44.5393,-110.4268], label:'5–7', color:campGreen,  t:'Bridge Bay, YNP',     n:'Days 5–7 · Bridge Bay Campground'},
+      {ll:[42.8501,-106.3252], label:'8',   color:accent,     t:'Casper, WY',          n:'Day 8 · Residence Inn Casper'},
+      {ll:[39.7392,-104.9903], label:'🏁',  color:'#555',     t:'Denver',              n:'Day 9 · Fly home'}
+    ];
+
+    var activeLayer = null;
+    var activeHighway = null;
+    var activeLeisure = null;
+
+    function clearActive() {
+      if (activeLayer)  { map.removeLayer(activeLayer);  activeLayer  = null; }
+      if (activeHighway){ map.removeLayer(activeHighway); activeHighway= null; }
+      if (activeLeisure){ map.removeLayer(activeLeisure); activeLeisure= null; }
+    }
+
+    // Collect all latlngs from segments + points to fitBounds
+    function boundsFrom(arrays, points) {
+      var lls = [];
+      arrays.forEach(function(seg){ seg.forEach(function(ll){ lls.push(ll); }); });
+      points.forEach(function(p){ if(p) lls.push(p); });
+      return lls.length > 1 ? L.latLngBounds(lls) : null;
+    }
+
+    window.selectAll = function() {
+      document.querySelectorAll('.day-chip').forEach(function(el) { el.classList.remove('active'); });
+      var tab = document.querySelector('[data-day="all"]');
+      if (tab) tab.classList.add('active');
+
+      clearActive();
+
+      // Show bright full route + all overnight pins
+      activeHighway = L.polyline(fullRoute, { color: accent, weight: 5, opacity: 0.85, smoothFactor: 1.5 }).addTo(map);
+      activeLayer = L.layerGroup();
+      allStops.forEach(function(s) {
+        L.marker(s.ll, { icon: pin(s.label, s.color) })
+         .bindPopup(pop('', s.t, s.n), {maxWidth:220})
+         .addTo(activeLayer);
+      });
+      activeLayer.addTo(map);
+
+      map.flyToBounds(L.polyline(fullRoute).getBounds(), { padding:[28,28], duration:0.9 });
+      document.getElementById('mapCaption').textContent = 'Full trip loop · tap a day chip to zoom in';
+      document.getElementById('dayDetail').innerHTML = '';
+    };
+
+    window.selectDay = function(d) {
+      // Update tabs
+      document.querySelectorAll('.day-chip').forEach(function(el) { el.classList.remove('active'); });
+      var tab = document.querySelector('[data-day="'+d+'"]');
+      if (tab) {
+        tab.classList.add('active');
+        tab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      }
+
+      var data = dayData[d];
+      if (!data) return;
+
+      clearActive();
+
+      // Draw segments
+      if (data.highway && data.highway.length > 1) {
+        activeHighway = L.polyline(data.highway, { color: accent, weight: 5, opacity: 0.92, smoothFactor: 1 }).addTo(map);
+      }
+      if (data.leisure && data.leisure.length > 1) {
+        activeLeisure = L.polyline(data.leisure, { color: leisure, weight: 4, opacity: 0.88, dashArray: '10 7', smoothFactor: 1 }).addTo(map);
+      }
+
+      // Drop pins
+      activeLayer = L.layerGroup();
+      if (data.overnight) {
+        L.marker(data.overnight.ll, { icon: pin(data.overnight.label, data.overnight.color) })
+         .bindPopup(pop('DAY '+d, data.overnight.t, data.overnight.n), {maxWidth:240})
+         .addTo(activeLayer);
+      }
+      data.acts.forEach(function(a) {
+        L.marker(a.ll, { icon: epin(a.e) })
+         .bindPopup(pop('DAY '+d, a.t, a.n), {maxWidth:220})
+         .addTo(activeLayer);
+      });
+      activeLayer.addTo(map);
+
+      // Auto-fit to everything on this day
+      var allSegs = [];
+      if (data.highway && data.highway.length) allSegs.push(data.highway);
+      if (data.leisure && data.leisure.length) allSegs.push(data.leisure);
+      var allPts = data.acts.map(function(a){ return a.ll; });
+      if (data.overnight) allPts.push(data.overnight.ll);
+      var bounds = boundsFrom(allSegs, allPts);
+      if (bounds && bounds.isValid()) {
+        map.flyToBounds(bounds, { padding:[40,40], maxZoom:13, duration:1.0 });
+      }
+      document.getElementById('mapCaption').textContent = data.caption;
+
+      // Populate detail panel
+      var src = document.getElementById('day-'+d);
+      if (!src) { document.getElementById('dayDetail').innerHTML = ''; return; }
+      var sumEl = src.querySelector('summary');
+      var num   = sumEl.querySelector('.drawer-num')   ? sumEl.querySelector('.drawer-num').textContent   : '';
+      var date  = sumEl.querySelector('.drawer-date')  ? sumEl.querySelector('.drawer-date').textContent  : '';
+      var title = sumEl.querySelector('.drawer-title') ? sumEl.querySelector('.drawer-title').textContent : '';
+      var hotel = sumEl.querySelector('.drawer-hotel') ? sumEl.querySelector('.drawer-hotel').textContent : '';
+      var chips = Array.from(sumEl.querySelectorAll('.day-miles-chip')).map(function(c){return c.outerHTML;}).join(' ');
+      var isCamp = hotel.indexOf('⛺') !== -1;
+      var body  = src.querySelector('.drawer-content') ? src.querySelector('.drawer-content').innerHTML : '';
+
+      document.getElementById('dayDetail').innerHTML =
+        '<div class="dd-header">'
+        + '<div class="dd-header-top">'
+        + '<span class="dd-num'+(isCamp?' camp':'')+'">'+num+'</span>'
+        + '<span class="dd-date">'+date+'</span>'
+        + '<span class="dd-miles">'+chips+'</span>'
+        + '</div>'
+        + '<div class="dd-title">'+title+'</div>'
+        + (hotel ? '<div class="dd-hotel">'+hotel+'</div>' : '')
+        + '</div>'
+        + '<div class="dd-body">'
+        + body.replace(/class="day-highlights"/g,'class="dd-highlights"')
+              .replace(/class="drawer-bookings"/g,'class="dd-bookings"')
+              .replace(/class="drawer-locations"/g,'class="dd-locations"')
+        + '</div>';
+    };
+
+    // Init on full route view
+    map.fitBounds(L.polyline(fullRoute).getBounds(), { padding:[28,28] });
+    setTimeout(function() { window.selectAll(); }, 300);
+  })();
+  </script>
+
+  <!-- Integrated day selector + map + detail panel -->
+  <div class="trip-section">
+
+    <div class="day-tabs" id="dayTabs">
+      <button class="day-chip day-chip-all active" data-day="all" onclick="selectAll()"><span class="dc-num">ALL</span><span class="dc-date">Route</span><span class="dc-icon">🗺️</span></button>
+      <button class="day-chip" data-day="0" onclick="selectDay(0)"><span class="dc-num">PRE</span><span class="dc-date">Jul 9</span><span class="dc-icon">🏜️</span></button>
+      <button class="day-chip" data-day="1" onclick="selectDay(1)"><span class="dc-num">DAY 1</span><span class="dc-date">Jul 10</span><span class="dc-icon">🎸</span></button>
+      <button class="day-chip" data-day="2" onclick="selectDay(2)"><span class="dc-num">DAY 2</span><span class="dc-date">Jul 11</span><span class="dc-icon">🎓</span></button>
+      <button class="day-chip" data-day="3" onclick="selectDay(3)"><span class="dc-num">DAY 3</span><span class="dc-date">Jul 12</span><span class="dc-icon">🏔️</span></button>
+      <button class="day-chip" data-day="4" onclick="selectDay(4)"><span class="dc-num">DAY 4</span><span class="dc-date">Jul 13</span><span class="dc-icon">🌅</span></button>
+      <button class="day-chip camp" data-day="5" onclick="selectDay(5)"><span class="dc-num">DAY 5</span><span class="dc-date">Jul 14</span><span class="dc-icon">⛺</span></button>
+      <button class="day-chip camp" data-day="6" onclick="selectDay(6)"><span class="dc-num">DAY 6</span><span class="dc-date">Jul 15</span><span class="dc-icon">♨️</span></button>
+      <button class="day-chip camp" data-day="7" onclick="selectDay(7)"><span class="dc-num">DAY 7</span><span class="dc-date">Jul 16</span><span class="dc-icon">🐴</span></button>
+      <button class="day-chip" data-day="8" onclick="selectDay(8)"><span class="dc-num">DAY 8</span><span class="dc-date">Jul 17</span><span class="dc-icon">🦬</span></button>
+      <button class="day-chip" data-day="9" onclick="selectDay(9)"><span class="dc-num">DAY 9</span><span class="dc-date">Jul 18</span><span class="dc-icon">🏁</span></button>
+    </div>
+
+    <div class="map-wrapper" style="margin-bottom:0;border-radius:12px 12px 0 0;border-bottom:none;">
+      <div id="trip-map"></div>
+      <div class="map-caption" id="mapCaption">Tap a day above to explore the route</div>
+    <div class="map-legend">
+      <span class="ml-hw">─── Highway / transit</span>
+      <span class="ml-lz">- - - Local / exploration</span>
+    </div>
+    </div>
+
+    <div class="day-detail" id="dayDetail">
+      <!-- populated by selectDay() -->
+    </div>
+
   </div>
 
-  <div class="section-title"><span class="emoji">📅</span> Day by Day · Tap to expand</div>
-  <div class="legend"><span><span class="chip-example transit">🚗 195</span> Transit between hotels</span><span><span class="chip-example local">📍 10</span> Local / sightseeing miles</span></div>
-
+  <!-- Hidden source content — all day data lives here, JS pulls from it -->
+  <div id="day-source" style="display:none" aria-hidden="true">
   <div class="day-drawers">
 
-    <details class="day-drawer">
+    <details class="day-drawer" id="day-0">
       <summary><span class="drawer-num">DAY 0</span><div class="drawer-info"><span class="drawer-date">Thu · Jul 9 · Seth + Nico only</span><span class="drawer-title">🚗 Pre-Trip · Houston → Amarillo</span><span class="drawer-hotel">⛺ Camp near Amarillo</span></div><div class="drawer-meta"><span class="day-miles-chip">🚗 ~370</span></div></summary>
       <div class="drawer-content">
         <ul class="day-highlights">
@@ -272,7 +646,7 @@ svg.map { width: 100%; height: auto; display: block; max-height: 1000px; }
       </div>
     </details>
 
-    <details class="day-drawer">
+    <details class="day-drawer" id="day-1">
       <summary><span class="drawer-num">DAY 1</span><div class="drawer-info"><span class="drawer-date">Fri · Jul 10</span><span class="drawer-title">🎸 Denver → Golden → Red Rocks Sunset</span><span class="drawer-hotel">🛏️ Residence Inn Golden / Red Rocks</span></div><div class="drawer-meta"><span class="day-miles-chip">🚗 30</span><span class="day-miles-chip local">📍 25</span></div></summary>
       <div class="drawer-content">
         <ul class="day-highlights">
@@ -301,7 +675,7 @@ svg.map { width: 100%; height: auto; display: block; max-height: 1000px; }
       </div>
     </details>
 
-    <details class="day-drawer">
+    <details class="day-drawer" id="day-2">
       <summary><span class="drawer-num">DAY 2</span><div class="drawer-info"><span class="drawer-date">Sat · Jul 11</span><span class="drawer-title">🎓 Boulder morning → Rawlins push north</span><span class="drawer-hotel">🛏️ Fairfield Marriott Rawlins</span></div><div class="drawer-meta"><span class="day-miles-chip">🚗 260</span><span class="day-miles-chip local">📍 10</span></div></summary>
       <div class="drawer-content">
         <ul class="day-highlights">
@@ -324,7 +698,7 @@ svg.map { width: 100%; height: auto; display: block; max-height: 1000px; }
       </div>
     </details>
 
-    <details class="day-drawer">
+    <details class="day-drawer" id="day-3">
       <summary><span class="drawer-num">DAY 3</span><div class="drawer-info"><span class="drawer-date">Sun · Jul 12</span><span class="drawer-title">🚗 Rawlins → Jackson · Togwotee Pass reveal</span><span class="drawer-hotel">🦌 49er Inn &amp; Suites Jackson · night 1 of 2</span></div><div class="drawer-meta"><span class="day-miles-chip">🚗 300</span><span class="day-miles-chip local">📍 5</span></div></summary>
       <div class="drawer-content">
         <ul class="day-highlights">
@@ -352,7 +726,7 @@ svg.map { width: 100%; height: auto; display: block; max-height: 1000px; }
       </div>
     </details>
 
-    <details class="day-drawer">
+    <details class="day-drawer" id="day-4">
       <summary><span class="drawer-num">DAY 4</span><div class="drawer-info"><span class="drawer-date">Mon · Jul 13</span><span class="drawer-title">🌅 Tetons Sunrise + Full Day</span><span class="drawer-hotel">🦌 49er Inn &amp; Suites · night 2 of 2</span></div><div class="drawer-meta"><span class="day-miles-chip zero">🚗 0</span><span class="day-miles-chip local">📍 90</span></div></summary>
       <div class="drawer-content">
         <ul class="day-highlights">
@@ -380,7 +754,7 @@ svg.map { width: 100%; height: auto; display: block; max-height: 1000px; }
       </div>
     </details>
 
-    <details class="day-drawer">
+    <details class="day-drawer" id="day-5">
       <summary><span class="drawer-num">DAY 5</span><div class="drawer-info"><span class="drawer-date">Tue · Jul 14</span><span class="drawer-title">⛺ Jackson → Tetons Scenic → Set Up Camp</span><span class="drawer-hotel">⛺ Bridge Bay Campground · night 1 of 3</span></div><div class="drawer-meta"><span class="day-miles-chip">🚗 100</span><span class="day-miles-chip local">📍 24</span></div></summary>
       <div class="drawer-content">
         <ul class="day-highlights">
@@ -412,7 +786,7 @@ svg.map { width: 100%; height: auto; display: block; max-height: 1000px; }
       </div>
     </details>
 
-    <details class="day-drawer">
+    <details class="day-drawer" id="day-6">
       <summary><span class="drawer-num">DAY 6</span><div class="drawer-info"><span class="drawer-date">Wed · Jul 15</span><span class="drawer-title">♨️ Old Faithful + Geyser Day</span><span class="drawer-hotel">⛺ Bridge Bay · night 2 of 3</span></div><div class="drawer-meta"><span class="day-miles-chip zero">🚗 0</span><span class="day-miles-chip local">📍 110</span></div></summary>
       <div class="drawer-content">
         <ul class="day-highlights">
@@ -441,7 +815,7 @@ svg.map { width: 100%; height: auto; display: block; max-height: 1000px; }
       </div>
     </details>
 
-    <details class="day-drawer">
+    <details class="day-drawer" id="day-7">
       <summary><span class="drawer-num">DAY 7</span><div class="drawer-info"><span class="drawer-date">Thu · Jul 16</span><span class="drawer-title">🐴 Horseback + 💦 Canyon + 🛶 Lake</span><span class="drawer-hotel">⛺ Bridge Bay · night 3 of 3</span></div><div class="drawer-meta"><span class="day-miles-chip zero">🚗 0</span><span class="day-miles-chip local">📍 75</span></div></summary>
       <div class="drawer-content">
         <ul class="day-highlights">
@@ -467,7 +841,7 @@ svg.map { width: 100%; height: auto; display: block; max-height: 1000px; }
       </div>
     </details>
 
-    <details class="day-drawer">
+    <details class="day-drawer" id="day-8">
       <summary><span class="drawer-num">DAY 8</span><div class="drawer-info"><span class="drawer-date">Fri · Jul 17</span><span class="drawer-title">🚗 Break Camp → Cody → Casper</span><span class="drawer-hotel">🛏️ Residence Inn Casper · 2-BR Suite</span></div><div class="drawer-meta"><span class="day-miles-chip">🚗 296</span><span class="day-miles-chip local">📍 5</span></div></summary>
       <div class="drawer-content">
         <ul class="day-highlights">
@@ -495,7 +869,7 @@ svg.map { width: 100%; height: auto; display: block; max-height: 1000px; }
       </div>
     </details>
 
-    <details class="day-drawer">
+    <details class="day-drawer" id="day-9">
       <summary><span class="drawer-num">DAY 9</span><div class="drawer-info"><span class="drawer-date">Sat · Jul 18</span><span class="drawer-title">🏁 Casper → Denver · Split Crew Heads Home</span><span class="drawer-hotel">🏠 Home tonight (or en route)</span></div><div class="drawer-meta"><span class="day-miles-chip">🚗 280+</span></div></summary>
       <div class="drawer-content">
         <ul class="day-highlights">
@@ -515,6 +889,7 @@ svg.map { width: 100%; height: auto; display: block; max-height: 1000px; }
     </details>
 
   </div>
+  </div> <!-- /day-source -->
 
   <div class="section-title"><span class="emoji">🎯</span> Trip Activities — Cool Things We're Doing</div>
   <div class="activities">
