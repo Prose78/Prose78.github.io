@@ -559,7 +559,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe 
       // Populate detail panel
       var src = document.getElementById('day-'+d);
       if (!src) { document.getElementById('dayDetail').innerHTML = ''; return; }
-      var sumEl = src.querySelector('summary');
+      var sumEl = src.querySelector('.day-summary');
       var num   = sumEl.querySelector('.drawer-num')   ? sumEl.querySelector('.drawer-num').textContent   : '';
       var date  = sumEl.querySelector('.drawer-date')  ? sumEl.querySelector('.drawer-date').textContent  : '';
       var title = sumEl.querySelector('.drawer-title') ? sumEl.querySelector('.drawer-title').textContent : '';
@@ -627,8 +627,8 @@ body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe 
   <div id="day-source" style="display:none" aria-hidden="true">
   <div class="day-drawers">
 
-    <details class="day-drawer" id="day-0">
-      <summary><span class="drawer-num">DAY 0</span><div class="drawer-info"><span class="drawer-date">Thu · Jul 9 · Seth + Nico only</span><span class="drawer-title">🚗 Pre-Trip · Houston → Amarillo</span><span class="drawer-hotel">⛺ Camp near Amarillo</span></div><div class="drawer-meta"><span class="day-miles-chip">🚗 ~370</span></div></summary>
+    <div class="day-drawer" id="day-0">
+      <div class="day-summary"><span class="drawer-num">DAY 0</span><div class="drawer-info"><span class="drawer-date">Thu · Jul 9 · Seth + Nico only</span><span class="drawer-title">🚗 Pre-Trip · Houston → Amarillo</span><span class="drawer-hotel">⛺ Camp near Amarillo</span></div><div class="drawer-meta"><span class="day-miles-chip">🚗 ~370</span></div></div>
       <div class="drawer-content">
         <ul class="day-highlights">
           <li><span class="ei">🚗</span>Depart Houston by 8am · US-87 N or I-27 N through Lubbock → Amarillo (~5 hrs)</li>
@@ -644,10 +644,10 @@ body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe 
           <a class="map-chip" href="https://maps.apple.com/?q=Tylers+Barbeque+Amarillo+TX">🍖 Tyler's BBQ</a>
         </div>
       </div>
-    </details>
+    </div>
 
-    <details class="day-drawer" id="day-1">
-      <summary><span class="drawer-num">DAY 1</span><div class="drawer-info"><span class="drawer-date">Fri · Jul 10</span><span class="drawer-title">🎸 Denver → Golden → Red Rocks Sunset</span><span class="drawer-hotel">🛏️ Residence Inn Golden / Red Rocks</span></div><div class="drawer-meta"><span class="day-miles-chip">🚗 30</span><span class="day-miles-chip local">📍 25</span></div></summary>
+    <div class="day-drawer" id="day-1">
+      <div class="day-summary"><span class="drawer-num">DAY 1</span><div class="drawer-info"><span class="drawer-date">Fri · Jul 10</span><span class="drawer-title">🎸 Denver → Golden → Red Rocks Sunset</span><span class="drawer-hotel">🛏️ Residence Inn Golden / Red Rocks</span></div><div class="drawer-meta"><span class="day-miles-chip">🚗 30</span><span class="day-miles-chip local">📍 25</span></div></div>
       <div class="drawer-content">
         <ul class="day-highlights">
           <li><span class="ei">🚗</span><strong>Seth + Nico</strong> depart Amarillo by 7am · I-25 N or US-87 → Pueblo → Denver · ~6 hrs · arrive ~1pm</li>
@@ -673,10 +673,10 @@ body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe 
           <a class="map-chip" href="https://maps.apple.com/?q=Belmar+Lakewood+CO">🛍️ Belmar</a>
         </div>
       </div>
-    </details>
+    </div>
 
-    <details class="day-drawer" id="day-2">
-      <summary><span class="drawer-num">DAY 2</span><div class="drawer-info"><span class="drawer-date">Sat · Jul 11</span><span class="drawer-title">🎓 Boulder morning → Rawlins push north</span><span class="drawer-hotel">🛏️ Fairfield Marriott Rawlins</span></div><div class="drawer-meta"><span class="day-miles-chip">🚗 260</span><span class="day-miles-chip local">📍 10</span></div></summary>
+    <div class="day-drawer" id="day-2">
+      <div class="day-summary"><span class="drawer-num">DAY 2</span><div class="drawer-info"><span class="drawer-date">Sat · Jul 11</span><span class="drawer-title">🎓 Boulder morning → Rawlins push north</span><span class="drawer-hotel">🛏️ Fairfield Marriott Rawlins</span></div><div class="drawer-meta"><span class="day-miles-chip">🚗 260</span><span class="day-miles-chip local">📍 10</span></div></div>
       <div class="drawer-content">
         <ul class="day-highlights">
           <li><span class="ei">☕</span>Free Residence Inn breakfast</li>
@@ -696,10 +696,10 @@ body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe 
           <a class="map-chip" href="https://maps.apple.com/?q=Fairfield+Inn+Suites+Rawlins+WY">🛏️ Fairfield Rawlins</a>
         </div>
       </div>
-    </details>
+    </div>
 
-    <details class="day-drawer" id="day-3">
-      <summary><span class="drawer-num">DAY 3</span><div class="drawer-info"><span class="drawer-date">Sun · Jul 12</span><span class="drawer-title">🚗 Rawlins → Jackson · Togwotee Pass reveal</span><span class="drawer-hotel">🦌 49er Inn &amp; Suites Jackson · night 1 of 2</span></div><div class="drawer-meta"><span class="day-miles-chip">🚗 300</span><span class="day-miles-chip local">📍 5</span></div></summary>
+    <div class="day-drawer" id="day-3">
+      <div class="day-summary"><span class="drawer-num">DAY 3</span><div class="drawer-info"><span class="drawer-date">Sun · Jul 12</span><span class="drawer-title">🚗 Rawlins → Jackson · Togwotee Pass reveal</span><span class="drawer-hotel">🦌 49er Inn &amp; Suites Jackson · night 1 of 2</span></div><div class="drawer-meta"><span class="day-miles-chip">🚗 300</span><span class="day-miles-chip local">📍 5</span></div></div>
       <div class="drawer-content">
         <ul class="day-highlights">
           <li><span class="ei">☕</span>Early Rawlins breakfast · on the road by 8am</li>
@@ -724,10 +724,10 @@ body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe 
           <a class="map-chip" href="https://maps.apple.com/?q=Pinky+G+Pizzeria+Jackson+WY">🍕 Pinky G's</a>
         </div>
       </div>
-    </details>
+    </div>
 
-    <details class="day-drawer" id="day-4">
-      <summary><span class="drawer-num">DAY 4</span><div class="drawer-info"><span class="drawer-date">Mon · Jul 13</span><span class="drawer-title">🌅 Tetons Sunrise + Full Day</span><span class="drawer-hotel">🦌 49er Inn &amp; Suites · night 2 of 2</span></div><div class="drawer-meta"><span class="day-miles-chip zero">🚗 0</span><span class="day-miles-chip local">📍 90</span></div></summary>
+    <div class="day-drawer" id="day-4">
+      <div class="day-summary"><span class="drawer-num">DAY 4</span><div class="drawer-info"><span class="drawer-date">Mon · Jul 13</span><span class="drawer-title">🌅 Tetons Sunrise + Full Day</span><span class="drawer-hotel">🦌 49er Inn &amp; Suites · night 2 of 2</span></div><div class="drawer-meta"><span class="day-miles-chip zero">🚗 0</span><span class="day-miles-chip local">📍 90</span></div></div>
       <div class="drawer-content">
         <ul class="day-highlights">
           <li><span class="ei">⏰</span><strong>4:30am alarm</strong> · in the SUV by 5am</li>
@@ -752,10 +752,10 @@ body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe 
           <a class="map-chip" href="https://maps.apple.com/?q=Persephone+Bakery+Jackson+WY">☕ Persephone Bakery</a>
         </div>
       </div>
-    </details>
+    </div>
 
-    <details class="day-drawer" id="day-5">
-      <summary><span class="drawer-num">DAY 5</span><div class="drawer-info"><span class="drawer-date">Tue · Jul 14</span><span class="drawer-title">⛺ Jackson → Tetons Scenic → Set Up Camp</span><span class="drawer-hotel">⛺ Bridge Bay Campground · night 1 of 3</span></div><div class="drawer-meta"><span class="day-miles-chip">🚗 100</span><span class="day-miles-chip local">📍 24</span></div></summary>
+    <div class="day-drawer" id="day-5">
+      <div class="day-summary"><span class="drawer-num">DAY 5</span><div class="drawer-info"><span class="drawer-date">Tue · Jul 14</span><span class="drawer-title">⛺ Jackson → Tetons Scenic → Set Up Camp</span><span class="drawer-hotel">⛺ Bridge Bay Campground · night 1 of 3</span></div><div class="drawer-meta"><span class="day-miles-chip">🚗 100</span><span class="day-miles-chip local">📍 24</span></div></div>
       <div class="drawer-content">
         <ul class="day-highlights">
           <li><span class="ei">☕</span>Free 49er breakfast · grocery run for camp food (Jackson Whole Grocer)</li>
@@ -784,10 +784,10 @@ body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe 
           <a class="map-chip" href="https://maps.apple.com/?q=Bridge+Bay+Campground+Yellowstone">⛺ Bridge Bay Campground</a>
         </div>
       </div>
-    </details>
+    </div>
 
-    <details class="day-drawer" id="day-6">
-      <summary><span class="drawer-num">DAY 6</span><div class="drawer-info"><span class="drawer-date">Wed · Jul 15</span><span class="drawer-title">♨️ Old Faithful + Geyser Day</span><span class="drawer-hotel">⛺ Bridge Bay · night 2 of 3</span></div><div class="drawer-meta"><span class="day-miles-chip zero">🚗 0</span><span class="day-miles-chip local">📍 110</span></div></summary>
+    <div class="day-drawer" id="day-6">
+      <div class="day-summary"><span class="drawer-num">DAY 6</span><div class="drawer-info"><span class="drawer-date">Wed · Jul 15</span><span class="drawer-title">♨️ Old Faithful + Geyser Day</span><span class="drawer-hotel">⛺ Bridge Bay · night 2 of 3</span></div><div class="drawer-meta"><span class="day-miles-chip zero">🚗 0</span><span class="day-miles-chip local">📍 110</span></div></div>
       <div class="drawer-content">
         <ul class="day-highlights">
           <li><span class="ei">☕</span>Early camp breakfast · on the road by 8am (~45 min to Old Faithful)</li>
@@ -813,10 +813,10 @@ body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe 
           <a class="map-chip web" href="https://www.geysertimes.org/geyser/Old%20Faithful">🌐 Old Faithful eruption times</a>
         </div>
       </div>
-    </details>
+    </div>
 
-    <details class="day-drawer" id="day-7">
-      <summary><span class="drawer-num">DAY 7</span><div class="drawer-info"><span class="drawer-date">Thu · Jul 16</span><span class="drawer-title">🐴 Horseback + 💦 Canyon + 🛶 Lake</span><span class="drawer-hotel">⛺ Bridge Bay · night 3 of 3</span></div><div class="drawer-meta"><span class="day-miles-chip zero">🚗 0</span><span class="day-miles-chip local">📍 75</span></div></summary>
+    <div class="day-drawer" id="day-7">
+      <div class="day-summary"><span class="drawer-num">DAY 7</span><div class="drawer-info"><span class="drawer-date">Thu · Jul 16</span><span class="drawer-title">🐴 Horseback + 💦 Canyon + 🛶 Lake</span><span class="drawer-hotel">⛺ Bridge Bay · night 3 of 3</span></div><div class="drawer-meta"><span class="day-miles-chip zero">🚗 0</span><span class="day-miles-chip local">📍 75</span></div></div>
       <div class="drawer-content">
         <ul class="day-highlights">
           <li><span class="ei">🐴</span><strong>8am horseback ride · Canyon Corral</strong> (1 hour, 32 min north)</li>
@@ -839,10 +839,10 @@ body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe 
           <a class="map-chip" href="https://maps.apple.com/?q=Bridge+Bay+Marina+Yellowstone">🛶 Bridge Bay Marina</a>
         </div>
       </div>
-    </details>
+    </div>
 
-    <details class="day-drawer" id="day-8">
-      <summary><span class="drawer-num">DAY 8</span><div class="drawer-info"><span class="drawer-date">Fri · Jul 17</span><span class="drawer-title">🚗 Break Camp → Cody → Casper</span><span class="drawer-hotel">🛏️ Residence Inn Casper · 2-BR Suite</span></div><div class="drawer-meta"><span class="day-miles-chip">🚗 296</span><span class="day-miles-chip local">📍 5</span></div></summary>
+    <div class="day-drawer" id="day-8">
+      <div class="day-summary"><span class="drawer-num">DAY 8</span><div class="drawer-info"><span class="drawer-date">Fri · Jul 17</span><span class="drawer-title">🚗 Break Camp → Cody → Casper</span><span class="drawer-hotel">🛏️ Residence Inn Casper · 2-BR Suite</span></div><div class="drawer-meta"><span class="day-miles-chip">🚗 296</span><span class="day-miles-chip local">📍 5</span></div></div>
       <div class="drawer-content">
         <ul class="day-highlights">
           <li><span class="ei">⛺</span>Break camp early · pack the SUV + roof box</li>
@@ -867,10 +867,10 @@ body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe 
           <a class="map-chip" href="https://maps.apple.com/?q=Residence+Inn+Casper+WY">🛏️ Residence Inn Casper</a>
         </div>
       </div>
-    </details>
+    </div>
 
-    <details class="day-drawer" id="day-9">
-      <summary><span class="drawer-num">DAY 9</span><div class="drawer-info"><span class="drawer-date">Sat · Jul 18</span><span class="drawer-title">🏁 Casper → Denver · Split Crew Heads Home</span><span class="drawer-hotel">🏠 Home tonight (or en route)</span></div><div class="drawer-meta"><span class="day-miles-chip">🚗 280+</span></div></summary>
+    <div class="day-drawer" id="day-9">
+      <div class="day-summary"><span class="drawer-num">DAY 9</span><div class="drawer-info"><span class="drawer-date">Sat · Jul 18</span><span class="drawer-title">🏁 Casper → Denver · Split Crew Heads Home</span><span class="drawer-hotel">🏠 Home tonight (or en route)</span></div><div class="drawer-meta"><span class="day-miles-chip">🚗 280+</span></div></div>
       <div class="drawer-content">
         <ul class="day-highlights">
           <li><span class="ei">☕</span>Unhurried Casper morning</li>
@@ -886,7 +886,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe 
           <a class="map-chip" href="https://maps.apple.com/?q=Texas+Tech+University+Lubbock+TX">🎓 Texas Tech Lubbock</a>
         </div>
       </div>
-    </details>
+    </div>
 
   </div>
   </div> <!-- /day-source -->
