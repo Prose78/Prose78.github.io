@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bridge Bay Packing List · Proffitt July 2026</title>
+<style>
+:root {
+  --accent: #1e6b8a;
+  --accent-light: #e4f1f6;
+  --accent-dark: #15506b;
+  --text: #1a2530;
+  --muted: #5a6a7a;
+  --bg: #f5f8fa;
+  --card-bg: #ffffff;
+  --border: #d6dde3;
+  --green: #2e7d52;
+  --green-light: #e6f4ec;
+  --warn-bg: #fff8e1;
+  --warn-border: #f59f00;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+.container { max-width: 680px; margin: 0 auto; padding: 20px 16px 60px; }
+
+/* Header */
+.hero {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+  color: white;
+  padding: 24px 20px 20px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+}
+.hero .eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; opacity: 0.8; margin-bottom: 6px; }
+.hero h1 { font-size: 24px; font-weight: 700; margin-bottom: 6px; }
+.hero .sub { font-size: 14px; opacity: 0.9; margin-bottom: 14px; line-height: 1.5; }
+.hero .meta { display: flex; flex-wrap: wrap; gap: 8px; }
+.hero .badge {
+  background: rgba(255,255,255,0.2);
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* Progress bar */
+.progress-wrap { background: var(--card-bg); border-radius: 10px; padding: 14px 16px; margin-bottom: 16px; border: 1px solid var(--border); }
+.progress-label { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 13px; font-weight: 700; color: var(--accent-dark); }
+.progress-bar-bg { background: var(--accent-light); border-radius: 6px; height: 10px; overflow: hidden; }
+.progress-bar-fill { background: var(--accent); height: 100%; border-radius: 6px; transition: width 0.3s ease; }
+.progress-counts { font-size: 12px; color: var(--muted); margin-top: 6px; display: flex; gap: 16px; flex-wrap: wrap; }
+.progress-counts span { display: flex; align-items: center; gap: 4px; }
+
+/* Warning callout */
+.callout {
+  background: var(--warn-bg);
+  border: 1.5px solid var(--warn-border);
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+.callout .callout-title { font-weight: 700; color: #7a5000; margin-bottom: 4px; font-size: 14px; }
+.callout p { color: #5a3c00; }
+
+/* Section headers */
+.section {
+  background: var(--card-bg);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  margin-bottom: 14px;
+  overflow: hidden;
+}
+.section-header {
+  padding: 14px 16px;
+  background: var(--accent-light);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.section-header-left { display: flex; align-items: center; gap: 10px; }
+.section-emoji { font-size: 22px; line-height: 1; }
+.section-title { font-size: 15px; font-weight: 700; color: var(--accent-dark); line-height: 1.3; }
+.section-subtitle { font-size: 12px; color: var(--muted); font-weight: 500; }
+.section-count {
+  background: var(--accent);
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 12px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.section-count.done { background: var(--green); }
+.section-body { padding: 4px 0 8px; }
+
+/* Sub-section label */
+.sub-label {
+  padding: 10px 16px 4px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* Checklist items */
+.item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 16px;
+  border-bottom: 1px solid #f0f4f7;
+  cursor: pointer;
+  transition: background 0.1s;
+  -webkit-tap-highlight-color: transparent;
+  min-height: 44px;
+}
+.item:last-child { border-bottom: none; }
+.item:active { background: var(--accent-light); }
+.item.checked { background: var(--green-light); }
+.item.checked .item-text { color: var(--muted); text-decoration: line-through; text-decoration-color: #aac; }
+.item.checked .item-note { color: #9ab; }
+
+.checkbox {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  border: 2px solid var(--border);
+  background: white;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1px;
+  transition: all 0.15s;
+}
+.item.checked .checkbox {
+  background: var(--green);
+  border-color: var(--green);
+}
+.checkbox-check {
+  display: none;
+  color: white;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+}
+.item.checked .checkbox-check { display: block; }
+
+.item-content { flex: 1; min-width: 0; }
+.item-text { font-size: 15px; color: var(--text); line-height: 1.4; }
+.item-note { font-size: 12px; color: var(--muted); margin-top: 2px; line-height: 1.4; }
+.item-warn { font-size: 12px; color: #7a5000; font-weight: 600; margin-top: 2px; }
+
+/* Don't-forget shortlist */
+.shortlist {
+  background: var(--card-bg);
+  border: 2px solid var(--accent);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 14px;
+}
+.shortlist h3 { font-size: 14px; font-weight: 700; color: var(--accent-dark); margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+.shortlist-items { display: flex; flex-direction: column; gap: 6px; }
+.shortlist-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  background: var(--accent-light);
+  border-radius: 8px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  min-height: 44px;
+}
+.shortlist-item.checked { background: var(--green-light); }
+.shortlist-item.checked .shortlist-text { color: var(--muted); text-decoration: line-through; }
+.shortlist-checkbox {
+  width: 22px; height: 22px;
+  border-radius: 5px;
+  border: 2px solid var(--accent);
+  background: white;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700; color: white;
+  transition: all 0.15s;
+}
+.shortlist-item.checked .shortlist-checkbox { background: var(--green); border-color: var(--green); }
+.shortlist-text { font-size: 14px; font-weight: 600; color: var(--accent-dark); line-height: 1.3; }
+.shortlist-item.checked .shortlist-text { color: var(--muted); }
+
+/* Reset button */
+.reset-wrap { text-align: center; margin-top: 24px; }
+.reset-btn {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 13px;
+  padding: 9px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: inherit;
+}
+.reset-btn:active { background: var(--bg); }
+
+/* Footer */
+.footer { text-align: center; font-size: 12px; color: var(--muted); margin-top: 24px; font-style: italic; }
+
+@media (min-width: 480px) {
+  .hero h1 { font-size: 26px; }
+  .item { padding: 11px 18px; }
+  .section-header { padding: 14px 18px; }
+}
+</style>
+</head>
+<body><style>#_pw-gate{position:fixed;inset:0;z-index:99999;background:linear-gradient(135deg,#1e6b8a 0%,#15506b 100%);display:flex;align-items:center;justify-content:center;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",sans-serif}.pw-box{background:#fff;border-radius:16px;padding:36px 32px;width:90%;max-width:340px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3)}.pw-icon{font-size:44px;margin-bottom:12px}.pw-title{font-size:20px;font-weight:700;color:#1a2530;margin-bottom:6px}.pw-sub{font-size:13px;color:#5a6a7a;margin-bottom:20px}.pw-input{width:100%;padding:12px 16px;font-size:16px;border:2px solid #d6dde3;border-radius:10px;outline:none;text-align:center;letter-spacing:2px;font-family:inherit;transition:border 0.15s}.pw-input:focus{border-color:#1e6b8a}.pw-btn{margin-top:12px;width:100%;padding:13px;background:#1e6b8a;color:#fff;font-size:15px;font-weight:700;border:none;border-radius:10px;cursor:pointer;font-family:inherit;transition:background 0.15s}.pw-btn:hover{background:#15506b}.pw-err{margin-top:10px;font-size:13px;color:#c0392b;min-height:18px}</style><div id="_pw-gate"><div class="pw-box"><div class="pw-icon">&#x1F512;</div><div class="pw-title">Proffitt Family</div><div class="pw-sub">Enter password to continue</div><input class="pw-input" id="_pw-input" type="password" placeholder="Password" autocomplete="off"/><button class="pw-btn" onclick="_pwCheck()">Unlock</button><div class="pw-err" id="_pw-err"></div></div></div><script>function _pwCheck(){var v=document.getElementById("_pw-input").value;if(v==="WallEEva"){sessionStorage.setItem("pfam","1");document.getElementById("_pw-gate").remove()}else{document.getElementById("_pw-err").textContent="Incorrect password";document.getElementById("_pw-input").value="";document.getElementById("_pw-input").focus()}}document.getElementById("_pw-input").addEventListener("keydown",function(e){if(e.key==="Enter")_pwCheck()});if(sessionStorage.getItem("pfam")==="1"){document.getElementById("_pw-gate").remove()}<\/script>
+<div class="container">
+
+  <div class="hero">
+    <div class="eyebrow">⛺ Proffitt · July 2026</div>
+    <h1>Bridge Bay Camping<br>Packing List</h1>
+    <div class="sub">Days 5–7 · Tue 7/14 → Fri 7/17 · 3 nights · 2 tents · 5 people<br>Site: 12×12 family site on Yellowstone Lake · ~7,800 ft elevation</div>
+    <div class="meta">
+      <span class="badge">Seth · Krystal · Noah · Nico · Neelan</span>
+    </div>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-label">
+      <span>Overall Progress</span>
+      <span id="pct-label">0%</span>
+    </div>
+    <div class="progress-bar-bg"><div class="progress-bar-fill" id="pbar" style="width:0%"></div></div>
+    <div class="progress-counts">
+      <span>✅ <span id="done-count">0</span> checked</span>
+      <span>🔲 <span id="left-count">0</span> remaining</span>
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-title">⚠️ The #1 mistake: packing for "summer"</div>
+    <p>At 7,800 ft, July <strong>nights drop into the 30s–40s °F</strong> while days hit the 70s. Pack warm sleep gear and layers, not just shorts and tees.</p>
+  </div>
+
+  <!-- SHORTLIST -->
+  <div class="shortlist">
+    <h3>✅ Don't-Forget Shortlist</h3>
+    <div class="shortlist-items">
+      <div class="shortlist-item" onclick="toggleShortlist(this)"><div class="shortlist-checkbox"></div><span class="shortlist-text">🛌 Warm sleep system — 30 °F bags (the thing people regret)</span></div>
+      <div class="shortlist-item" onclick="toggleShortlist(this)"><div class="shortlist-checkbox"></div><span class="shortlist-text">🪙 Quarters for Fishing Bridge showers + firewood</span></div>
+      <div class="shortlist-item" onclick="toggleShortlist(this)"><div class="shortlist-checkbox"></div><span class="shortlist-text">🐻 Bear spray ×2 — buy in Jackson</span></div>
+      <div class="shortlist-item" onclick="toggleShortlist(this)"><div class="shortlist-checkbox"></div><span class="shortlist-text">📱 Offline maps downloaded (Google Maps + AllTrails)</span></div>
+      <div class="shortlist-item" onclick="toggleShortlist(this)"><div class="shortlist-checkbox"></div><span class="shortlist-text">🐴 Long pants + closed-toe shoes for horseback (Day 7)</span></div>
+      <div class="shortlist-item" onclick="toggleShortlist(this)"><div class="shortlist-checkbox"></div><span class="shortlist-text">🌧️ Rain shell + warm jacket — every single person</span></div>
+      <div class="shortlist-item" onclick="toggleShortlist(this)"><div class="shortlist-checkbox"></div><span class="shortlist-text">🔦 Headlamps for all 5 + power banks charged</span></div>
+    </div>
+  </div>
+
+  <!-- SECTION: Seth + Nico — Shelter & Sleep -->
+  <div class="section" id="sec-shelter">
+    <div class="section-header" onclick="toggleSection('shelter-body', this)">
+      <div class="section-header-left">
+        <span class="section-emoji">🏕️</span>
+        <div>
+          <div class="section-title">Seth + Nico bring from Houston</div>
+          <div class="section-subtitle">Shelter &amp; Sleep</div>
+        </div>
+      </div>
+      <span class="section-count" id="count-shelter">0 / 0</span>
+    </div>
+    <div class="section-body" id="shelter-body">
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">2 tents (stakes, poles, rainfly, footprint/tarp under each)</div></div></div>
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">5 sleeping bags rated to ~30 °F</div><div class="item-warn">⚠️ Not summer bags — temps drop to 30s–40s at night</div></div></div>
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">5 sleeping pads or 2 air mattresses + pump</div></div></div>
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">5 pillows (or stuff sacks + a fleece)</div></div></div>
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">Extra blanket or two</div><div class="item-note">Cold-night insurance</div></div></div>
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">Mallet for stakes, paracord, repair tape</div></div></div>
+    </div>
+  </div>
+
+  <!-- SECTION: Seth + Nico — Camp Kitchen -->
+  <div class="section" id="sec-kitchen">
+    <div class="section-header" onclick="toggleSection('kitchen-body', this)">
+      <div class="section-header-left">
+        <span class="section-emoji">🍳</span>
+        <div>
+          <div class="section-title">Seth + Nico bring from Houston</div>
+          <div class="section-subtitle">Camp Kitchen</div>
+        </div>
+      </div>
+      <span class="section-count" id="count-kitchen">0 / 0</span>
+    </div>
+    <div class="section-body" id="kitchen-body">
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">2-burner propane stove + fuel canisters</div></div></div>
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">Lighter + waterproof matches</div></div></div>
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">Pot, pan, kettle</div></div></div>
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">Cooler (big) + a second small cooler</div></div></div>
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">Plates, bowls, cups, utensils ×6, sharp knife, cutting board</div></div></div>
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">Tongs/spatula, can opener</div></div></div>
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">Dish bin, biodegradable soap, sponge, quick-dry towel</div></div></div>
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">Heavy-duty trash bags + ziplocks</div></div></div>
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">Camp coffee setup (French press or pour-over)</div></div></div>
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">Foil, paper towels, dish gloves</div></div></div>
+    </div>
+  </div>
+
+  <!-- SECTION: Seth + Nico — Camp Comfort -->
+  <div class="section" id="sec-comfort">
+    <div class="section-header" onclick="toggleSection('comfort-body', this)">
+      <div class="section-header-left">
+        <span class="section-emoji">🪑</span>
+        <div>
+          <div class="section-title">Seth + Nico bring from Houston</div>
+          <div class="section-subtitle">Camp Comfort</div>
+        </div>
+      </div>
+      <span class="section-count" id="count-comfort">0 / 0</span>
+    </div>
+    <div class="section-body" id="comfort-body">
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">Folding camp chairs ×5</div></div></div>
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">Folding table</div><div class="item-note">Site has one, but a small extra helps</div></div></div>
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">Lantern(s) + 5 headlamps + spare batteries</div></div></div>
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">Camp rug / doormat for tent entrance</div></div></div>
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">Marshmallow + hot dog roasting sticks 🌭</div></div></div>
+    </div>
+  </div>
+
+  <!-- SECTION: Clothing -->
+  <div class="section" id="sec-clothing">
+    <div class="section-header" onclick="toggleSection('clothing-body', this)">
+      <div class="section-header-left">
+        <span class="section-emoji">🧥</span>
+        <div>
+          <div class="section-title">Clothing — per person</div>
+          <div class="section-subtitle">Layer, don't overpack · 2–3 outfits re-worn</div>
+        </div>
+      </div>
+      <span class="section-count" id="count-clothing">0 / 0</span>
+    </div>
+    <div class="section-body" id="clothing-body">
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">3 quick-dry shirts (mix of tee + long-sleeve)</div></div></div>
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">2 pants + 1 shorts</div><div class="item-warn">⚠️ Long pants required for horseback Day 7</div></div></div>
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">1 fleece or hoodie + 1 warm jacket/puffy</div></div></div>
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">Rain shell</div><div class="item-note">Afternoon storms are common — every person</div></div></div>
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">Beanie + light gloves</div><div class="item-note">Yes, in July — mornings and nights</div></div></div>
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">Underwear + socks ×4 (a few wool socks)</div></div></div>
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">Sleep base layer / long johns</div><div class="item-note">Doubles as the warm sleep layer</div></div></div>
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">Swimsuit</div><div class="item-note">String Lake (Day 4) + Firehole swim (Day 6)</div></div></div>
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">Sun hat + sunglasses</div><div class="item-note">Strong UV at elevation</div></div></div>
+      <div class="sub-label">Footwear</div>
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">Hiking shoes/boots</div><div class="item-note">Fairy Falls is 5 miles roundtrip</div></div></div>
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">Closed-toe shoes</div><div class="item-warn">⚠️ Required for horseback Day 7 — no sandals allowed</div></div></div>
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">Camp sandals / slides</div><div class="item-note">Showers + around camp</div></div></div>
+    </div>
+  </div>
+
+  <!-- SECTION: Toiletries -->
+  <div class="section" id="sec-toiletries">
+    <div class="section-header" onclick="toggleSection('toiletries-body', this)">
+      <div class="section-header-left">
+        <span class="section-emoji">🚿</span>
+        <div>
+          <div class="section-title">Toiletries &amp; hygiene</div>
+          <div class="section-subtitle">No showers on site · Fishing Bridge mid-trip</div>
+        </div>
+      </div>
+      <span class="section-count" id="count-toiletries">0 / 0</span>
+    </div>
+    <div class="section-body" id="toiletries-body">
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">🪙 Quarters for Fishing Bridge showers</div><div class="item-warn">⚠️ Get a roll before you leave — no cell signal = cards iffy</div></div></div>
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">Quick-dry microfiber towels ×5</div></div></div>
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">Baby wipes / body wipes</div><div class="item-note">Between-shower freshen-up</div></div></div>
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">Toothbrushes, toothpaste, deodorant</div></div></div>
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">Travel-size soap + shampoo only</div><div class="item-warn">⚠️ All scented items go in the bear box</div></div></div>
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">Sunscreen (high SPF) ☀️</div><div class="item-note">Strong sun at 7,800 ft</div></div></div>
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">Lip balm with SPF</div></div></div>
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">Bug spray 🦟</div><div class="item-note">Lakeside mosquitoes in July</div></div></div>
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">Hand sanitizer</div></div></div>
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">Medications, contacts/glasses, prescriptions</div></div></div>
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">Small first-aid kit + blister bandages</div></div></div>
+    </div>
+  </div>
+
+  <!-- SECTION: Power & Navigation -->
+  <div class="section" id="sec-power">
+    <div class="section-header" onclick="toggleSection('power-body', this)">
+      <div class="section-header-left">
+        <span class="section-emoji">🔋</span>
+        <div>
+          <div class="section-title">Power, light &amp; navigation</div>
+          <div class="section-subtitle">NO cell signal at Bridge Bay</div>
+        </div>
+      </div>
+      <span class="section-count" id="count-power">0 / 0</span>
+    </div>
+    <div class="section-body" id="power-body">
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">📱 Download offline maps before arriving</div><div class="item-warn">⚠️ Do this before the South Entrance — no signal inside the park</div><div class="item-note">Google Maps (save Yellowstone area) + AllTrails (Fairy Falls, Hayden Valley)</div></div></div>
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">Paper park map + printed itinerary as backup</div></div></div>
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">Power banks + charging cables</div><div class="item-note">Charge in the Suburban while driving</div></div></div>
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">Headlamps for all 5 (already in camp gear — confirm!)</div></div></div>
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">Quarters + cash</div><div class="item-note">Showers, firewood — card readers can be spotty</div></div></div>
+    </div>
+  </div>
+
+  <!-- SECTION: Bear Country -->
+  <div class="section" id="sec-bear">
+    <div class="section-header" onclick="toggleSection('bear-body', this)">
+      <div class="section-header-left">
+        <span class="section-emoji">🐻</span>
+        <div>
+          <div class="section-title">Bear country &amp; safety</div>
+          <div class="section-subtitle">Non-negotiable rules</div>
+        </div>
+      </div>
+      <span class="section-count" id="count-bear">0 / 0</span>
+    </div>
+    <div class="section-body" id="bear-body">
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">🐻 Bear spray ×2</div><div class="item-warn">⚠️ Buy in Jackson before entering the park — on the to-buy list</div></div></div>
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">Know the bear box protocol</div><div class="item-note">Everything scented in the bear box: food, toiletries, trash, even gum</div></div></div>
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">Whistle for each kid (Noah, Nico, Neelan)</div></div></div>
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">Confirm bear box location at check-in</div></div></div>
+    </div>
+  </div>
+
+  <!-- SECTION: Day Pack -->
+  <div class="section" id="sec-daypack">
+    <div class="section-header" onclick="toggleSection('daypack-body', this)">
+      <div class="section-header-left">
+        <span class="section-emoji">🥾</span>
+        <div>
+          <div class="section-title">Day pack (hikes &amp; geyser days)</div>
+          <div class="section-subtitle">Carry this on every outing</div>
+        </div>
+      </div>
+      <span class="section-count" id="count-daypack">0 / 0</span>
+    </div>
+    <div class="section-body" id="daypack-body">
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">1–2 daypacks</div></div></div>
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">Reusable water bottles ×5 + refill jug for camp</div></div></div>
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">Trail snacks (bars, trail mix, jerky)</div></div></div>
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">Small first-aid + bear spray on the hiker</div></div></div>
+    </div>
+  </div>
+
+  <!-- SECTION: Buy on the way -->
+  <div class="section" id="sec-buy">
+    <div class="section-header" onclick="toggleSection('buy-body', this)">
+      <div class="section-header-left">
+        <span class="section-emoji">🛒</span>
+        <div>
+          <div class="section-title">Buy on the way / at camp</div>
+          <div class="section-subtitle">Don't haul from Houston</div>
+        </div>
+      </div>
+      <span class="section-count" id="count-buy">0 / 0</span>
+    </div>
+    <div class="section-body" id="buy-body">
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">🛒 Groceries — Jackson Whole Grocer (Day 5 morning)</div><div class="item-note">Buy before South Entrance — last real store</div></div></div>
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">🧊 Ice — refresh at camp store / Fishing Bridge</div></div></div>
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">🪵 Firewood — Bridge Bay camp store</div><div class="item-note">Don't bring your own — park rules</div></div></div>
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">🐻 Bear spray ×2 — buy in Jackson (Day 4 afternoon)</div></div></div>
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">🎫 America the Beautiful Pass — $80 at park entrance</div></div></div>
+      <div class="item" onclick="toggleItem(this)"><div class="checkbox"><span class="checkbox-check">✓</span></div><div class="item-content"><div class="item-text">🪙 Quarters — get a roll before camp</div></div></div>
+    </div>
+  </div>
+
+  <div class="reset-wrap">
+    <button class="reset-btn" onclick="resetAll()">↺ Reset all checkboxes</button>
+  </div>
+
+  <div class="footer">Bridge Bay Packing List · Proffitt Family July 2026 · Krystal + Seth</div>
+
+</div>
+
+<script>
+// --- State ---
+const STORAGE_KEY = 'proffitt-packing-2026';
+
+function saveState() {
+  const state = {};
+  document.querySelectorAll('.item').forEach((el, i) => {
+    state['item-' + i] = el.classList.contains('checked');
+  });
+  document.querySelectorAll('.shortlist-item').forEach((el, i) => {
+    state['short-' + i] = el.classList.contains('checked');
+  });
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
+}
+
+function loadState() {
+  let state = {};
+  try { state = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch(e) {}
+  document.querySelectorAll('.item').forEach((el, i) => {
+    if (state['item-' + i]) el.classList.add('checked');
+  });
+  document.querySelectorAll('.shortlist-item').forEach((el, i) => {
+    if (state['short-' + i]) el.classList.add('checked');
+  });
+}
+
+// --- Toggle ---
+function toggleItem(el) {
+  el.classList.toggle('checked');
+  updateCounts();
+  saveState();
+}
+
+function toggleShortlist(el) {
+  el.classList.toggle('checked');
+  const cb = el.querySelector('.shortlist-checkbox');
+  cb.textContent = el.classList.contains('checked') ? '✓' : '';
+  saveState();
+}
+
+// --- Section toggle (collapse/expand) ---
+function toggleSection(bodyId, header) {
+  const body = document.getElementById(bodyId);
+  const isHidden = body.style.display === 'none';
+  body.style.display = isHidden ? 'block' : 'none';
+}
+
+// --- Counts ---
+function getSectionItems(bodyId) {
+  return document.getElementById(bodyId).querySelectorAll('.item');
+}
+
+const sections = [
+  { body: 'shelter-body', count: 'count-shelter' },
+  { body: 'kitchen-body', count: 'count-kitchen' },
+  { body: 'comfort-body', count: 'count-comfort' },
+  { body: 'clothing-body', count: 'count-clothing' },
+  { body: 'toiletries-body', count: 'count-toiletries' },
+  { body: 'power-body', count: 'count-power' },
+  { body: 'bear-body', count: 'count-bear' },
+  { body: 'daypack-body', count: 'count-daypack' },
+  { body: 'buy-body', count: 'count-buy' },
+];
+
+function updateCounts() {
+  let totalDone = 0, totalAll = 0;
+  sections.forEach(({ body, count }) => {
+    const items = document.getElementById(body).querySelectorAll('.item');
+    const done = Array.from(items).filter(i => i.classList.contains('checked')).length;
+    const el = document.getElementById(count);
+    el.textContent = done + ' / ' + items.length;
+    el.className = 'section-count' + (done === items.length && items.length > 0 ? ' done' : '');
+    totalDone += done;
+    totalAll += items.length;
+  });
+  const pct = totalAll > 0 ? Math.round((totalDone / totalAll) * 100) : 0;
+  document.getElementById('pbar').style.width = pct + '%';
+  document.getElementById('pct-label').textContent = pct + '%';
+  document.getElementById('done-count').textContent = totalDone;
+  document.getElementById('left-count').textContent = totalAll - totalDone;
+}
+
+function resetAll() {
+  if (!confirm('Reset all checkboxes?')) return;
+  document.querySelectorAll('.item').forEach(el => el.classList.remove('checked'));
+  document.querySelectorAll('.shortlist-item').forEach(el => {
+    el.classList.remove('checked');
+    el.querySelector('.shortlist-checkbox').textContent = '';
+  });
+  updateCounts();
+  saveState();
+}
+
+// --- Init ---
+loadState();
+updateCounts();
+// Restore shortlist checkmark text for checked items
+document.querySelectorAll('.shortlist-item.checked').forEach(el => {
+  el.querySelector('.shortlist-checkbox').textContent = '✓';
+});
+</script>
+</body>
+</html>

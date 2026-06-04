@@ -1,0 +1,1296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neelan Learns Drums — A 12-Week Beginner Guide</title>
+<style>
+  :root {
+    --accent: #c93457;
+    --accent-light: #fdeaef;
+    --accent-dark: #8a2440;
+    --gold: #e8a534;
+    --gold-light: #fcefd6;
+    --text: #1f2329;
+    --muted: #5a6470;
+    --bg: #faf7f5;
+    --card-bg: #ffffff;
+    --border: #e2d9d6;
+    --success: #2f9159;
+    --success-light: #e3f3eb;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  .wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 16px 80px 16px;
+  }
+
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+    color: white;
+    padding: 28px 20px 32px 20px;
+    border-radius: 0 0 20px 20px;
+    margin: 0 -16px 24px -16px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::after {
+    content: "🥁";
+    position: absolute;
+    right: -10px;
+    top: -10px;
+    font-size: 110px;
+    opacity: 0.12;
+    transform: rotate(15deg);
+  }
+  .header h1 {
+    margin: 0 0 6px 0;
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.15;
+  }
+  .header .subtitle {
+    margin: 0;
+    font-size: 15px;
+    opacity: 0.92;
+  }
+  .header .meta {
+    margin-top: 14px;
+    font-size: 13px;
+    opacity: 0.85;
+  }
+
+  /* JUMP NAV */
+  .tabs {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 20px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 6px 0 10px 0;
+    scrollbar-width: thin;
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    z-index: 50;
+    border-bottom: 1px solid var(--border);
+  }
+  .tab {
+    flex: 0 0 auto;
+    padding: 10px 14px;
+    border-radius: 999px;
+    background: white;
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s;
+    min-height: 44px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+  }
+  .tab:hover { border-color: var(--accent); color: var(--accent-dark); }
+
+  /* All panels always visible. Anchors scroll to them. */
+  .panel {
+    scroll-margin-top: 70px;
+    padding-top: 8px;
+    border-top: 2px dashed var(--border);
+    margin-top: 32px;
+  }
+  .panel:first-of-type {
+    border-top: none;
+    margin-top: 0;
+    padding-top: 0;
+  }
+
+  /* GENERAL */
+  h2 {
+    font-size: 22px;
+    margin: 28px 0 12px 0;
+    color: var(--accent-dark);
+    line-height: 1.2;
+  }
+  h2:first-child { margin-top: 8px; }
+  h3 {
+    font-size: 17px;
+    margin: 18px 0 8px 0;
+    color: var(--text);
+  }
+  p { margin: 0 0 12px 0; }
+  ul, ol { padding-left: 22px; margin: 8px 0 14px 0; }
+  li { margin-bottom: 6px; }
+  a { color: var(--accent-dark); }
+  a:hover { color: var(--accent); }
+
+  /* CARDS */
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px 18px;
+    margin-bottom: 14px;
+  }
+  .card.accent {
+    background: var(--accent-light);
+    border-color: var(--accent);
+  }
+  .card.gold {
+    background: var(--gold-light);
+    border-color: var(--gold);
+  }
+  .card h3 {
+    margin-top: 0;
+    color: var(--accent-dark);
+  }
+  .card .chip-row {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+  .chip {
+    display: inline-block;
+    padding: 4px 10px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 500;
+  }
+  .chip.featured {
+    background: var(--gold);
+    color: white;
+    border-color: var(--gold);
+  }
+  .chip.free {
+    background: var(--success-light);
+    color: var(--success);
+    border-color: var(--success);
+  }
+
+  /* WEEK CARDS */
+  details.week {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent);
+    border-radius: 12px;
+    margin-bottom: 10px;
+    overflow: hidden;
+  }
+  details.week.completed {
+    border-left-color: var(--success);
+    opacity: 0.85;
+  }
+  details.week.current {
+    border-left-color: var(--gold);
+    box-shadow: 0 2px 12px rgba(232, 165, 52, 0.25);
+  }
+  details.week summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 44px;
+  }
+  details.week summary::-webkit-details-marker { display: none; }
+  details.week summary::after {
+    content: "▾";
+    margin-left: auto;
+    color: var(--muted);
+    transition: transform 0.2s;
+  }
+  details.week[open] summary::after { transform: rotate(180deg); }
+  .week-badge {
+    flex: 0 0 auto;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+  }
+  .week.completed .week-badge {
+    background: var(--success);
+  }
+  .week.current .week-badge {
+    background: var(--gold);
+  }
+  .week-title {
+    flex: 1;
+    min-width: 0;
+  }
+  .week-title .topic {
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.2;
+  }
+  .week-title .sub {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  .week-body {
+    padding: 0 16px 16px 16px;
+    border-top: 1px solid var(--border);
+    margin-top: 6px;
+    padding-top: 14px;
+  }
+  .week-body .goal {
+    background: var(--accent-light);
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin: 10px 0;
+    font-size: 14px;
+  }
+  .week-body .goal strong { color: var(--accent-dark); }
+  .week-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    padding: 8px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: white;
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    min-height: 44px;
+  }
+  .btn.primary {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+  .btn.success {
+    background: var(--success);
+    color: white;
+    border-color: var(--success);
+  }
+
+  /* CHANNEL CARDS */
+  .channel {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px;
+    margin-bottom: 14px;
+  }
+  .channel .rank {
+    display: inline-block;
+    background: var(--accent-dark);
+    color: white;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 28px;
+    font-weight: 700;
+    font-size: 14px;
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+  .channel h3 {
+    display: inline-block;
+    margin: 0;
+    vertical-align: middle;
+    color: var(--accent-dark);
+  }
+  .channel .why {
+    margin: 12px 0 10px 0;
+    color: var(--text);
+  }
+  .channel .links a {
+    display: block;
+    padding: 8px 0;
+    font-size: 14px;
+    border-top: 1px solid var(--border);
+  }
+  .channel .links a:first-child { border-top: none; }
+
+  /* SONG LIST */
+  .song-tier {
+    margin-bottom: 22px;
+  }
+  .song-tier h3 {
+    color: var(--accent-dark);
+    border-bottom: 2px solid var(--accent-light);
+    padding-bottom: 6px;
+  }
+  .song {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-bottom: 8px;
+  }
+  .song .title {
+    font-weight: 600;
+  }
+  .song .artist {
+    color: var(--muted);
+    font-size: 14px;
+  }
+  .song .note {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  /* SESSION TIMER BOX */
+  .session {
+    background: white;
+    border: 2px solid var(--accent);
+    border-radius: 14px;
+    padding: 18px;
+    margin-bottom: 16px;
+  }
+  .session .block {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .session .block:last-child { border-bottom: none; }
+  .session .block .num {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--accent-light);
+    color: var(--accent-dark);
+    text-align: center;
+    line-height: 28px;
+    font-weight: 700;
+    font-size: 13px;
+    margin-right: 12px;
+    flex: 0 0 auto;
+  }
+  .session .block .label {
+    flex: 1;
+    font-weight: 500;
+  }
+  .session .block .time {
+    color: var(--accent);
+    font-weight: 600;
+    font-size: 14px;
+  }
+
+  /* QUICK START */
+  .quickstart {
+    background: linear-gradient(135deg, var(--gold-light) 0%, #fff8e8 100%);
+    border: 2px solid var(--gold);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 24px;
+  }
+  .quickstart h2 {
+    margin-top: 0;
+    color: var(--accent-dark);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .quickstart .label {
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: var(--accent-dark);
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  /* RUDIMENT GRID */
+  .rudiment-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin: 12px 0;
+  }
+  @media (min-width: 540px) {
+    .rudiment-grid { grid-template-columns: 1fr 1fr; }
+  }
+  .rudiment {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+  }
+  .rudiment .name {
+    font-weight: 600;
+    color: var(--accent-dark);
+  }
+  .rudiment .pattern {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 13px;
+    color: var(--text);
+    background: var(--bg);
+    padding: 4px 8px;
+    border-radius: 6px;
+    display: inline-block;
+    margin-top: 6px;
+    letter-spacing: 1px;
+  }
+
+  /* CALLOUT */
+  .callout {
+    background: var(--accent-light);
+    border-left: 4px solid var(--accent);
+    border-radius: 0 10px 10px 0;
+    padding: 14px 16px;
+    margin: 14px 0;
+    font-size: 14px;
+  }
+  .callout strong { color: var(--accent-dark); }
+  .callout.viola {
+    background: #efe9f7;
+    border-left-color: #6e4caa;
+    color: #2b1b4a;
+  }
+  .callout.viola strong { color: #4a2f80; }
+
+  /* FOOTER */
+  .footer {
+    margin-top: 32px;
+    padding: 20px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 13px;
+    border-top: 1px solid var(--border);
+  }
+
+  /* RESET BUTTON */
+  .progress-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+    gap: 10px;
+  }
+  .progress-bar {
+    flex: 1;
+    height: 8px;
+    background: var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent) 0%, var(--gold) 100%);
+    width: 0;
+    transition: width 0.3s;
+  }
+  .progress-label {
+    font-size: 13px;
+    color: var(--muted);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="header">
+    <h1>Neelan Learns Drums</h1>
+    <p class="subtitle">A 12-week beginner guide built around short videos and good habits.</p>
+    <div class="meta">Built for Neelan (age 10) · Digital kit at home · Viola background</div>
+  </header>
+
+  <!-- JUMP LINKS -->
+  <nav class="tabs">
+    <a class="tab" href="#panel-start">🚀 Start Here</a>
+    <a class="tab" href="#panel-plan">📅 12-Week Plan</a>
+    <a class="tab" href="#panel-teachers">🎬 Teachers</a>
+    <a class="tab" href="#panel-fundamentals">📖 Fundamentals</a>
+    <a class="tab" href="#panel-songs">🎵 Songs</a>
+    <a class="tab" href="#panel-practice">⏱️ Practice</a>
+    <a class="tab" href="#panel-tools">🛠️ Apps & Tools</a>
+    <a class="tab" href="#panel-parents">👨‍👩‍👦 For Parents</a>
+  </nav>
+
+  <!-- START HERE -->
+  <section class="panel" id="panel-start">
+
+    <div class="quickstart">
+      <div class="label">Day 1 — Right Now</div>
+      <h2>🥁 Start with this one video</h2>
+      <p>Sit at the kit, get the grip right, and play your first notes. Stephen Taylor is the calmest, clearest teacher on YouTube for kids — this is the lesson every drummer should watch first.</p>
+      <p><a class="btn primary" href="https://www.youtube.com/watch?v=kyWcuQW-tII" target="_blank" rel="noopener">▶ Watch "Everyone's First Drum Lesson" (8 min)</a></p>
+      <p style="margin-top: 14px; font-size: 14px;">Then come back and start <strong>Week 1</strong> in the 12-Week Plan tab.</p>
+    </div>
+
+    <h2>How this guide works</h2>
+    <p>This is a 12-week structured plan that mixes <strong>fundamentals</strong> (grip, rudiments, reading drum music) with <strong>real songs</strong> Neelan will recognize. Every recommended video is under 10 minutes. Practice 4–5 days a week, 20–30 minutes per session.</p>
+
+    <div class="callout viola">
+      <strong>Neelan's viola advantage:</strong> He already reads music and practices with intention. That's the hardest part for most beginners. Drum notation uses a percussion clef and a few new symbols, but the rhythmic vocabulary (quarter notes, eighth notes, rests) is exactly the same. He's <em>ahead</em> on day one.
+    </div>
+
+    <h3>The plan at a glance</h3>
+    <ul>
+      <li><strong>Weeks 1–4:</strong> Grip, posture, single strokes, basic rock beat, first song.</li>
+      <li><strong>Weeks 5–8:</strong> First drum fill, coordination, first rudiment (paradiddle), second song.</li>
+      <li><strong>Weeks 9–12:</strong> Hi-hat techniques, flams, more fills, mini-recital.</li>
+    </ul>
+
+    <h3>What he'll be able to do at the end</h3>
+    <ul>
+      <li>Play 3–4 songs cleanly along with the recording.</li>
+      <li>Hold a steady rock beat at 80–100 BPM with a metronome.</li>
+      <li>Execute 4 essential rudiments and 3–4 different drum fills.</li>
+      <li>Read basic drum notation on a chart.</li>
+    </ul>
+
+    <div class="callout">
+      <strong>One golden rule:</strong> end every practice session with something fun — a song he likes, or just free play. Last impression = whether he wants to come back tomorrow.
+    </div>
+  </section>
+
+  <!-- 12-WEEK PLAN -->
+  <section class="panel" id="panel-plan">
+    <h2>12-Week Lesson Plan</h2>
+    <p>Tap a week to expand it. Mark weeks complete as you go — your progress is saved on this device.</p>
+
+    <div class="progress-controls">
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="progress-label" id="progressLabel">0 / 12 weeks</div>
+    </div>
+
+    <div id="weeksContainer">
+
+      <details class="week" data-week="1" open>
+        <summary>
+          <div class="week-badge">1</div>
+          <div class="week-title">
+            <div class="topic">Week 1: Setup, Grip & First Sounds</div>
+            <div class="sub">Throne, sticks, exploring the kit</div>
+          </div>
+        </summary>
+        <div class="week-body">
+          <p><strong>What he'll learn:</strong> Proper throne height. Matched grip. Counting out loud. Identifying every piece of the kit by name.</p>
+          <p><strong>Watch:</strong></p>
+          <ul>
+            <li><a href="https://www.youtube.com/watch?v=kyWcuQW-tII" target="_blank" rel="noopener">Stephen Taylor — This Should Be Everyone's First Drum Lesson</a> (8 min)</li>
+            <li><a href="https://www.youtube.com/watch?v=plH20pMLxiA" target="_blank" rel="noopener">Stephen Taylor — Your First Drum Lesson</a> (6 min)</li>
+          </ul>
+          <div class="goal"><strong>Practice goal:</strong> Set the throne correctly. Play steady quarter notes on the snare, R-L-R-L, at 60 BPM, for 2 solid minutes without losing time.</div>
+          <div class="week-actions"></div>
+        </div>
+      </details>
+
+      <details class="week" data-week="2">
+        <summary>
+          <div class="week-badge">2</div>
+          <div class="week-title">
+            <div class="topic">Week 2: Single Strokes & The Quarter-Note Beat</div>
+            <div class="sub">First rudiment + first beat</div>
+          </div>
+        </summary>
+        <div class="week-body">
+          <p><strong>What he'll learn:</strong> Single Stroke Roll. Quarter-note rock beat — hi-hat + kick on 1 and 3, snare on 2 and 4.</p>
+          <p><strong>Watch:</strong></p>
+          <ul>
+            <li><a href="https://www.youtube.com/watch?v=6BmPZifNZos" target="_blank" rel="noopener">Stephen Taylor — 10-Day Course Lesson 1: Absolute Beginner? Start Here!</a></li>
+            <li><a href="https://www.youtube.com/watch?v=2mR42G2V5ww" target="_blank" rel="noopener">Stephen Taylor — Lesson 2: Learn a Song in Under 7 Minutes</a></li>
+            <li><a href="https://www.youtube.com/watch?v=nt7re7wGzqc" target="_blank" rel="noopener">Rob Brown — 10 Beginner Beats</a> (just first 2 beats)</li>
+          </ul>
+          <div class="goal"><strong>Practice goal:</strong> Play the basic quarter-note rock beat at 70 BPM cleanly for 1 minute straight.</div>
+          <div class="week-actions"></div>
+        </div>
+      </details>
+
+      <details class="week" data-week="3">
+        <summary>
+          <div class="week-badge">3</div>
+          <div class="week-title">
+            <div class="topic">Week 3: The 8th-Note Rock Beat</div>
+            <div class="sub">THE foundational beat + drum notation</div>
+          </div>
+        </summary>
+        <div class="week-body">
+          <p><strong>What he'll learn:</strong> Adding 8th notes on the hi-hat — the most important pattern in drumming. Intro to drum notation.</p>
+          <p><strong>Watch:</strong></p>
+          <ul>
+            <li><a href="https://www.youtube.com/watch?v=B1bvRqXzDX8" target="_blank" rel="noopener">Stephen Taylor — Lesson 3: Learn 3 New Songs Today</a></li>
+            <li><a href="https://www.youtube.com/watch?v=JPp7ACtaka0" target="_blank" rel="noopener">Stephen Taylor — Lesson 6: Simple Way to Combine Drum Beats</a></li>
+            <li><a href="https://www.drumeo.com/beat/how-to-read-drum-music/" target="_blank" rel="noopener">Drumeo — How To Read Drum Music</a> (written guide, skim with him)</li>
+          </ul>
+          <div class="goal"><strong>Practice goal:</strong> 8th-note rock beat at 80 BPM, 2 minutes continuous. Play the "We Will Rock You" stomp-stomp-clap pattern from start to finish.</div>
+          <div class="week-actions"></div>
+        </div>
+      </details>
+
+      <details class="week" data-week="4">
+        <summary>
+          <div class="week-badge">4</div>
+          <div class="week-title">
+            <div class="topic">Week 4: Double Strokes + First Song</div>
+            <div class="sub">Apply the rock beat to a real song</div>
+          </div>
+        </summary>
+        <div class="week-body">
+          <p><strong>What he'll learn:</strong> Double Stroke Roll. First full song: Seven Nation Army.</p>
+          <p><strong>Watch:</strong></p>
+          <ul>
+            <li><a href="https://www.youtube.com/watch?v=xIky26TO4l8" target="_blank" rel="noopener">Stephen Taylor — Lesson 5: Play 5 New Songs Today</a></li>
+            <li><a href="https://www.youtube.com/watch?v=VgNaDah9S5s" target="_blank" rel="noopener">Seven Nation Army drum lesson</a></li>
+          </ul>
+          <div class="goal"><strong>Practice goal:</strong> Play Seven Nation Army all the way through with the recording. Doesn't have to be perfect — just survive to the end.</div>
+          <div class="week-actions"></div>
+        </div>
+      </details>
+
+      <details class="week" data-week="5">
+        <summary>
+          <div class="week-badge">5</div>
+          <div class="week-title">
+            <div class="topic">Week 5: First Drum Fill</div>
+            <div class="sub">The classic 8th-note tom fill</div>
+          </div>
+        </summary>
+        <div class="week-body">
+          <p><strong>What he'll learn:</strong> The most-used fill in rock: 2 hits each on snare → high tom → mid tom → floor tom. Connecting a beat to a fill smoothly.</p>
+          <p><strong>Watch:</strong></p>
+          <ul>
+            <li><a href="https://www.youtube.com/watch?v=XdeXNCX-l24" target="_blank" rel="noopener">Stephen Taylor — Lesson 4: This First Drum Fill is Used in Thousands of Songs</a></li>
+            <li><a href="https://www.drumeo.com/beat/beginner-drum-fills/" target="_blank" rel="noopener">Drumeo — 7 Beginner Drum Fills</a></li>
+          </ul>
+          <div class="goal"><strong>Practice goal:</strong> Play 3 bars of 8th-note rock beat + 1 bar of the basic fill, on repeat, at 80 BPM. The transition between beat and fill should not have a hiccup.</div>
+          <div class="week-actions"></div>
+        </div>
+      </details>
+
+      <details class="week" data-week="6">
+        <summary>
+          <div class="week-badge">6</div>
+          <div class="week-title">
+            <div class="topic">Week 6: Coordination — Adding the Kick</div>
+            <div class="sub">Kick variations + hi-hat foot</div>
+          </div>
+        </summary>
+        <div class="week-body">
+          <p><strong>What he'll learn:</strong> Moving the kick to different beats. Introduction to the hi-hat foot ("chick" on 2 and 4).</p>
+          <p><strong>Watch:</strong></p>
+          <ul>
+            <li>Rob Brown's <a href="https://www.youtube.com/playlist?list=PL2cx0KEfwN5Fvk883GgsgDnyYAesEbHTi" target="_blank" rel="noopener">New To Drumming playlist</a> — independence basics</li>
+          </ul>
+          <div class="goal"><strong>Practice goal:</strong> Play 4 different kick variations under the same hi-hat/snare pattern, each for 8 bars, without breaking the groove.</div>
+          <div class="week-actions"></div>
+        </div>
+      </details>
+
+      <details class="week" data-week="7">
+        <summary>
+          <div class="week-badge">7</div>
+          <div class="week-title">
+            <div class="topic">Week 7: Song Week — Believer</div>
+            <div class="sub">Verse/chorus/bridge structure</div>
+          </div>
+        </summary>
+        <div class="week-body">
+          <p><strong>What he'll learn:</strong> Following song structure. Switching between two different grooves within one song.</p>
+          <p><strong>Watch:</strong></p>
+          <ul>
+            <li><a href="https://www.youtube.com/watch?v=asPHP9VpXKI" target="_blank" rel="noopener">DrumsTheWord — Believer full lesson</a></li>
+          </ul>
+          <div class="goal"><strong>Practice goal:</strong> Play the full verse-and-chorus of Believer along with the recording.</div>
+          <div class="week-actions"></div>
+        </div>
+      </details>
+
+      <details class="week" data-week="8">
+        <summary>
+          <div class="week-badge">8</div>
+          <div class="week-title">
+            <div class="topic">Week 8: The Paradiddle</div>
+            <div class="sub">First pattern rudiment</div>
+          </div>
+        </summary>
+        <div class="week-body">
+          <p><strong>What he'll learn:</strong> Single Paradiddle (R L R R   L R L L). Apply it around the kit, not just on the snare.</p>
+          <p><strong>Watch:</strong></p>
+          <ul>
+            <li><a href="https://www.drumeo.com/beat/5-easy-drum-rudiments-for-beginners/" target="_blank" rel="noopener">Drumeo — 5 Easy Rudiments for Beginners</a></li>
+          </ul>
+          <div class="goal"><strong>Practice goal:</strong> Single paradiddle clean at 70 BPM for 1 minute. <strong>Bonus:</strong> alternate paradiddle hands between snare and hi-hat for a "paradiddle groove."</div>
+          <div class="week-actions"></div>
+        </div>
+      </details>
+
+      <details class="week" data-week="9">
+        <summary>
+          <div class="week-badge">9</div>
+          <div class="week-title">
+            <div class="topic">Week 9: Hi-Hat Variations & Dynamics</div>
+            <div class="sub">Open hi-hat + loud vs. soft</div>
+          </div>
+        </summary>
+        <div class="week-body">
+          <p><strong>What he'll learn:</strong> Open hi-hat ("sizzle" on the "and of 4"). Playing softer vs. louder on purpose. Why dynamics matter — it's what separates a robot from a musician.</p>
+          <p><strong>Watch:</strong></p>
+          <ul>
+            <li>Search Stephen Taylor's channel for "open hi-hat lesson" — multiple options under 8 min</li>
+          </ul>
+          <div class="goal"><strong>Practice goal:</strong> Play the 8th-note rock beat with an open hi-hat on the "and of 4" every bar, at 85 BPM.</div>
+          <div class="week-actions"></div>
+        </div>
+      </details>
+
+      <details class="week" data-week="10">
+        <summary>
+          <div class="week-badge">10</div>
+          <div class="week-title">
+            <div class="topic">Week 10: Song Week — Levitating or Stay</div>
+            <div class="sub">Modern pop tempos</div>
+          </div>
+        </summary>
+        <div class="week-body">
+          <p><strong>What he'll learn:</strong> Faster tempos. Disco four-on-the-floor or syncopated half-time. Pick the song he likes more.</p>
+          <p><strong>Watch:</strong></p>
+          <ul>
+            <li><a href="https://www.youtube.com/watch?v=ve2dc42vpnc" target="_blank" rel="noopener">Levitating drum tutorial</a></li>
+            <li><a href="https://www.youtube.com/watch?v=HTNUBVQBDCQ" target="_blank" rel="noopener">Stay drum tutorial</a></li>
+          </ul>
+          <div class="goal"><strong>Practice goal:</strong> Play through chorus + verse of his chosen song along with the recording.</div>
+          <div class="week-actions"></div>
+        </div>
+      </details>
+
+      <details class="week" data-week="11">
+        <summary>
+          <div class="week-badge">11</div>
+          <div class="week-title">
+            <div class="topic">Week 11: Flams + Fill Vocabulary</div>
+            <div class="sub">Building a library of fills</div>
+          </div>
+        </summary>
+        <div class="week-body">
+          <p><strong>What he'll learn:</strong> Flam rudiment. 3–4 different fills he can pull from on the fly.</p>
+          <p><strong>Watch:</strong></p>
+          <ul>
+            <li>Search Stephen Taylor for "5 Drum Fills You Can Use TODAY"</li>
+          </ul>
+          <div class="goal"><strong>Practice goal:</strong> Play a 4-bar phrase — 3 bars of groove + 1 bar with a different fill each time, cycling through 4 different fills.</div>
+          <div class="week-actions"></div>
+        </div>
+      </details>
+
+      <details class="week" data-week="12">
+        <summary>
+          <div class="week-badge">12</div>
+          <div class="week-title">
+            <div class="topic">Week 12: Mini-Recital + Putting It Together</div>
+            <div class="sub">Record a video. Celebrate.</div>
+          </div>
+        </summary>
+        <div class="week-body">
+          <p><strong>What he'll do:</strong> Pick 2 songs from the past 12 weeks. Polish them. Record video performances to send to family.</p>
+          <p><strong>Watch:</strong></p>
+          <ul>
+            <li><a href="https://www.youtube.com/@mikeslessons" target="_blank" rel="noopener">Anything from Mike Johnston's channel</a> — a "future you" inspiration watch.</li>
+          </ul>
+          <div class="goal"><strong>Practice goal:</strong> Record clean video performances of 2 songs. Identify what's next: a new rudiment? a harder song? a faster BPM? Plan the next 12 weeks together.</div>
+          <div class="week-actions"></div>
+        </div>
+      </details>
+
+    </div>
+
+    <div style="margin-top: 18px; text-align: center;">
+      <button class="btn" id="resetBtn">Reset progress</button>
+    </div>
+  </section>
+
+  <!-- TEACHERS -->
+  <section class="panel" id="panel-teachers">
+    <h2>Top YouTube Teachers</h2>
+    <p>Ranked by best fit for a 10–11 year old with some musical background. All recommendations have free content.</p>
+
+    <div class="channel">
+      <span class="rank">1</span><h3>Stephen Taylor Drums</h3>
+      <p class="why">The most beginner-friendly free teacher on YouTube. Slow, clear, no fluff. His <strong>10-Day Drum Starter Course</strong> is structured like a real curriculum and is the backbone of this guide.</p>
+      <div class="chip-row">
+        <span class="chip featured">★ Primary teacher</span>
+        <span class="chip free">Free</span>
+        <span class="chip">5–10 min videos</span>
+      </div>
+      <div class="links">
+        <a href="https://www.youtube.com/@StephenTaylorDrums" target="_blank" rel="noopener">→ Channel home</a>
+        <a href="https://www.youtube.com/playlist?list=PL7lhIEq2-30DGuqUS4v2YgEV8LbB_6rqI" target="_blank" rel="noopener">→ 10-Day Drum Starter Course playlist</a>
+        <a href="https://www.youtube.com/watch?v=kyWcuQW-tII" target="_blank" rel="noopener">→ Everyone's First Drum Lesson (start here)</a>
+      </div>
+    </div>
+
+    <div class="channel">
+      <span class="rank">2</span><h3>Drumeo (Official)</h3>
+      <p class="why">The biggest name in online drum education. Use their free YouTube content and blog for inspiration and reference. The paid subscription is overkill for a beginner — skip it for at least 6 months.</p>
+      <div class="chip-row">
+        <span class="chip free">YouTube free</span>
+        <span class="chip">8–15 min videos</span>
+        <span class="chip">Reference + inspiration</span>
+      </div>
+      <div class="links">
+        <a href="https://www.youtube.com/@DrumeoOfficial" target="_blank" rel="noopener">→ YouTube channel</a>
+        <a href="https://www.drumeo.com/beat/getting-started-on-drums/" target="_blank" rel="noopener">→ Getting Started hub (free)</a>
+        <a href="https://www.drumeo.com/beat/5-easy-drum-rudiments-for-beginners/" target="_blank" rel="noopener">→ 5 Easy Rudiments for Beginners</a>
+      </div>
+    </div>
+
+    <div class="channel">
+      <span class="rank">3</span><h3>Drumeo Kids</h3>
+      <p class="why">The kid-specific spinoff. "Rhythmic Adventures of Captain Carson" teaches different musical genres (hip-hop, disco, funk, reggae) through fun stories. May skew slightly young for an 11-year-old, but worth dipping into 2–3 episodes — the genre exposure is great.</p>
+      <div class="chip-row">
+        <span class="chip free">10 episodes free</span>
+        <span class="chip">~12 min</span>
+        <span class="chip">Genre exposure</span>
+      </div>
+      <div class="links">
+        <a href="https://www.youtube.com/watch?v=36357rA7Vks" target="_blank" rel="noopener">→ Captain Carson EP1: Intergalactic Hip-Hop</a>
+        <a href="https://www.youtube.com/watch?v=5LNXmZKRxBk" target="_blank" rel="noopener">→ Captain Carson EP5: Disco Planet</a>
+      </div>
+    </div>
+
+    <div class="channel">
+      <span class="rank">4</span><h3>Rob "Beatdown" Brown</h3>
+      <p class="why">Teaching online since 2005. "Cool uncle teaching you in his garage" energy — kids tend to respond well. Strong focus on groove and pocket, which a viola player will appreciate.</p>
+      <div class="chip-row">
+        <span class="chip free">Free</span>
+        <span class="chip">8–15 min videos</span>
+      </div>
+      <div class="links">
+        <a href="https://www.youtube.com/channel/UChR2UZr__AZjYV1dHGUp-Mg" target="_blank" rel="noopener">→ Channel home</a>
+        <a href="https://www.youtube.com/playlist?list=PL2cx0KEfwN5Fvk883GgsgDnyYAesEbHTi" target="_blank" rel="noopener">→ "New To Drumming" playlist</a>
+        <a href="https://www.youtube.com/watch?v=nt7re7wGzqc" target="_blank" rel="noopener">→ 10 Beginner Beats to get playing quickly</a>
+      </div>
+    </div>
+
+    <div class="channel">
+      <span class="rank">5</span><h3>Mike Johnston (mikeslessons)</h3>
+      <p class="why">The godfather of online drum education. Warm, encouraging, and inspiring. Content skews slightly more intermediate — use him as motivation and "what to look forward to" content for now, then more directly in months 4–6.</p>
+      <div class="chip-row">
+        <span class="chip free">YouTube free</span>
+        <span class="chip">10–20 min videos</span>
+        <span class="chip">Inspiration</span>
+      </div>
+      <div class="links">
+        <a href="https://www.youtube.com/@mikeslessons" target="_blank" rel="noopener">→ Channel home</a>
+      </div>
+    </div>
+
+    <h3>Channels to skip for now</h3>
+    <ul>
+      <li><strong>The 80/20 Drummer:</strong> explicitly for drummers with a few years' experience.</li>
+      <li><strong>Adam Tuminaro / Orlando Drummer:</strong> excellent but intermediate/advanced. Bookmark for year 2.</li>
+      <li><strong>Cobus Potgieter:</strong> legendary covers, but rarely posts lessons anymore.</li>
+    </ul>
+  </section>
+
+  <!-- FUNDAMENTALS -->
+  <section class="panel" id="panel-fundamentals">
+    <h2>Fundamentals Quick Reference</h2>
+
+    <h3>Grip — Matched, not traditional</h3>
+    <div class="card">
+      <p>Hold both sticks the same way, palms down. The "fulcrum" (pivot point) is between thumb and index finger, about <strong>1/3 of the way from the butt end of the stick</strong>. Other three fingers wrap loosely. Grip should be relaxed — if knuckles are white, he's gripping too hard.</p>
+      <p style="margin-bottom:0;"><strong>Why matched, not traditional?</strong> Traditional grip (left hand cupped, palm up) is a marching/jazz legacy. Matched is symmetric, easier, and translates cleanly to the bilateral motor patterns Neelan already knows from viola bowing.</p>
+    </div>
+
+    <h3>Posture & Throne Height</h3>
+    <div class="card">
+      <ul style="margin-bottom: 0;">
+        <li>Throne typically 14–17" for a 10-year-old — adjust until thighs are <strong>parallel to the floor or angled slightly down</strong> toward the knees. Knees pointing up = throne too low.</li>
+        <li>Sit on the "sit bones" — front edge of the seat, spine tall.</li>
+        <li>Elbows hang slightly out from the ribs, not glued to the sides.</li>
+        <li>Reset throne height every 6 months — kids grow fast.</li>
+      </ul>
+    </div>
+
+    <h3>The 4 Essential Rudiments to Start</h3>
+    <p>Out of the 40 official drum rudiments, these are the universal "start here" set.</p>
+
+    <div class="rudiment-grid">
+      <div class="rudiment">
+        <div class="name">1. Single Stroke Roll</div>
+        <div>The foundation of everything.</div>
+        <div class="pattern">R L R L R L R L</div>
+      </div>
+      <div class="rudiment">
+        <div class="name">2. Double Stroke Roll</div>
+        <div>Two hits per hand. Both must sound equal.</div>
+        <div class="pattern">R R L L R R L L</div>
+      </div>
+      <div class="rudiment">
+        <div class="name">3. Single Paradiddle</div>
+        <div>First "pattern" rudiment. Great for independence.</div>
+        <div class="pattern">R L R R  L R L L</div>
+      </div>
+      <div class="rudiment">
+        <div class="name">4. Flam</div>
+        <div>A grace note + main note, one hand each. Sounds like "flah-DAP."</div>
+        <div class="pattern">lR  rL</div>
+      </div>
+    </div>
+
+    <p style="font-size: 13px; color: var(--muted);">Reference: <a href="https://pas.org/wp-content/uploads/2024/04/pas-rudiments.pdf" target="_blank" rel="noopener">Percussive Arts Society — Official 40 Rudiments PDF</a></p>
+
+    <h3>The Foundational Beat (8th-Note Rock Beat)</h3>
+    <div class="card accent">
+      <p>This single pattern unlocks ~80% of popular music. Master it and Neelan can play along to thousands of songs.</p>
+      <div class="rudiment" style="background: white;">
+        <div class="pattern" style="font-size: 14px;">
+          HH:  X X X X X X X X<br>
+          SN:  . . O . . . O .<br>
+          KK:  O . . . O . . .
+        </div>
+        <div style="margin-top: 8px; font-size: 13px;">
+          Hi-hat on every "1 and 2 and 3 and 4 and." Kick on 1 and 3. Snare on 2 and 4.
+        </div>
+      </div>
+      <p style="margin-bottom: 0; margin-top: 12px;">Start at 60 BPM with a metronome. Once clean, bump up by 5 BPM at a time. Target: 90 BPM by end of week 3.</p>
+    </div>
+
+    <h3>Reading Drum Notation</h3>
+    <div class="card">
+      <p>Drum notation uses a <strong>percussion clef</strong> (looks like two vertical bars) and assigns specific lines/spaces of the staff to specific pieces:</p>
+      <ul>
+        <li><strong>Bottom space:</strong> kick drum</li>
+        <li><strong>Third space:</strong> snare drum</li>
+        <li><strong>X above top line:</strong> hi-hat</li>
+        <li><strong>X above staff (different X):</strong> ride or crash</li>
+        <li><strong>Lines and spaces:</strong> toms (high to low)</li>
+      </ul>
+      <p style="margin-bottom:0;">Because Neelan already reads music, the rhythms (quarter notes, eighths, rests) need no explanation — just the new positions on the staff. Full guide: <a href="https://www.drumeo.com/beat/how-to-read-drum-music/" target="_blank" rel="noopener">Drumeo — How To Read Drum Music</a>.</p>
+    </div>
+  </section>
+
+  <!-- SONGS -->
+  <section class="panel" id="panel-songs">
+    <h2>Song Library</h2>
+    <p>Curated easier → harder. Each pairs with a YouTube tutorial.</p>
+
+    <div class="song-tier">
+      <h3>Tier 1 — Very Easy (weeks 4–6)</h3>
+      <div class="song">
+        <div class="title">We Will Rock You</div>
+        <div class="artist">Queen</div>
+        <div class="note">Pure stomp-stomp-clap. Can even play before he's good at the kit.</div>
+      </div>
+      <div class="song">
+        <div class="title"><a href="https://www.youtube.com/watch?v=VgNaDah9S5s" target="_blank" rel="noopener">Seven Nation Army</a></div>
+        <div class="artist">The White Stripes</div>
+        <div class="note">Iconic, ~120 BPM, classic 8th-note rock beat.</div>
+      </div>
+      <div class="song">
+        <div class="title">Another One Bites the Dust</div>
+        <div class="artist">Queen</div>
+        <div class="note">Widely cited as THE easiest first song. Rock-solid groove.</div>
+      </div>
+      <div class="song">
+        <div class="title"><a href="https://www.youtube.com/watch?v=SqQnw2mAQnY" target="_blank" rel="noopener">Old Town Road</a></div>
+        <div class="artist">Lil Nas X</div>
+        <div class="note">Kids universally know this. Trap-flavored, super fun starter.</div>
+      </div>
+    </div>
+
+    <div class="song-tier">
+      <h3>Tier 2 — A Step Up (weeks 6–9)</h3>
+      <div class="song">
+        <div class="title"><a href="https://www.youtube.com/watch?v=asPHP9VpXKI" target="_blank" rel="noopener">Believer</a></div>
+        <div class="artist">Imagine Dragons</div>
+        <div class="note">The stomp groove is super motivating. Recognizable and confidence-building.</div>
+      </div>
+      <div class="song">
+        <div class="title">Yellow</div>
+        <div class="artist">Coldplay</div>
+        <div class="note">Gentle tempo, minimal kit, great for working on dynamics.</div>
+      </div>
+      <div class="song">
+        <div class="title">Teenage Dirtbag</div>
+        <div class="artist">Wheatus</div>
+        <div class="note">Easy 8th-note rock. TikTok-popular so kids know it again.</div>
+      </div>
+      <div class="song">
+        <div class="title">Back in Black</div>
+        <div class="artist">AC/DC</div>
+        <div class="note">Slightly faster. The chorus groove is a kid-pleaser.</div>
+      </div>
+    </div>
+
+    <div class="song-tier">
+      <h3>Tier 3 — Slightly Harder (weeks 10–12+)</h3>
+      <div class="song">
+        <div class="title"><a href="https://www.youtube.com/watch?v=HTNUBVQBDCQ" target="_blank" rel="noopener">Stay</a></div>
+        <div class="artist">The Kid LAROI & Justin Bieber</div>
+        <div class="note">Modern, fast (~170 BPM), syncopated. Playable at half-time first.</div>
+      </div>
+      <div class="song">
+        <div class="title"><a href="https://www.youtube.com/watch?v=ve2dc42vpnc" target="_blank" rel="noopener">Levitating</a></div>
+        <div class="artist">Dua Lipa</div>
+        <div class="note">Disco-flavored four-on-the-floor. Great for the hi-hat foot.</div>
+      </div>
+      <div class="song">
+        <div class="title">Sunflower</div>
+        <div class="artist">Post Malone & Swae Lee</div>
+        <div class="note">Easy groove, instantly recognizable from Into the Spider-Verse.</div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <strong>Companion tool:</strong> <a href="https://www.songsterr.com/" target="_blank" rel="noopener">Songsterr</a> has interactive drum tabs that scroll along with the audio. Filter by drums. Free tier covers most songs.
+    </div>
+  </section>
+
+  <!-- PRACTICE -->
+  <section class="panel" id="panel-practice">
+    <h2>Daily Practice Routine</h2>
+    <p>For a 10–11 year old beginner: <strong>20–25 minutes per session, 4–5 days a week</strong>. Frequency beats duration. Two short sessions are better than one long one.</p>
+
+    <h3>The 25-Minute Session</h3>
+    <div class="session">
+      <div class="block">
+        <div class="num">1</div>
+        <div class="label">Warm-up<br><span style="font-size:13px; color: var(--muted);">Singles + doubles on snare with metronome at 60 BPM.</span></div>
+        <div class="time">3 min</div>
+      </div>
+      <div class="block">
+        <div class="num">2</div>
+        <div class="label">Technique<br><span style="font-size:13px; color: var(--muted);">This week's rudiment + one coordination exercise.</span></div>
+        <div class="time">5 min</div>
+      </div>
+      <div class="block">
+        <div class="num">3</div>
+        <div class="label">Beat work<br><span style="font-size:13px; color: var(--muted);">This week's new beat. Slow → fast with metronome.</span></div>
+        <div class="time">6 min</div>
+      </div>
+      <div class="block">
+        <div class="num">4</div>
+        <div class="label">Song time<br><span style="font-size:13px; color: var(--muted);">Play along to the current song.</span></div>
+        <div class="time">8 min</div>
+      </div>
+      <div class="block">
+        <div class="num">5</div>
+        <div class="label">Fun / free play<br><span style="font-size:13px; color: var(--muted);">Just play. End on a high note.</span></div>
+        <div class="time">3 min</div>
+      </div>
+    </div>
+
+    <h3>The "always" rules</h3>
+    <ul>
+      <li><strong>Always with a metronome.</strong> Day 1 onward. Build the habit before bad habits set in.</li>
+      <li><strong>Always end with the fun block.</strong> Last impression = whether he wants to come back tomorrow.</li>
+      <li><strong>Always slow first.</strong> If a pattern isn't clean at 60 BPM, going faster only entrenches the mistakes.</li>
+      <li><strong>Don't grind on weak spots more than 5 minutes.</strong> Switch tasks before frustration sets in.</li>
+    </ul>
+
+    <h3>Track progress</h3>
+    <div class="callout">
+      Keep a small whiteboard or sticky note on the kit:
+      <ul style="margin-top: 8px; margin-bottom: 0;">
+        <li>"Songs I can play" with a tally.</li>
+        <li>"Best BPM" record for the 8th-note rock beat.</li>
+        <li>Record a phone video every 2–4 weeks. Hearing improvement is huge motivation.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- TOOLS -->
+  <section class="panel" id="panel-tools">
+    <h2>Apps & Tools</h2>
+
+    <h3>Metronome (start here — free)</h3>
+    <div class="card">
+      <p><strong><a href="https://apps.apple.com/us/app/the-metronome-by-soundbrenner/id1048954353" target="_blank" rel="noopener">Soundbrenner – The Metronome</a></strong></p>
+      <p style="margin-bottom: 0;">The most-recommended free metronome app. Clean UI, subdivisions, accents, time signatures. Free with optional in-app purchases. Available iOS + Android.</p>
+    </div>
+
+    <h3>All-in-one drum learning app (later)</h3>
+    <div class="card gold">
+      <p><strong><a href="https://melodics.com/drums" target="_blank" rel="noopener">Melodics</a></strong> <span class="chip" style="background: white;">Worth it after ~month 3</span></p>
+      <p>Gamified "Guitar Hero for real drums." Connects to Neelan's electronic kit via MIDI (Bluetooth or USB) and gives real-time feedback on every hit. 500+ lessons covering rudiments, grooves, fills, and songs. Built specifically for electronic kits.</p>
+      <p style="margin-bottom: 0;">Free trial, then ~$15/month. Don't subscribe day one — wait until he's in month 3–4 and the gamification becomes a useful motivator, not a distraction from fundamentals.</p>
+    </div>
+
+    <h3>Song tabs</h3>
+    <div class="card">
+      <p><strong><a href="https://www.songsterr.com/" target="_blank" rel="noopener">Songsterr</a></strong></p>
+      <p style="margin-bottom: 0;">Interactive drum tabs that scroll in time with audio. Free tier covers most songs. Filter by drums and search any song from the Song Library tab.</p>
+    </div>
+
+    <h3>Free song lessons with charts</h3>
+    <div class="card">
+      <p><strong><a href="https://www.drumstheword.com/free-drum-lessons/" target="_blank" rel="noopener">DrumsTheWord — Free Lessons</a></strong></p>
+      <p style="margin-bottom: 0;">High-quality free song breakdowns with downloadable PDF charts. Great companion to YouTube tutorials.</p>
+    </div>
+
+    <h3>Skip for now</h3>
+    <ul>
+      <li><strong>Full Drumeo subscription:</strong> overkill for a beginner. Use their free YouTube and blog content.</li>
+      <li><strong>Drum-tuning apps:</strong> not relevant for a digital kit.</li>
+    </ul>
+  </section>
+
+  <!-- PARENTS -->
+  <section class="panel" id="panel-parents">
+    <h2>For Parents</h2>
+
+    <h3>What "success" looks like at this stage</h3>
+    <p>Not virtuosity. The goal at 10–11 is to build the <strong>practice habit</strong> and the love of playing. Technical skill compounds from there. If Neelan is sitting at the kit 4–5 times a week voluntarily by week 12, this guide worked — regardless of how fast he can play a paradiddle.</p>
+
+    <h3>Your job during practice</h3>
+    <ul>
+      <li><strong>Don't hover.</strong> Be in earshot, not in the room. Kids practice differently when they think they're being graded.</li>
+      <li><strong>Ask "what did you work on?" not "did it sound right?"</strong> Process &gt; product at this age.</li>
+      <li><strong>Praise effort over output.</strong> "I heard you slow that down and get it cleaner" beats "that sounded great." (Both are fine, but the first builds growth mindset.)</li>
+    </ul>
+
+    <h3>Warning signs to watch for</h3>
+    <ul>
+      <li><strong>Persistent wrist pain.</strong> Almost always a grip-too-tight issue. Watch a "relaxed grip" video together.</li>
+      <li><strong>Dread before practice.</strong> Cut sessions to 10 minutes for a week. Shorter is better than skipped.</li>
+      <li><strong>Plateau frustration around week 5–6.</strong> Normal. Add a fun song, a new piece of gear (drumstick grips, a fun pair of sticks), or a short break.</li>
+    </ul>
+
+    <h3>Hearing & volume</h3>
+    <div class="callout">
+      <strong>Even on a digital kit:</strong> the acoustic sound of sticks on rubber/mesh pads is loud, and headphones make it easy to overdo volume. Get a pair of <strong>kid-sized over-ear isolating headphones</strong> (Vic Firth SIH2 or similar, ~$60). Cap headphone volume at a level where you can still have a normal conversation if you take one cup off.
+    </div>
+
+    <h3>When to consider a real teacher</h3>
+    <p>YouTube is a great way to start, but most kids benefit from 1–2 in-person lessons every couple of months to catch bad habits early. Recommended timing:</p>
+    <ul>
+      <li><strong>Month 1–3:</strong> YouTube-only is fine.</li>
+      <li><strong>Month 4+:</strong> Consider a one-time lesson with a local teacher to audit his grip, posture, and technique. Many local music schools offer single drop-in lessons.</li>
+      <li><strong>Month 6+:</strong> If he's still excited, weekly or bi-weekly lessons accelerate progress dramatically.</li>
+    </ul>
+
+    <h3>Budget reality check</h3>
+    <ul>
+      <li><strong>Now through month 3:</strong> $0. YouTube + free metronome app.</li>
+      <li><strong>Month 3–6:</strong> ~$15/month if you add Melodics.</li>
+      <li><strong>Month 6+:</strong> $30–80 per lesson if you add an in-person teacher.</li>
+    </ul>
+  </section>
+
+  <footer class="footer">
+    Built for Neelan · May 2026 · Resources verified active.<br>
+    Progress is saved on this device. Bookmark this page for easy access.
+  </footer>
+
+</div>
+
+<script>
+  // ============ PROGRESS TRACKING (enhances static HTML above) ============
+  const STORAGE_KEY = 'neelan_drums_progress_v1';
+
+  function loadProgress() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : { completed: [] };
+    } catch (e) {
+      return { completed: [] };
+    }
+  }
+  function saveProgress(p) {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(p)); } catch (e) {}
+  }
+
+  function applyState() {
+    const p = loadProgress();
+    document.querySelectorAll('details.week').forEach(el => {
+      const wk = parseInt(el.getAttribute('data-week'), 10);
+      const isDone = p.completed.includes(wk);
+      el.classList.toggle('completed', isDone);
+      const badge = el.querySelector('.week-badge');
+      if (badge) badge.textContent = isDone ? '✓' : String(wk);
+      const actions = el.querySelector('.week-actions');
+      if (actions) {
+        actions.innerHTML = isDone
+          ? `<button class="btn" data-action="undo" data-week="${wk}">Mark as not done</button>`
+          : `<button class="btn success" data-action="complete" data-week="${wk}">✓ Mark week complete</button>`;
+      }
+    });
+    // Progress bar
+    const fill = document.getElementById('progressFill');
+    const label = document.getElementById('progressLabel');
+    if (fill) fill.style.width = ((p.completed.length / 12) * 100) + '%';
+    if (label) label.textContent = `${p.completed.length} / 12 weeks`;
+  }
+
+  document.addEventListener('click', (e) => {
+    // Tab nav — intercept anchor clicks and scroll instead of navigate.
+    // This avoids iOS Files app's "Leave Files and open this link?" prompt on file:// URLs.
+    const tab = e.target.closest('a.tab');
+    if (tab) {
+      const href = tab.getAttribute('href') || '';
+      if (href.startsWith('#')) {
+        const target = document.getElementById(href.slice(1));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          // Don't update the URL hash — that triggers the iOS Files prompt.
+          return;
+        }
+      }
+    }
+
+    // Week complete / undo buttons
+    const btn = e.target.closest('[data-action]');
+    if (!btn) return;
+    e.preventDefault();
+    e.stopPropagation();
+    const action = btn.getAttribute('data-action');
+    const wk = parseInt(btn.getAttribute('data-week'), 10);
+    const p = loadProgress();
+    if (action === 'complete') {
+      if (!p.completed.includes(wk)) p.completed.push(wk);
+    } else if (action === 'undo') {
+      p.completed = p.completed.filter(n => n !== wk);
+    }
+    saveProgress(p);
+    applyState();
+  });
+
+  const resetBtn = document.getElementById('resetBtn');
+  if (resetBtn) {
+    resetBtn.addEventListener('click', () => {
+      if (confirm('Reset all progress? Completed weeks will be cleared.')) {
+        saveProgress({ completed: [] });
+        applyState();
+      }
+    });
+  }
+
+  applyState();
+</script>
+</body>
+</html>
