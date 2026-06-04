@@ -76,7 +76,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe 
 .day-chip.camp .dc-num { color: #2d5020; }
 .day-chip.camp.active .dc-num, .day-chip.camp.active .dc-date { color: rgba(255,255,255,0.9); }
 /* Day detail panel */
-.day-detail { background: var(--bg-soft); border-radius: 12px; border: 1px solid var(--border); overflow: hidden; }
+.day-detail { background: var(--bg-soft); border-radius: 12px; border: 1px solid var(--border); overflow: hidden; display: none; }
 .dd-header { background: white; padding: 14px 18px; border-bottom: 1px solid var(--border); }
 .dd-header-top { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
 .dd-num { background: var(--accent); color: white; font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 6px; letter-spacing: 0.5px; flex-shrink: 0; }
@@ -505,7 +505,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe 
 
       map.flyToBounds(L.polyline(fullRoute).getBounds(), { padding:[28,28], duration:0.9 });
       document.getElementById('mapCaption').textContent = 'Full trip loop · tap a day chip to zoom in';
-      document.getElementById('dayDetail').innerHTML = '';
+      document.getElementById('dayDetail').style.display = 'none'; document.getElementById('dayDetail').innerHTML = '';
     };
 
     window.selectDay = function(d) {
@@ -558,7 +558,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe 
 
       // Populate detail panel
       var src = document.getElementById('day-'+d);
-      if (!src) { document.getElementById('dayDetail').innerHTML = ''; return; }
+      if (!src) { document.getElementById('dayDetail').style.display = 'none'; document.getElementById('dayDetail').innerHTML = ''; return; }
       var sumEl = src.querySelector('.day-summary');
       var num   = sumEl.querySelector('.drawer-num')   ? sumEl.querySelector('.drawer-num').textContent   : '';
       var date  = sumEl.querySelector('.drawer-date')  ? sumEl.querySelector('.drawer-date').textContent  : '';
@@ -568,7 +568,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe 
       var isCamp = hotel.indexOf('⛺') !== -1;
       var body  = src.querySelector('.drawer-content') ? src.querySelector('.drawer-content').innerHTML : '';
 
-      document.getElementById('dayDetail').innerHTML =
+      document.getElementById('dayDetail').style.display = 'block'; document.getElementById('dayDetail').innerHTML =
         '<div class="dd-header">'
         + '<div class="dd-header-top">'
         + '<span class="dd-num'+(isCamp?' camp':'')+'">'+num+'</span>'
