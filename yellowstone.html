@@ -342,12 +342,8 @@ body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe 
     })();
   </script>
 
-  <div class="section-title"><span class="emoji">🗺️</span> Route Map</div>
-  <div class="map-wrapper">
-    <div id="trip-map"></div>
-    <div class="map-caption">Tap any pin for details · Numbered pins = where you sleep · Emoji pins = the highlight of each day</div>
-  </div>
   <script>
+  document.addEventListener('DOMContentLoaded', function() {
   (function() {
     var accent = '#1e6b8a';
     var campGreen = '#3e7b3e';
@@ -589,6 +585,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe 
     map.fitBounds(L.polyline(fullRoute).getBounds(), { padding:[28,28] });
     setTimeout(function() { window.selectAll(); }, 300);
   })();
+  }); // DOMContentLoaded
   </script>
 
   <!-- Integrated day selector + map + detail panel -->
