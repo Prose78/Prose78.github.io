@@ -674,6 +674,15 @@ details.budget-collapse[open] > summary::after { transform: rotate(180deg); }
   <!-- Integrated day selector + map + detail panel -->
   <div class="trip-section">
 
+    <div class="map-wrapper" style="margin-bottom:14px;">
+      <div id="trip-map"></div>
+      <div class="map-caption" id="mapCaption">Tap a day below to explore the route</div>
+    <div class="map-legend">
+      <span class="ml-hw">─── Highway / transit</span>
+      <span class="ml-lz">- - - Local / exploration</span>
+    </div>
+    </div>
+
     <div class="day-tabs" id="dayTabs">
       <button class="day-chip day-chip-all active" data-day="all" onclick="selectAll()"><span class="dc-num">ALL</span><span class="dc-date">Route</span><span class="dc-icon">🗺️</span></button>
       <button class="day-chip" data-day="0" onclick="selectDay(0)"><span class="dc-num">PRE</span><span class="dc-date">Jul 9</span><span class="dc-icon">🏜️</span></button>
@@ -686,15 +695,6 @@ details.budget-collapse[open] > summary::after { transform: rotate(180deg); }
       <button class="day-chip camp" data-day="7" onclick="selectDay(7)"><span class="dc-num">DAY 7</span><span class="dc-date">Jul 16</span><span class="dc-icon">🔥</span></button>
       <button class="day-chip" data-day="8" onclick="selectDay(8)"><span class="dc-num">DAY 8</span><span class="dc-date">Jul 17</span><span class="dc-icon">🦬</span></button>
       <button class="day-chip" data-day="9" onclick="selectDay(9)"><span class="dc-num">DAY 9</span><span class="dc-date">Jul 18</span><span class="dc-icon">🏁</span></button>
-    </div>
-
-    <div class="map-wrapper" style="margin-bottom:0;border-radius:12px 12px 0 0;border-bottom:none;">
-      <div id="trip-map"></div>
-      <div class="map-caption" id="mapCaption">Tap a day above to explore the route</div>
-    <div class="map-legend">
-      <span class="ml-hw">─── Highway / transit</span>
-      <span class="ml-lz">- - - Local / exploration</span>
-    </div>
     </div>
 
     <div class="day-detail" id="dayDetail">
