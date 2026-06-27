@@ -99,6 +99,31 @@ body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe 
 .dd-locations .label { display: block; font-weight: 700; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--accent-dark); margin-bottom: 6px; }
 .dd-locations .map-chip { display: inline-block; margin: 3px 4px 3px 0; color: var(--accent-dark); text-decoration: none; padding: 6px 12px; background: white; border-radius: 8px; border: 1px solid var(--accent); font-weight: 600; font-size: 13px; line-height: 1.3; }
 .dd-locations .map-chip.web { background: #fffbe5; border-color: #d4a000; color: #6e5500; }
+/* Timeline schedule view */
+.dd-timeline { list-style: none; padding: 0; margin: 2px 0 14px; }
+.dd-timeline > li { display: flex; align-items: stretch; }
+.dd-timeline .tl-time { flex: 0 0 56px; text-align: right; padding: 8px 8px 0 0; font-size: 11px; font-weight: 800; color: var(--accent-dark); letter-spacing: 0.2px; line-height: 1.25; }
+.dd-timeline .tl-rail { flex: 0 0 26px; position: relative; }
+.dd-timeline .tl-rail::before { content: ''; position: absolute; left: 12px; top: 0; bottom: 0; width: 2px; background: var(--border); }
+.dd-timeline > li:first-child .tl-rail::before { top: 14px; }
+.dd-timeline > li:last-child .tl-rail::before { bottom: auto; height: 14px; }
+.dd-timeline .tl-dot { position: absolute; left: 0; top: 5px; width: 26px; height: 26px; border-radius: 50%; background: var(--bg); border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 13px; z-index: 1; }
+.dd-timeline .tl-card { flex: 1; margin: 0 0 10px 6px; background: var(--bg-soft); border: 1px solid var(--border); border-radius: 10px; padding: 9px 13px; font-size: 14px; line-height: 1.5; color: var(--text); }
+.dd-timeline .tl-card strong { color: var(--text); }
+.dd-timeline .tl-card ul { margin: 6px 0 2px; padding-left: 18px; font-size: 13px; line-height: 1.5; }
+.dd-timeline .tl-card.anchor { background: #f0f8ed; border-color: #9ccb8e; border-left: 3px solid #4a7c3a; }
+.dd-timeline .tl-card.anchor strong { color: #2d5020; }
+.dd-timeline > li.anchor .tl-dot { background: #4a7c3a; border-color: #2d5020; }
+.dd-timeline .tl-tag { display: inline-block; background: #4a7c3a; color: #fff; font-size: 9.5px; font-weight: 800; letter-spacing: 0.4px; padding: 2px 7px; border-radius: 8px; vertical-align: middle; margin-left: 4px; text-transform: uppercase; }
+/* Collapsible logistics */
+.dd-logistics { border: 1px solid var(--border); border-radius: 10px; background: var(--bg); overflow: hidden; }
+.dd-logistics > summary { padding: 11px 14px; cursor: pointer; font-weight: 700; font-size: 13px; color: var(--accent-dark); background: var(--bg-soft); list-style: none; display: flex; align-items: center; gap: 8px; }
+.dd-logistics > summary::-webkit-details-marker { display: none; }
+.dd-logistics > summary::marker { content: ''; }
+.dd-logistics > summary::after { content: '▾'; margin-left: auto; transition: transform 0.2s; }
+.dd-logistics[open] > summary::after { transform: rotate(180deg); }
+.dd-logwrap { padding: 12px 14px; }
+.dd-logwrap > :last-child { margin-bottom: 0; }
 .day-chip-all { border-color: var(--accent); background: var(--accent-light); }
 .day-chip-all .dc-num, .day-chip-all .dc-date { color: var(--accent-dark); }
 .day-chip-all.active { background: var(--accent); border-color: var(--accent); }
@@ -612,6 +637,8 @@ details.budget-collapse[open] > summary::after { transform: rotate(180deg); }
         + '</div>'
         + '<div class="dd-body">'
         + body.replace(/class="day-highlights"/g,'class="dd-highlights"')
+              .replace(/class="day-timeline"/g,'class="dd-timeline"')
+              .replace(/class="day-logistics"/g,'class="dd-logistics"')
               .replace(/class="drawer-bookings"/g,'class="dd-bookings"')
               .replace(/class="drawer-locations"/g,'class="dd-locations"')
         + '</div>';
@@ -663,282 +690,325 @@ details.budget-collapse[open] > summary::after { transform: rotate(180deg); }
     <div class="day-drawer" id="day-0">
       <div class="day-summary"><span class="drawer-num">DAY 0</span><div class="drawer-info"><span class="drawer-date">Thu · Jul 9 · Seth + Nico only</span><span class="drawer-title">🚗 Pre-Trip · Houston → Amarillo</span><span class="drawer-hotel">⛺ Camp near Amarillo</span></div><div class="drawer-meta"><span class="day-miles-chip">🚗 ~370</span></div></div>
       <div class="drawer-content">
-        <ul class="day-highlights">
-          <li><span class="ei">🚗</span>Depart Houston by 8am · US-87 N or I-27 N through Lubbock → Amarillo (~5 hrs)</li>
-          <li><span class="ei">⛺</span><strong>Camp near Amarillo</strong> — <strong>Palo Duro Canyon State Park</strong> (30 min south) is a great option · "Grand Canyon of Texas" · deep red canyon walls · reserve site at texasstateparks.reserveamerica.com · ~$20–25/night</li>
-          <li><span class="ei">🍖</span>Dinner in Amarillo — Feldman's Wrong Way Diner or Tyler's Barbeque</li>
-          <li><span class="ei">🌌</span>Campfire + stars · early to bed</li>
-          <li><span class="ei">⏰</span>On the road by 7am Friday for the ~6-hr push to Denver</li>
+        <ul class="day-timeline">
+          <li><span class="tl-time">8:00a</span><span class="tl-rail"><span class="tl-dot">🚗</span></span><div class="tl-card"><strong>Depart Houston</strong> · US-87 N or I-27 N through Lubbock → Amarillo · about 5 hrs</div></li>
+          <li class="anchor"><span class="tl-time">Afternoon</span><span class="tl-rail"><span class="tl-dot">⛺</span></span><div class="tl-card anchor"><strong>Set up camp — Palo Duro Canyon State Park</strong> <span class="tl-tag">Tonight</span><br>30 min south of Amarillo · the "Grand Canyon of Texas" · deep red canyon walls · ~$20–25/night</div></li>
+          <li><span class="tl-time">Evening</span><span class="tl-rail"><span class="tl-dot">🍖</span></span><div class="tl-card">Dinner in Amarillo — Feldman's Wrong Way Diner or Tyler's Barbeque</div></li>
+          <li><span class="tl-time">Night</span><span class="tl-rail"><span class="tl-dot">🌌</span></span><div class="tl-card">Campfire + stars · early to bed</div></li>
+          <li><span class="tl-time">7:00a<br>Fri</span><span class="tl-rail"><span class="tl-dot">⏰</span></span><div class="tl-card">On the road early for the ~6-hr push to Denver</div></li>
         </ul>
-        <div class="drawer-locations">
-          <span class="label">📍 Tap to open in Maps</span>
-          <a class="map-chip" href="https://maps.apple.com/?q=Palo+Duro+Canyon+State+Park+Canyon+TX">⛺ Palo Duro Canyon SP</a>
-          <a class="map-chip" href="https://maps.apple.com/?q=Feldmans+Wrong+Way+Diner+Amarillo+TX">🍖 Feldman's Amarillo</a>
-          <a class="map-chip" href="https://maps.apple.com/?q=Tylers+Barbeque+Amarillo+TX">🍖 Tyler's BBQ</a>
-        </div>
+        <details class="day-logistics">
+          <summary>📋 Map links</summary>
+          <div class="dd-logwrap">
+            <div class="drawer-locations">
+              <span class="label">📍 Tap to open in Maps</span>
+              <a class="map-chip" href="https://maps.apple.com/?q=Palo+Duro+Canyon+State+Park+Canyon+TX">⛺ Palo Duro Canyon SP</a>
+              <a class="map-chip" href="https://maps.apple.com/?q=Feldmans+Wrong+Way+Diner+Amarillo+TX">🍖 Feldman's Amarillo</a>
+              <a class="map-chip" href="https://maps.apple.com/?q=Tylers+Barbeque+Amarillo+TX">🍖 Tyler's BBQ</a>
+            </div>
+          </div>
+        </details>
       </div>
     </div>
 
     <div class="day-drawer" id="day-1">
       <div class="day-summary"><span class="drawer-num">DAY 1</span><div class="drawer-info"><span class="drawer-date">Fri · Jul 10</span><span class="drawer-title">🎸 Denver → Golden → Red Rocks Sunset</span><span class="drawer-hotel">🛏️ Residence Inn Golden / Red Rocks</span></div><div class="drawer-meta"><span class="day-miles-chip">🚗 30</span><span class="day-miles-chip local">📍 25</span></div></div>
       <div class="drawer-content">
-        <ul class="day-highlights">
-          <li><span class="ei">🚗</span><strong>Seth + Nico</strong> depart Amarillo by 7am · I-25 N or US-87 → Pueblo → Denver · ~6 hrs · arrive ~1pm</li>
-          <li><span class="ei">🛬</span><strong>Krystal · Neelan · Noah</strong> land DEN <strong>2:16pm on UA 2168</strong> from IAH (PNRs KYQDFG · KZBBJF)</li>
-          <li><span class="ei">🚙</span>Pick up Suburban from Turo (Sam) at Aurora</li>
-          <li><span class="ei">👋</span>Full crew meetup at Lakewood/Golden hotel ~2:30pm</li>
-          <li><span class="ei">⚒️</span><strong>Colorado School of Mines</strong> — campus walk + free Geology Museum</li>
-          <li><span class="ei">🎸</span><strong>Red Rocks Amphitheater</strong> — sunset visit, walk venue, Trading Post Trail</li>
-          <li><span class="ei">🍽️</span>Dinner: Washington Ave (Golden) or Belmar lifestyle center</li>
+        <ul class="day-timeline">
+          <li><span class="tl-time">7:00a</span><span class="tl-rail"><span class="tl-dot">🚗</span></span><div class="tl-card"><strong>Seth + Nico</strong> depart Amarillo · I-25 N or US-87 → Pueblo → Denver · ~6 hrs · arrive ~1pm</div></li>
+          <li class="anchor"><span class="tl-time">2:16p</span><span class="tl-rail"><span class="tl-dot">🛬</span></span><div class="tl-card anchor"><strong>Krystal · Neelan · Noah land DEN</strong> <span class="tl-tag">Flight</span><br>UA 2168 from IAH · PNRs KYQDFG · KZBBJF</div></li>
+          <li><span class="tl-time">~2:30p</span><span class="tl-rail"><span class="tl-dot">🚙</span></span><div class="tl-card">Pick up Suburban from Turo (Sam) at Aurora · full crew meetup at the Golden hotel</div></li>
+          <li><span class="tl-time">Afternoon</span><span class="tl-rail"><span class="tl-dot">⚒️</span></span><div class="tl-card"><strong>Colorado School of Mines</strong> — campus walk + free Geology Museum</div></li>
+          <li class="anchor"><span class="tl-time">Sunset</span><span class="tl-rail"><span class="tl-dot">🎸</span></span><div class="tl-card anchor"><strong>Red Rocks Amphitheater</strong> — sunset visit · walk the venue · Trading Post Trail</div></li>
+          <li><span class="tl-time">Evening</span><span class="tl-rail"><span class="tl-dot">🍽️</span></span><div class="tl-card">Dinner: Washington Ave (Golden) or Belmar lifestyle center</div></li>
         </ul>
-        <div class="drawer-bookings">
-          <div class="row"><span class="label">Hotel</span><strong><a href="https://maps.apple.com/?q=Residence+Inn+by+Marriott+Denver+Golden+Red+Rocks+14600+W+6th+Ave+Frontage+Rd+Golden+CO+80401">Residence Inn by Marriott Denver Golden/Red Rocks</a></strong></div>
-          <div class="row"><span class="label">Room</span>2-Bedroom Suite · fireplace · 2 Doubles · free breakfast</div>
-          <div class="row"><span class="label">Phone</span><a href="tel:303-271-0909">303-271-0909</a></div>
-          <div class="row"><span class="label">Conf #</span>9087230985162 · Order S036247354</div>
-        </div>
-        <div class="drawer-locations">
-          <span class="label">📍 Tap to open in Maps</span>
-          <a class="map-chip" href="https://maps.apple.com/?q=25200+E+68th+Ave+Aurora+CO+80019">🚙 Turo Pickup</a>
-          <a class="map-chip" href="https://maps.apple.com/?q=Colorado+School+of+Mines+Geology+Museum+Golden+CO">⚒️ School of Mines</a>
-          <a class="map-chip" href="https://maps.apple.com/?q=Red+Rocks+Amphitheatre+Morrison+CO">🎸 Red Rocks</a>
-          <a class="map-chip" href="https://maps.apple.com/?q=Washington+Ave+Golden+CO">🍽️ Washington Ave</a>
-          <a class="map-chip" href="https://maps.apple.com/?q=Belmar+Lakewood+CO">🛍️ Belmar</a>
-        </div>
+        <details class="day-logistics">
+          <summary>📋 Hotel, contacts &amp; map links</summary>
+          <div class="dd-logwrap">
+            <div class="drawer-bookings">
+              <div class="row"><span class="label">Hotel</span><strong><a href="https://maps.apple.com/?q=Residence+Inn+by+Marriott+Denver+Golden+Red+Rocks+14600+W+6th+Ave+Frontage+Rd+Golden+CO+80401">Residence Inn by Marriott Denver Golden/Red Rocks</a></strong></div>
+              <div class="row"><span class="label">Room</span>2-Bedroom Suite · fireplace · 2 Doubles · free breakfast</div>
+              <div class="row"><span class="label">Phone</span><a href="tel:303-271-0909">303-271-0909</a></div>
+              <div class="row"><span class="label">Conf #</span>9087230985162 · Order S036247354</div>
+            </div>
+            <div class="drawer-locations">
+              <span class="label">📍 Tap to open in Maps</span>
+              <a class="map-chip" href="https://maps.apple.com/?q=25200+E+68th+Ave+Aurora+CO+80019">🚙 Turo Pickup</a>
+              <a class="map-chip" href="https://maps.apple.com/?q=Colorado+School+of+Mines+Geology+Museum+Golden+CO">⚒️ School of Mines</a>
+              <a class="map-chip" href="https://maps.apple.com/?q=Red+Rocks+Amphitheatre+Morrison+CO">🎸 Red Rocks</a>
+              <a class="map-chip" href="https://maps.apple.com/?q=Washington+Ave+Golden+CO">🍽️ Washington Ave</a>
+              <a class="map-chip" href="https://maps.apple.com/?q=Belmar+Lakewood+CO">🛍️ Belmar</a>
+            </div>
+          </div>
+        </details>
       </div>
     </div>
 
     <div class="day-drawer" id="day-2">
       <div class="day-summary"><span class="drawer-num">DAY 2</span><div class="drawer-info"><span class="drawer-date">Sat · Jul 11</span><span class="drawer-title">🎓 Boulder morning → Rawlins push north</span><span class="drawer-hotel">🛏️ Fairfield Marriott Rawlins</span></div><div class="drawer-meta"><span class="day-miles-chip">🚗 260</span><span class="day-miles-chip local">📍 10</span></div></div>
       <div class="drawer-content">
-        <ul class="day-highlights">
-          <li><span class="ei">☕</span>Free Residence Inn breakfast</li>
-          <li><span class="ei">🎓</span><strong>CU Boulder campus walk</strong> ~10am–12pm</li>
-          <li><span class="ei">🌯</span>Lunch on Pearl Street Mall</li>
-          <li><span class="ei">🚗</span>Depart Boulder by 3pm · ~4 hrs (I-25 N → Cheyenne → I-80 W → Rawlins)</li>
-          <li><span class="ei">🌅</span>Arrive Rawlins ~7pm · dinner · early to bed</li>
+        <ul class="day-timeline">
+          <li><span class="tl-time">Morning</span><span class="tl-rail"><span class="tl-dot">☕</span></span><div class="tl-card">Free Residence Inn breakfast</div></li>
+          <li class="anchor"><span class="tl-time">10a–12p</span><span class="tl-rail"><span class="tl-dot">🎓</span></span><div class="tl-card anchor"><strong>CU Boulder campus walk</strong></div></li>
+          <li><span class="tl-time">Lunch</span><span class="tl-rail"><span class="tl-dot">🌯</span></span><div class="tl-card">Lunch on Pearl Street Mall</div></li>
+          <li><span class="tl-time">3:00p</span><span class="tl-rail"><span class="tl-dot">🚗</span></span><div class="tl-card">Depart Boulder · ~4 hrs · I-25 N → Cheyenne → I-80 W → Rawlins</div></li>
+          <li><span class="tl-time">~7:00p</span><span class="tl-rail"><span class="tl-dot">🌅</span></span><div class="tl-card">Arrive Rawlins · dinner · early to bed</div></li>
         </ul>
-        <div class="drawer-bookings">
-          <div class="row"><span class="label">Hotel</span><strong><a href="https://maps.apple.com/?q=Fairfield+Inn+Suites+Rawlins+WY">Fairfield by Marriott Inn &amp; Suites Rawlins</a></strong></div>
-          <div class="row"><span class="label">Conf #</span>81077942 · Total $221.13</div>
-        </div>
-        <div class="drawer-locations">
-          <span class="label">📍 Tap to open in Maps</span>
-          <a class="map-chip" href="https://maps.apple.com/?q=University+of+Colorado+Boulder+Visitor+Center">🎓 CU Boulder Visitor Ctr</a>
-          <a class="map-chip" href="https://maps.apple.com/?q=Pearl+Street+Mall+Boulder+CO">🌯 Pearl Street Mall</a>
-          <a class="map-chip" href="https://maps.apple.com/?q=Fairfield+Inn+Suites+Rawlins+WY">🛏️ Fairfield Rawlins</a>
-        </div>
+        <details class="day-logistics">
+          <summary>📋 Hotel &amp; map links</summary>
+          <div class="dd-logwrap">
+            <div class="drawer-bookings">
+              <div class="row"><span class="label">Hotel</span><strong><a href="https://maps.apple.com/?q=Fairfield+Inn+Suites+Rawlins+WY">Fairfield by Marriott Inn &amp; Suites Rawlins</a></strong></div>
+              <div class="row"><span class="label">Conf #</span>81077942 · Total $221.13</div>
+            </div>
+            <div class="drawer-locations">
+              <span class="label">📍 Tap to open in Maps</span>
+              <a class="map-chip" href="https://maps.apple.com/?q=University+of+Colorado+Boulder+Visitor+Center">🎓 CU Boulder Visitor Ctr</a>
+              <a class="map-chip" href="https://maps.apple.com/?q=Pearl+Street+Mall+Boulder+CO">🌯 Pearl Street Mall</a>
+              <a class="map-chip" href="https://maps.apple.com/?q=Fairfield+Inn+Suites+Rawlins+WY">🛏️ Fairfield Rawlins</a>
+            </div>
+          </div>
+        </details>
       </div>
     </div>
 
     <div class="day-drawer" id="day-3">
       <div class="day-summary"><span class="drawer-num">DAY 3</span><div class="drawer-info"><span class="drawer-date">Sun · Jul 12</span><span class="drawer-title">🚗 Rawlins → Jackson · Togwotee Pass reveal</span><span class="drawer-hotel">🦌 49er Inn &amp; Suites Jackson · night 1 of 2</span></div><div class="drawer-meta"><span class="day-miles-chip">🚗 300</span><span class="day-miles-chip local">📍 5</span></div></div>
       <div class="drawer-content">
-        <ul class="day-highlights">
-          <li><span class="ei">☕</span>Early Rawlins breakfast · on the road by 8am</li>
-          <li><span class="ei">🚗</span>~5 hrs via Riverton, Lander, Dubois (US-287 N)</li>
-          <li><span class="ei">🏔️</span><strong>Togwotee Pass Teton reveal ⭐</strong> (last 90 min)</li>
-          <li><span class="ei">🦌</span>Arrive Jackson ~1–2pm · check in to 49er, walk Town Square (3 blocks)</li>
-          <li><span class="ei">🛍️</span>Afternoon: Pearl Street, Town Square photos, ice cream</li>
-          <li><span class="ei">🍽️</span>Dinner: Snake River Grill, The Bunnery, or Pinky G's</li>
-          <li><span class="ei">🛏️</span>Early to bed — 4:30am alarm tomorrow!</li>
+        <ul class="day-timeline">
+          <li><span class="tl-time">8:00a</span><span class="tl-rail"><span class="tl-dot">☕</span></span><div class="tl-card">Early Rawlins breakfast · on the road · ~5 hrs via Riverton, Lander, Dubois (US-287 N)</div></li>
+          <li class="anchor"><span class="tl-time">Late am</span><span class="tl-rail"><span class="tl-dot">🏔️</span></span><div class="tl-card anchor"><strong>Togwotee Pass — the Teton reveal ⭐</strong> <span class="tl-tag">Wow</span><br>The Tetons appear across the last 90 min of the drive</div></li>
+          <li><span class="tl-time">1–2p</span><span class="tl-rail"><span class="tl-dot">🦌</span></span><div class="tl-card">Arrive Jackson · check in to the 49er · walk Town Square (3 blocks)</div></li>
+          <li><span class="tl-time">Afternoon</span><span class="tl-rail"><span class="tl-dot">🛍️</span></span><div class="tl-card">Pearl Street, Town Square photos, ice cream</div></li>
+          <li><span class="tl-time">Dinner</span><span class="tl-rail"><span class="tl-dot">🍽️</span></span><div class="tl-card">Snake River Grill, The Bunnery, or Pinky G's</div></li>
+          <li><span class="tl-time">Night</span><span class="tl-rail"><span class="tl-dot">🛏️</span></span><div class="tl-card"><strong>Early to bed — 4:30am alarm tomorrow!</strong></div></li>
         </ul>
-        <div class="drawer-bookings">
-          <div class="row"><span class="label">Hotel</span><strong><a href="https://maps.apple.com/?q=49er+Inn+Suites+330+W+Pearl+St+Jackson+WY+83001">49er Inn &amp; Suites · 330 W Pearl St, Jackson</a></strong></div>
-          <div class="row"><span class="label">Room</span>Studio Suite · 2 Queens + Double Sofa Bed · free breakfast + parking</div>
-          <div class="row"><span class="label">Phone</span><a href="tel:307-733-7550">307-733-7550</a></div>
-          <div class="row"><span class="label">Conf #</span>9092245144393 · Order S036247191</div>
-        </div>
-        <div class="drawer-locations">
-          <span class="label">📍 Tap to open in Maps</span>
-          <a class="map-chip" href="https://maps.apple.com/?q=Jackson+Town+Square+WY">🦌 Jackson Town Square</a>
-          <a class="map-chip" href="https://maps.apple.com/?q=Snake+River+Grill+Jackson+WY">🍽️ Snake River Grill</a>
-          <a class="map-chip" href="https://maps.apple.com/?q=The+Bunnery+Jackson+WY">🥖 The Bunnery</a>
-          <a class="map-chip" href="https://maps.apple.com/?q=Pinky+G+Pizzeria+Jackson+WY">🍕 Pinky G's</a>
-        </div>
+        <details class="day-logistics">
+          <summary>📋 Hotel, contacts &amp; map links</summary>
+          <div class="dd-logwrap">
+            <div class="drawer-bookings">
+              <div class="row"><span class="label">Hotel</span><strong><a href="https://maps.apple.com/?q=49er+Inn+Suites+330+W+Pearl+St+Jackson+WY+83001">49er Inn &amp; Suites · 330 W Pearl St, Jackson</a></strong></div>
+              <div class="row"><span class="label">Room</span>Studio Suite · 2 Queens + Double Sofa Bed · free breakfast + parking</div>
+              <div class="row"><span class="label">Phone</span><a href="tel:307-733-7550">307-733-7550</a></div>
+              <div class="row"><span class="label">Conf #</span>9092245144393 · Order S036247191</div>
+            </div>
+            <div class="drawer-locations">
+              <span class="label">📍 Tap to open in Maps</span>
+              <a class="map-chip" href="https://maps.apple.com/?q=Jackson+Town+Square+WY">🦌 Jackson Town Square</a>
+              <a class="map-chip" href="https://maps.apple.com/?q=Snake+River+Grill+Jackson+WY">🍽️ Snake River Grill</a>
+              <a class="map-chip" href="https://maps.apple.com/?q=The+Bunnery+Jackson+WY">🥖 The Bunnery</a>
+              <a class="map-chip" href="https://maps.apple.com/?q=Pinky+G+Pizzeria+Jackson+WY">🍕 Pinky G's</a>
+            </div>
+          </div>
+        </details>
       </div>
     </div>
 
     <div class="day-drawer" id="day-4">
       <div class="day-summary"><span class="drawer-num">DAY 4</span><div class="drawer-info"><span class="drawer-date">Mon · Jul 13</span><span class="drawer-title">🌅 Tetons Sunrise + Full Day</span><span class="drawer-hotel">🦌 49er Inn &amp; Suites · night 2 of 2</span></div><div class="drawer-meta"><span class="day-miles-chip zero">🚗 0</span><span class="day-miles-chip local">📍 90</span></div></div>
       <div class="drawer-content">
-        <ul class="day-highlights">
-          <li><span class="ei">⏰</span><strong>4:30am alarm</strong> · in the SUV by 5am</li>
-          <li><span class="ei">🌅</span><strong>Oxbow Bend sunrise (5:30am) ⭐</strong> · sunrise ~5:55am</li>
-          <li><span class="ei">📸</span>Snake River Overlook · Mormon Row barns</li>
-          <li><span class="ei">☕</span>Back to Jackson for breakfast</li>
-          <li><span class="ei">⛵</span><strong>Jenny Lake boat shuttle</strong> ($18 RT/person) → 💦 Hidden Falls → 🥾 Inspiration Point</li>
-          <li><span class="ei">🏊</span>String Lake swim</li>
-          <li><span class="ei">🐻‍❄️</span>Bear spray ✅ — two cans already purchased · packed for the trip</li>
+        <ul class="day-timeline">
+          <li><span class="tl-time">4:30a</span><span class="tl-rail"><span class="tl-dot">⏰</span></span><div class="tl-card"><strong>Alarm</strong> · in the SUV by 5am</div></li>
+          <li class="anchor"><span class="tl-time">5:30a</span><span class="tl-rail"><span class="tl-dot">🌅</span></span><div class="tl-card anchor"><strong>Oxbow Bend sunrise ⭐</strong> <span class="tl-tag">Wow</span><br>Sunrise ~5:55am over the Tetons reflected in the Snake</div></li>
+          <li><span class="tl-time">Early am</span><span class="tl-rail"><span class="tl-dot">📸</span></span><div class="tl-card">Snake River Overlook · Mormon Row barns</div></li>
+          <li><span class="tl-time">Breakfast</span><span class="tl-rail"><span class="tl-dot">☕</span></span><div class="tl-card">Back to Jackson for breakfast (Persephone Bakery)</div></li>
+          <li class="anchor"><span class="tl-time">Midday</span><span class="tl-rail"><span class="tl-dot">⛵</span></span><div class="tl-card anchor"><strong>Jenny Lake boat shuttle</strong> ($18 RT/person) → Hidden Falls → Inspiration Point</div></li>
+          <li><span class="tl-time">Afternoon</span><span class="tl-rail"><span class="tl-dot">🏊</span></span><div class="tl-card">String Lake swim</div></li>
+          <li><span class="tl-time">Note</span><span class="tl-rail"><span class="tl-dot">🐻</span></span><div class="tl-card">Bear spray ✅ — two cans already purchased · packed for the trip</div></li>
         </ul>
-        <div class="drawer-bookings">
-          <div class="row"><span class="label">Hotel</span><strong><a href="https://maps.apple.com/?q=49er+Inn+Suites+330+W+Pearl+St+Jackson+WY+83001">49er Inn &amp; Suites Jackson</a></strong> (same as last night)</div>
-          <div class="row"><span class="label">Phone</span><a href="tel:307-733-7550">307-733-7550</a></div>
-        </div>
-        <div class="drawer-locations">
-          <span class="label">📍 Tap to open in Maps</span>
-          <a class="map-chip" href="https://maps.apple.com/?q=Oxbow+Bend+Grand+Teton+National+Park">🌅 Oxbow Bend</a>
-          <a class="map-chip" href="https://maps.apple.com/?q=Snake+River+Overlook+Grand+Teton">📸 Snake River Overlook</a>
-          <a class="map-chip" href="https://maps.apple.com/?q=Mormon+Row+Historic+District+Grand+Teton">🛖 Mormon Row</a>
-          <a class="map-chip" href="https://maps.apple.com/?q=Jenny+Lake+South+Boat+Dock+Grand+Teton">⛵ Jenny Lake Boat Dock</a>
-          <a class="map-chip" href="https://maps.apple.com/?q=String+Lake+Trailhead+Grand+Teton">🏊 String Lake</a>
-          <a class="map-chip" href="https://maps.apple.com/?q=Persephone+Bakery+Jackson+WY">☕ Persephone Bakery</a>
-        </div>
+        <details class="day-logistics">
+          <summary>📋 Hotel, contacts &amp; map links</summary>
+          <div class="dd-logwrap">
+            <div class="drawer-bookings">
+              <div class="row"><span class="label">Hotel</span><strong><a href="https://maps.apple.com/?q=49er+Inn+Suites+330+W+Pearl+St+Jackson+WY+83001">49er Inn &amp; Suites Jackson</a></strong> (same as last night)</div>
+              <div class="row"><span class="label">Phone</span><a href="tel:307-733-7550">307-733-7550</a></div>
+            </div>
+            <div class="drawer-locations">
+              <span class="label">📍 Tap to open in Maps</span>
+              <a class="map-chip" href="https://maps.apple.com/?q=Oxbow+Bend+Grand+Teton+National+Park">🌅 Oxbow Bend</a>
+              <a class="map-chip" href="https://maps.apple.com/?q=Snake+River+Overlook+Grand+Teton">📸 Snake River Overlook</a>
+              <a class="map-chip" href="https://maps.apple.com/?q=Mormon+Row+Historic+District+Grand+Teton">🛖 Mormon Row</a>
+              <a class="map-chip" href="https://maps.apple.com/?q=Jenny+Lake+South+Boat+Dock+Grand+Teton">⛵ Jenny Lake Boat Dock</a>
+              <a class="map-chip" href="https://maps.apple.com/?q=String+Lake+Trailhead+Grand+Teton">🏊 String Lake</a>
+              <a class="map-chip" href="https://maps.apple.com/?q=Persephone+Bakery+Jackson+WY">☕ Persephone Bakery</a>
+            </div>
+          </div>
+        </details>
       </div>
     </div>
 
     <div class="day-drawer" id="day-5">
       <div class="day-summary"><span class="drawer-num">DAY 5</span><div class="drawer-info"><span class="drawer-date">Tue · Jul 14</span><span class="drawer-title">⛺ Jackson → Lewis Falls → Shoshone Lake → Set Up Camp · 7pm Scenicruiser</span><span class="drawer-hotel">⛺ Bridge Bay Campground · night 1 of 3</span></div><div class="drawer-meta"><span class="day-miles-chip">🚗 100</span><span class="day-miles-chip local">📍 24</span></div></div>
       <div class="drawer-content">
-        <ul class="day-highlights">
-          <li><span class="ei">☕</span>Free 49er breakfast · grocery run for camp food (Jackson Whole Grocer)</li>
-          <li><span class="ei">🚗</span>Pack up · drive north through Grand Teton → South Entrance into Yellowstone</li>
-          <li><span class="ei">💦</span><strong>Lewis Falls</strong> — roadside pulloff just inside Yellowstone · quick but beautiful 29-ft cascade on the Lewis River</li>
-          <li><span class="ei">🌊</span><strong>Shoshone Lake Overlook</strong> — scenic pullout on the South Entrance road · largest backcountry lake in the lower 48 · no crowds</li>
-          <li><span class="ei">♨️</span>West Thumb Geyser Basin — on the route · geysers and hot springs right on the shore of Yellowstone Lake · worth a walk</li>
-          <li><span class="ei">⛺</span><strong>Check in Bridge Bay</strong> · 12×12 family site · stop at camp store for firewood</li>
-          <li><span class="ei">🚢</span><strong>7pm Lake Yellowstone Scenicruiser ✅ BOOKED</strong> — walk to marina from camp! Evening cruise on Yellowstone Lake · 4 adults + Neelan · ~2 hrs</li>
-          <li><span class="ei">🌌</span>Golden hour on the lake · stars over Yellowstone when you get back</li>
+        <ul class="day-timeline">
+          <li><span class="tl-time">Morning</span><span class="tl-rail"><span class="tl-dot">☕</span></span><div class="tl-card">Free 49er breakfast · grocery run for camp food (Jackson Whole Grocer) · pack up</div></li>
+          <li><span class="tl-time">Drive</span><span class="tl-rail"><span class="tl-dot">🚗</span></span><div class="tl-card">North through Grand Teton → South Entrance into Yellowstone</div></li>
+          <li><span class="tl-time">En route</span><span class="tl-rail"><span class="tl-dot">💦</span></span><div class="tl-card"><strong>Lewis Falls</strong> — roadside pulloff just inside Yellowstone · quick but beautiful 29-ft cascade</div></li>
+          <li><span class="tl-time">En route</span><span class="tl-rail"><span class="tl-dot">🌊</span></span><div class="tl-card"><strong>Shoshone Lake Overlook</strong> — scenic pullout · largest backcountry lake in the lower 48 · no crowds</div></li>
+          <li><span class="tl-time">En route</span><span class="tl-rail"><span class="tl-dot">♨️</span></span><div class="tl-card"><strong>West Thumb Geyser Basin</strong> — geysers and hot springs right on the lakeshore · worth a walk</div></li>
+          <li><span class="tl-time">Afternoon</span><span class="tl-rail"><span class="tl-dot">⛺</span></span><div class="tl-card"><strong>Check in Bridge Bay</strong> · 12×12 family site · firewood from the camp store · set up before the cruise</div></li>
+          <li class="anchor"><span class="tl-time">7:00p</span><span class="tl-rail"><span class="tl-dot">🚢</span></span><div class="tl-card anchor"><strong>Lake Yellowstone Scenicruiser ✅ BOOKED</strong> <span class="tl-tag">Booked</span><br>Walk to the marina from camp! Evening cruise · 4 adults + Neelan · ~2 hrs</div></li>
+          <li><span class="tl-time">Night</span><span class="tl-rail"><span class="tl-dot">🌌</span></span><div class="tl-card">Golden hour on the lake · stars over Yellowstone back at camp</div></li>
         </ul>
-        <div class="drawer-bookings">
-          <div class="row"><span class="label">⛺ Camp</span><strong><a href="https://maps.apple.com/?q=Bridge+Bay+Campground+Yellowstone+National+Park">Bridge Bay Campground</a></strong> · 12×12 family site · 2 tents</div>
-          <div class="row"><span class="label">Reserved for</span>4 adults + 1 child · Tue 7/14 → Fri 7/17 · Conf #20594938</div>
-          <div class="row"><span class="label">Heads up</span>No on-site showers · No cell signal · Bear box mandatory</div>
-          <div class="row" style="padding-top:8px;border-top:1px solid #b8d8be;margin-top:6px;"><span class="label">🚢 Cruise</span><strong>Lake Yellowstone Scenicruiser · 7:00 pm</strong></div>
-          <div class="row"><span class="label">Pickup</span><a href="https://maps.apple.com/?q=Bridge+Bay+Marina+Yellowstone">Bridge Bay Marina</a> — 5-min walk from camp!</div>
-          <div class="row"><span class="label">People</span>4 adults + Neelan · $113.70 · Conf #20594938</div>
-          <div class="row"><span class="label">Tip</span>Dress warm — lake breezes at sunset · camera ready for golden hour</div>
-          <div class="row"><span class="label">Phone</span><a href="tel:307-344-7311">307-344-7311</a> (Xanterra)</div>
-        </div>
-        <div class="drawer-locations">
-          <span class="label">📍 Tap to open in Maps</span>
-          <a class="map-chip" href="https://maps.apple.com/?q=Jackson+Whole+Grocer+Jackson+WY">🛒 Jackson Whole Grocer</a>
-          <a class="map-chip" href="https://maps.apple.com/?q=Yellowstone+South+Entrance">🚪 South Entrance</a>
-          <a class="map-chip" href="https://maps.apple.com/?q=Lewis+Falls+Yellowstone">💦 Lewis Falls</a>
-          <a class="map-chip" href="https://maps.apple.com/?q=Shoshone+Lake+Yellowstone">🌊 Shoshone Lake Overlook</a>
-          <a class="map-chip" href="https://maps.apple.com/?q=West+Thumb+Geyser+Basin+Yellowstone">♨️ West Thumb Geyser Basin</a>
-          <a class="map-chip" href="https://maps.apple.com/?q=Bridge+Bay+Campground+Yellowstone">⛺ Bridge Bay Campground</a>
-          <a class="map-chip" href="https://maps.apple.com/?q=Bridge+Bay+Marina+Yellowstone">🚢 Bridge Bay Marina</a>
-        </div>
+        <details class="day-logistics">
+          <summary>📋 Camp, cruise, contacts &amp; map links</summary>
+          <div class="dd-logwrap">
+            <div class="drawer-bookings">
+              <div class="row"><span class="label">⛺ Camp</span><strong><a href="https://maps.apple.com/?q=Bridge+Bay+Campground+Yellowstone+National+Park">Bridge Bay Campground</a></strong> · 12×12 family site · 2 tents</div>
+              <div class="row"><span class="label">Reserved for</span>4 adults + 1 child · Tue 7/14 → Fri 7/17 · Conf #20594938</div>
+              <div class="row"><span class="label">Heads up</span>No on-site showers · No cell signal · Bear box mandatory</div>
+              <div class="row" style="padding-top:8px;border-top:1px solid #b8d8be;margin-top:6px;"><span class="label">🚢 Cruise</span><strong>Lake Yellowstone Scenicruiser · 7:00 pm</strong></div>
+              <div class="row"><span class="label">Pickup</span><a href="https://maps.apple.com/?q=Bridge+Bay+Marina+Yellowstone">Bridge Bay Marina</a> — 5-min walk from camp!</div>
+              <div class="row"><span class="label">People</span>4 adults + Neelan · $113.70 · Conf #20594938</div>
+              <div class="row"><span class="label">Tip</span>Dress warm — lake breezes at sunset · camera ready for golden hour</div>
+              <div class="row"><span class="label">Phone</span><a href="tel:307-344-7311">307-344-7311</a> (Xanterra)</div>
+            </div>
+            <div class="drawer-locations">
+              <span class="label">📍 Tap to open in Maps</span>
+              <a class="map-chip" href="https://maps.apple.com/?q=Jackson+Whole+Grocer+Jackson+WY">🛒 Jackson Whole Grocer</a>
+              <a class="map-chip" href="https://maps.apple.com/?q=Yellowstone+South+Entrance">🚪 South Entrance</a>
+              <a class="map-chip" href="https://maps.apple.com/?q=Lewis+Falls+Yellowstone">💦 Lewis Falls</a>
+              <a class="map-chip" href="https://maps.apple.com/?q=Shoshone+Lake+Yellowstone">🌊 Shoshone Lake Overlook</a>
+              <a class="map-chip" href="https://maps.apple.com/?q=West+Thumb+Geyser+Basin+Yellowstone">♨️ West Thumb Geyser Basin</a>
+              <a class="map-chip" href="https://maps.apple.com/?q=Bridge+Bay+Campground+Yellowstone">⛺ Bridge Bay Campground</a>
+              <a class="map-chip" href="https://maps.apple.com/?q=Bridge+Bay+Marina+Yellowstone">🚢 Bridge Bay Marina</a>
+            </div>
+          </div>
+        </details>
       </div>
     </div>
 
     <div class="day-drawer" id="day-6">
       <div class="day-summary"><span class="drawer-num">DAY 6</span><div class="drawer-info"><span class="drawer-date">Wed · Jul 15</span><span class="drawer-title">💦 Canyon Falls · 🐴 Roosevelt Horseback 1pm · 🌊 Tower Fall</span><span class="drawer-hotel">⛺ Bridge Bay · night 2 of 3</span></div><div class="drawer-meta"><span class="day-miles-chip zero">🚗 0</span><span class="day-miles-chip local">📍 120</span></div></div>
       <div class="drawer-content">
-        <ul class="day-highlights">
-          <li><span class="ei">☕</span>Camp breakfast · head out early — long day with a hard 12:45 deadline at Roosevelt</li>
-          <li><span class="ei">💦</span><strong>Canyon — Upper Falls (109 ft)</strong> — viewpoint on the North Rim · short walk from parking · impressive even as the "small one"</li>
-          <li><span class="ei">💦</span><strong>Lower Falls (308 ft) ⭐</strong> — tallest waterfall in Yellowstone · hit all three viewpoints:
-            <ul style="margin-top:6px;padding-left:16px;">
+        <ul class="day-timeline">
+          <li><span class="tl-time">Early</span><span class="tl-rail"><span class="tl-dot">☕</span></span><div class="tl-card">Camp breakfast · head out early — long day with a hard 12:45 deadline at Roosevelt</div></li>
+          <li class="anchor"><span class="tl-time">Morning</span><span class="tl-rail"><span class="tl-dot">💦</span></span><div class="tl-card anchor"><strong>Canyon Falls ⭐</strong> <span class="tl-tag">Falls</span><br>Upper Falls (109 ft) viewpoint, then Lower Falls (308 ft) — the tallest in Yellowstone — from all three overlooks:
+            <ul>
               <li><strong>Lookout Point</strong> — classic wide view · easy walk</li>
-              <li><strong>Artist Point</strong> — the iconic photo · Grand Canyon of the Yellowstone</li>
-              <li><strong>Uncle Tom's Trail</strong> — 328 steep metal stairs down to a platform beside the falls · absolutely worth it</li>
-            </ul>
-          </li>
-          <li><span class="ei">⏰</span><strong>Depart Canyon by 11am</strong> — 45 min to Roosevelt; you need to be there by 12:45</li>
-          <li><span class="ei">🍽️</span>Lunch at Roosevelt Lodge dining room (11:45am arrival, plenty of time)</li>
-          <li><span class="ei">🐴</span><strong>1pm Roosevelt Corral Horseback ✅ BOOKED</strong> — arrive by 12:45 · 1-hour trail ride through sagebrush meadows · 5 guests · closed-toe shoes required</li>
-          <li><span class="ei">🌊</span><strong>Tower Fall</strong> — just 2 miles from Roosevelt · 132-ft drop into a canyon · short hike to overlook · don't skip this one</li>
-          <li><span class="ei">🦬</span>Hayden Valley on the drive back south — evening light brings out the bison and sometimes grizzly</li>
-          <li><span class="ei">🌭</span>Campfire dinner · optional free ranger program at Bridge Bay amphitheater</li>
+              <li><strong>Artist Point</strong> — the iconic photo</li>
+              <li><strong>Uncle Tom's Trail</strong> — 328 steep stairs to a platform beside the falls · worth it</li>
+            </ul></div></li>
+          <li><span class="tl-time">By 11a</span><span class="tl-rail"><span class="tl-dot">⏰</span></span><div class="tl-card"><strong>Depart Canyon</strong> — 45 min to Roosevelt; you need to be there by 12:45</div></li>
+          <li><span class="tl-time">11:45a</span><span class="tl-rail"><span class="tl-dot">🍽️</span></span><div class="tl-card">Lunch at Roosevelt Lodge dining room (plenty of time before the ride)</div></li>
+          <li class="anchor"><span class="tl-time">1:00p</span><span class="tl-rail"><span class="tl-dot">🐴</span></span><div class="tl-card anchor"><strong>Roosevelt Corral Horseback ✅ BOOKED</strong> <span class="tl-tag">Booked</span><br>Arrive by 12:45 · 1-hr trail ride through sagebrush meadows · 5 guests · closed-toe shoes required</div></li>
+          <li class="anchor"><span class="tl-time">~2:30p</span><span class="tl-rail"><span class="tl-dot">🌊</span></span><div class="tl-card anchor"><strong>Tower Fall</strong> — just 2 mi from Roosevelt · 132-ft drop · short hike to the overlook · don't skip it</div></li>
+          <li><span class="tl-time">Evening</span><span class="tl-rail"><span class="tl-dot">🦬</span></span><div class="tl-card"><strong>Hayden Valley</strong> on the drive back south — evening light brings out the bison and sometimes grizzly</div></li>
+          <li><span class="tl-time">Night</span><span class="tl-rail"><span class="tl-dot">🌭</span></span><div class="tl-card">Campfire dinner · optional free ranger program at Bridge Bay amphitheater</div></li>
         </ul>
-        <div class="drawer-bookings">
-          <div class="row"><span class="label">🐴 Horseback</span><strong>Roosevelt Corral 1-Hour Horseback Ride</strong></div>
-          <div class="row"><span class="label">Date/Time</span>Wed Jul 15 · 1:00 pm · <strong>arrive by 12:45!</strong></div>
-          <div class="row"><span class="label">Location</span><a href="https://maps.apple.com/?q=Roosevelt+Lodge+Yellowstone">Roosevelt Lodge &amp; Corral</a> · ~45 min north of Canyon</div>
-          <div class="row"><span class="label">People</span>5 guests · $499.93</div>
-          <div class="row"><span class="label">Conf #</span>Xanterra #20594938</div>
-          <div class="row"><span class="label">Tip</span>Closed-toe shoes required · secure loose items · camera OK in a pouch · grab lunch first at the lodge</div>
-        </div>
-        <div class="drawer-locations">
-          <span class="label">📍 Tap to open in Maps</span>
-          <a class="map-chip" href="https://maps.apple.com/?q=Upper+Falls+Yellowstone">💦 Upper Falls</a>
-          <a class="map-chip" href="https://maps.apple.com/?q=Artist+Point+Yellowstone">💦 Artist Point</a>
-          <a class="map-chip" href="https://maps.apple.com/?q=Lookout+Point+Grand+Canyon+Yellowstone">👁️ Lookout Point</a>
-          <a class="map-chip" href="https://maps.apple.com/?q=Uncle+Toms+Trail+Yellowstone">🪜 Uncle Tom's Trail</a>
-          <a class="map-chip" href="https://maps.apple.com/?q=Roosevelt+Lodge+Yellowstone">🐴 Roosevelt Lodge &amp; Corral</a>
-          <a class="map-chip" href="https://maps.apple.com/?q=Tower+Fall+Yellowstone">🌊 Tower Fall</a>
-          <a class="map-chip" href="https://maps.apple.com/?q=Hayden+Valley+Yellowstone">🦬 Hayden Valley</a>
-        </div>
+        <details class="day-logistics">
+          <summary>📋 Horseback booking &amp; map links</summary>
+          <div class="dd-logwrap">
+            <div class="drawer-bookings">
+              <div class="row"><span class="label">🐴 Horseback</span><strong>Roosevelt Corral 1-Hour Horseback Ride</strong></div>
+              <div class="row"><span class="label">Date/Time</span>Wed Jul 15 · 1:00 pm · <strong>arrive by 12:45!</strong></div>
+              <div class="row"><span class="label">Location</span><a href="https://maps.apple.com/?q=Roosevelt+Lodge+Yellowstone">Roosevelt Lodge &amp; Corral</a> · ~45 min north of Canyon</div>
+              <div class="row"><span class="label">People</span>5 guests · $499.93</div>
+              <div class="row"><span class="label">Conf #</span>Xanterra #20594938</div>
+              <div class="row"><span class="label">Tip</span>Closed-toe shoes required · secure loose items · camera OK in a pouch · grab lunch first at the lodge</div>
+            </div>
+            <div class="drawer-locations">
+              <span class="label">📍 Tap to open in Maps</span>
+              <a class="map-chip" href="https://maps.apple.com/?q=Upper+Falls+Yellowstone">💦 Upper Falls</a>
+              <a class="map-chip" href="https://maps.apple.com/?q=Artist+Point+Yellowstone">💦 Artist Point</a>
+              <a class="map-chip" href="https://maps.apple.com/?q=Lookout+Point+Grand+Canyon+Yellowstone">👁️ Lookout Point</a>
+              <a class="map-chip" href="https://maps.apple.com/?q=Uncle+Toms+Trail+Yellowstone">🪜 Uncle Tom's Trail</a>
+              <a class="map-chip" href="https://maps.apple.com/?q=Roosevelt+Lodge+Yellowstone">🐴 Roosevelt Lodge &amp; Corral</a>
+              <a class="map-chip" href="https://maps.apple.com/?q=Tower+Fall+Yellowstone">🌊 Tower Fall</a>
+              <a class="map-chip" href="https://maps.apple.com/?q=Hayden+Valley+Yellowstone">🦬 Hayden Valley</a>
+            </div>
+          </div>
+        </details>
       </div>
     </div>
 
     <div class="day-drawer" id="day-7">
       <div class="day-summary"><span class="drawer-num">DAY 7</span><div class="drawer-info"><span class="drawer-date">Thu · Jul 16</span><span class="drawer-title">🔥 Circle of Fire Tour · Full Day 9:30AM–6:30PM</span><span class="drawer-hotel">⛺ Bridge Bay · night 3 of 3</span></div><div class="drawer-meta"><span class="day-miles-chip zero">🚗 0</span><span class="day-miles-chip local">📍 50</span></div></div>
       <div class="drawer-content">
-        <ul class="day-highlights">
-          <li><span class="ei">☕</span>Camp breakfast · drive 22 mi west to Grant Village · arrive early for pickup</li>
-          <li><span class="ei">🔥</span><strong>Circle of Fire Tour ✅ BOOKED · 9:30AM–6:30PM</strong> — full-day guided coach tour of Yellowstone's thermal highlights · Grant Village departure</li>
-          <li><span class="ei">♨️</span><strong>Old Faithful on tour</strong> — eruption + Geyser Hill boardwalk · Old Faithful Inn lobby (1904, largest log structure in the world)</li>
-          <li><span class="ei">🌡️</span>Tour visits Norris, Fountain Paint Pots, and other thermal areas (guide-led all day)</li>
-          <li><span class="ei">🚿</span><strong>Shower stop at Fishing Bridge</strong> on the drive back to camp · bring quarters</li>
-          <li><span class="ei">🌭</span>Final campfire dinner at Bridge Bay · last night under the stars</li>
+        <ul class="day-timeline">
+          <li><span class="tl-time">Early</span><span class="tl-rail"><span class="tl-dot">☕</span></span><div class="tl-card">Camp breakfast · drive 22 mi west to Grant Village · arrive early for pickup</div></li>
+          <li class="anchor"><span class="tl-time">9:30a</span><span class="tl-rail"><span class="tl-dot">🔥</span></span><div class="tl-card anchor"><strong>Circle of Fire Tour ✅ BOOKED</strong> <span class="tl-tag">All Day</span><br>Full-day guided coach tour of Yellowstone's thermal highlights · Grant Village departure · runs 9:30AM–6:30PM</div></li>
+          <li><span class="tl-time">On tour</span><span class="tl-rail"><span class="tl-dot">♨️</span></span><div class="tl-card"><strong>Old Faithful</strong> — eruption + Geyser Hill boardwalk · Old Faithful Inn lobby (1904, largest log structure in the world)</div></li>
+          <li><span class="tl-time">On tour</span><span class="tl-rail"><span class="tl-dot">🌡️</span></span><div class="tl-card">Norris, Fountain Paint Pots, and other thermal areas (guide-led all day)</div></li>
+          <li><span class="tl-time">6:30p</span><span class="tl-rail"><span class="tl-dot">🚿</span></span><div class="tl-card"><strong>Tour ends</strong> · shower stop at Fishing Bridge on the drive back · bring quarters</div></li>
+          <li><span class="tl-time">Night</span><span class="tl-rail"><span class="tl-dot">🌭</span></span><div class="tl-card">Final campfire dinner at Bridge Bay · last night under the stars</div></li>
         </ul>
-        <div class="drawer-bookings">
-          <div class="row"><span class="label">🔥 Tour</span><strong>Circle of Fire Tour</strong></div>
-          <div class="row"><span class="label">Date</span>Thu Jul 16 · <strong>9:30AM – 6:30PM</strong></div>
-          <div class="row"><span class="label">Pickup</span><a href="https://maps.apple.com/?q=Grant+Village+Visitor+Center+Yellowstone">Grant Village</a> · 22 mi from Bridge Bay (~25 min drive)</div>
-          <div class="row"><span class="label">People</span>4 adults + Neelan · $587.16</div>
-          <div class="row"><span class="label">Conf #</span>Xanterra #20594938</div>
-          <div class="row"><span class="label">Tip</span>Full day — bring layers, snacks, water, camera · Old Faithful + thermal basins all included</div>
-        </div>
-        <div class="drawer-locations">
-          <span class="label">📍 Tap to open in Maps</span>
-          <a class="map-chip" href="https://maps.apple.com/?q=Grant+Village+Visitor+Center+Yellowstone">🔥 Grant Village</a>
-          <a class="map-chip" href="https://maps.apple.com/?q=Old+Faithful+Visitor+Education+Center+Yellowstone">♨️ Old Faithful</a>
-          <a class="map-chip" href="https://maps.apple.com/?q=Old+Faithful+Inn+Yellowstone">🏨 Old Faithful Inn</a>
-          <a class="map-chip" href="https://maps.apple.com/?q=Fishing+Bridge+General+Store+Yellowstone">🚿 Fishing Bridge</a>
-          <a class="map-chip" href="https://maps.apple.com/?q=Fishing+Bridge+General+Store+Yellowstone">🚿 Fishing Bridge Store</a>
-          <a class="map-chip web" href="https://www.geysertimes.org/geyser/Old%20Faithful">🌐 Old Faithful eruption times</a>
-        </div>
+        <details class="day-logistics">
+          <summary>📋 Tour booking &amp; map links</summary>
+          <div class="dd-logwrap">
+            <div class="drawer-bookings">
+              <div class="row"><span class="label">🔥 Tour</span><strong>Circle of Fire Tour</strong></div>
+              <div class="row"><span class="label">Date</span>Thu Jul 16 · <strong>9:30AM – 6:30PM</strong></div>
+              <div class="row"><span class="label">Pickup</span><a href="https://maps.apple.com/?q=Grant+Village+Visitor+Center+Yellowstone">Grant Village</a> · 22 mi from Bridge Bay (~25 min drive)</div>
+              <div class="row"><span class="label">People</span>4 adults + Neelan · $587.16</div>
+              <div class="row"><span class="label">Conf #</span>Xanterra #20594938</div>
+              <div class="row"><span class="label">Tip</span>Full day — bring layers, snacks, water, camera · Old Faithful + thermal basins all included</div>
+            </div>
+            <div class="drawer-locations">
+              <span class="label">📍 Tap to open in Maps</span>
+              <a class="map-chip" href="https://maps.apple.com/?q=Grant+Village+Visitor+Center+Yellowstone">🔥 Grant Village</a>
+              <a class="map-chip" href="https://maps.apple.com/?q=Old+Faithful+Visitor+Education+Center+Yellowstone">♨️ Old Faithful</a>
+              <a class="map-chip" href="https://maps.apple.com/?q=Old+Faithful+Inn+Yellowstone">🏨 Old Faithful Inn</a>
+              <a class="map-chip" href="https://maps.apple.com/?q=Fishing+Bridge+General+Store+Yellowstone">🚿 Fishing Bridge</a>
+              <a class="map-chip web" href="https://www.geysertimes.org/geyser/Old%20Faithful">🌐 Old Faithful eruption times</a>
+            </div>
+          </div>
+        </details>
       </div>
     </div>
 
     <div class="day-drawer" id="day-8">
       <div class="day-summary"><span class="drawer-num">DAY 8</span><div class="drawer-info"><span class="drawer-date">Fri · Jul 17</span><span class="drawer-title">🚗 Break Camp → Cody → Casper</span><span class="drawer-hotel">🛏️ Residence Inn Casper · 2-BR Suite</span></div><div class="drawer-meta"><span class="day-miles-chip">🚗 296</span><span class="day-miles-chip local">📍 5</span></div></div>
       <div class="drawer-content">
-        <ul class="day-highlights">
-          <li><span class="ei">⛺</span>Break camp early · pack the SUV + roof box</li>
-          <li><span class="ei">🏔️</span>Exit via East Entrance + Sylvan Pass (8,530 ft)</li>
-          <li><span class="ei">🏞️</span>North Fork Shoshone Canyon — "50 most beautiful miles" (T. Roosevelt)</li>
-          <li><span class="ei">🍽️</span>Lunch in Cody · optional 90-min Buffalo Bill Center of the West</li>
-          <li><span class="ei">🚗</span>Continue Thermopolis + Wind River Canyon → Casper</li>
-          <li><span class="ei">🚿</span><strong>Real shower + real bed after 3 nights of camping!</strong></li>
+        <ul class="day-timeline">
+          <li><span class="tl-time">Early</span><span class="tl-rail"><span class="tl-dot">⛺</span></span><div class="tl-card">Break camp · pack the SUV + roof box</div></li>
+          <li class="anchor"><span class="tl-time">Morning</span><span class="tl-rail"><span class="tl-dot">🏔️</span></span><div class="tl-card anchor"><strong>Exit via East Entrance + Sylvan Pass (8,530 ft)</strong><br>North Fork Shoshone Canyon — the "50 most beautiful miles" (T. Roosevelt)</div></li>
+          <li><span class="tl-time">Lunch</span><span class="tl-rail"><span class="tl-dot">🍽️</span></span><div class="tl-card">Lunch in Cody · optional 90-min Buffalo Bill Center of the West</div></li>
+          <li><span class="tl-time">Afternoon</span><span class="tl-rail"><span class="tl-dot">🚗</span></span><div class="tl-card">Continue Thermopolis + Wind River Canyon → Casper</div></li>
+          <li class="anchor"><span class="tl-time">Evening</span><span class="tl-rail"><span class="tl-dot">🚿</span></span><div class="tl-card anchor"><strong>Real shower + real bed after 3 nights of camping!</strong></div></li>
         </ul>
-        <div class="drawer-bookings">
-          <div class="row"><span class="label">Hotel</span><strong><a href="https://maps.apple.com/?q=Residence+Inn+by+Marriott+Casper+WY">Residence Inn by Marriott Casper</a></strong></div>
-          <div class="row"><span class="label">Room</span>2-Bedroom Suite (King + Queen + Sofa Bed = sleeps 6)</div>
-          <div class="row"><span class="label">Phone</span><a href="tel:307-232-0202">307-232-0202</a></div>
-          <div class="row"><span class="label">Conf #</span>81310623 · $394.37</div>
-        </div>
-        <div class="drawer-locations">
-          <span class="label">📍 Tap to open in Maps</span>
-          <a class="map-chip" href="https://maps.apple.com/?q=Yellowstone+East+Entrance+Sylvan+Pass">🏔️ East Entrance / Sylvan Pass</a>
-          <a class="map-chip" href="https://maps.apple.com/?q=Buffalo+Bill+Center+of+the+West+Cody+WY">🏛️ Buffalo Bill Center</a>
-          <a class="map-chip" href="https://maps.apple.com/?q=Sheridan+Avenue+Cody+WY">🏘️ Cody Downtown</a>
-          <a class="map-chip" href="https://maps.apple.com/?q=Hot+Springs+State+Park+Thermopolis+WY">♨️ Hot Springs Thermopolis</a>
-          <a class="map-chip" href="https://maps.apple.com/?q=Residence+Inn+Casper+WY">🛏️ Residence Inn Casper</a>
-        </div>
+        <details class="day-logistics">
+          <summary>📋 Hotel, contacts &amp; map links</summary>
+          <div class="dd-logwrap">
+            <div class="drawer-bookings">
+              <div class="row"><span class="label">Hotel</span><strong><a href="https://maps.apple.com/?q=Residence+Inn+by+Marriott+Casper+WY">Residence Inn by Marriott Casper</a></strong></div>
+              <div class="row"><span class="label">Room</span>2-Bedroom Suite (King + Queen + Sofa Bed = sleeps 6)</div>
+              <div class="row"><span class="label">Phone</span><a href="tel:307-232-0202">307-232-0202</a></div>
+              <div class="row"><span class="label">Conf #</span>81310623 · $394.37</div>
+            </div>
+            <div class="drawer-locations">
+              <span class="label">📍 Tap to open in Maps</span>
+              <a class="map-chip" href="https://maps.apple.com/?q=Yellowstone+East+Entrance+Sylvan+Pass">🏔️ East Entrance / Sylvan Pass</a>
+              <a class="map-chip" href="https://maps.apple.com/?q=Buffalo+Bill+Center+of+the+West+Cody+WY">🏛️ Buffalo Bill Center</a>
+              <a class="map-chip" href="https://maps.apple.com/?q=Sheridan+Avenue+Cody+WY">🏘️ Cody Downtown</a>
+              <a class="map-chip" href="https://maps.apple.com/?q=Hot+Springs+State+Park+Thermopolis+WY">♨️ Hot Springs Thermopolis</a>
+              <a class="map-chip" href="https://maps.apple.com/?q=Residence+Inn+Casper+WY">🛏️ Residence Inn Casper</a>
+            </div>
+          </div>
+        </details>
       </div>
     </div>
 
     <div class="day-drawer" id="day-9">
       <div class="day-summary"><span class="drawer-num">DAY 9</span><div class="drawer-info"><span class="drawer-date">Sat · Jul 18</span><span class="drawer-title">🏁 Casper → Denver · Split Crew Heads Home</span><span class="drawer-hotel">🏠 Home tonight (or en route)</span></div><div class="drawer-meta"><span class="day-miles-chip">🚗 280+</span></div></div>
       <div class="drawer-content">
-        <ul class="day-highlights">
-          <li><span class="ei">☕</span>Unhurried Casper morning</li>
-          <li><span class="ei">🚗</span>Casper → Denver via I-25 S through Cheyenne · ~4.5 hrs</li>
-          <li><span class="ei">🚙</span><strong>Return Suburban to Turo by 10am MDT</strong> · check fuel + condition</li>
-          <li><span class="ei">✈️</span><strong>Krystal · Nico · Neelan</strong> — <strong>UA 1585</strong> DEN dep <strong>5:18pm</strong> → IAH arr <strong>8:55pm</strong> (PNRs KYQDFG · K0T774)</li>
-          <li><span class="ei">🚗</span><strong>Seth + Noah</strong> — drive home with 🎓 <strong>Texas Tech (Lubbock) campus stop</strong> en route (separate planning)</li>
+        <ul class="day-timeline">
+          <li><span class="tl-time">Morning</span><span class="tl-rail"><span class="tl-dot">☕</span></span><div class="tl-card">Unhurried Casper morning · Casper → Denver via I-25 S through Cheyenne · ~4.5 hrs</div></li>
+          <li class="anchor"><span class="tl-time">By 10a</span><span class="tl-rail"><span class="tl-dot">🚙</span></span><div class="tl-card anchor"><strong>Return Suburban to Turo by 10am MDT</strong> · check fuel + condition</div></li>
+          <li class="anchor"><span class="tl-time">5:18p</span><span class="tl-rail"><span class="tl-dot">✈️</span></span><div class="tl-card anchor"><strong>Krystal · Nico · Neelan fly home</strong> <span class="tl-tag">Flight</span><br>UA 1585 · DEN dep 5:18pm → IAH arr 8:55pm · PNRs KYQDFG · K0T774</div></li>
+          <li><span class="tl-time">Then</span><span class="tl-rail"><span class="tl-dot">🚗</span></span><div class="tl-card"><strong>Seth + Noah</strong> drive home with a 🎓 <strong>Texas Tech (Lubbock) campus stop</strong> en route (separate planning)</div></li>
         </ul>
-        <div class="drawer-locations">
-          <span class="label">📍 Tap to open in Maps</span>
-          <a class="map-chip" href="https://maps.apple.com/?q=25200+E+68th+Ave+Aurora+CO+80019">🚙 Turo Return (Aurora)</a>
-          <a class="map-chip" href="https://maps.apple.com/?q=Denver+International+Airport">✈️ Denver International (DEN)</a>
-          <a class="map-chip" href="https://maps.apple.com/?q=Texas+Tech+University+Lubbock+TX">🎓 Texas Tech Lubbock</a>
-        </div>
+        <details class="day-logistics">
+          <summary>📋 Map links</summary>
+          <div class="dd-logwrap">
+            <div class="drawer-locations">
+              <span class="label">📍 Tap to open in Maps</span>
+              <a class="map-chip" href="https://maps.apple.com/?q=25200+E+68th+Ave+Aurora+CO+80019">🚙 Turo Return (Aurora)</a>
+              <a class="map-chip" href="https://maps.apple.com/?q=Denver+International+Airport">✈️ Denver International (DEN)</a>
+              <a class="map-chip" href="https://maps.apple.com/?q=Texas+Tech+University+Lubbock+TX">🎓 Texas Tech Lubbock</a>
+            </div>
+          </div>
+        </details>
       </div>
     </div>
 
