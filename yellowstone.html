@@ -133,6 +133,8 @@ body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe 
 .dd-meals .dm-where { flex: 1; font-size: 13.5px; line-height: 1.5; color: var(--text); }
 .dd-meals .dm-where .hotel { color: #2d7a2d; font-weight: 700; }
 .dd-meals .dm-where .pick { font-weight: 600; }
+.dd-meals .dm-where a.pick { color: #8a6a1f; text-decoration: underline; text-decoration-color: #d9b870; text-underline-offset: 2px; }
+.dd-meals .dm-where a.pick:hover { color: #5f480f; text-decoration-color: #8a6a1f; }
 .day-chip-all { border-color: var(--accent); background: var(--accent-light); }
 .day-chip-all .dc-num, .day-chip-all .dc-date { color: var(--accent-dark); }
 .day-chip-all.active { background: var(--accent); border-color: var(--accent); }
@@ -711,7 +713,7 @@ details.budget-collapse[open] > summary::after { transform: rotate(180deg); }
           <span class="dm-label">🍽️ Where we're eating</span>
           <div class="dm-row"><span class="dm-when">Breakfast</span><span class="dm-where">At home before we roll · or a quick stop heading out of Houston</span></div>
           <div class="dm-row"><span class="dm-when">Lunch</span><span class="dm-where">On the road — grab-and-go somewhere along US-87 / I-27</span></div>
-          <div class="dm-row"><span class="dm-when">Dinner</span><span class="dm-where">Amarillo — <span class="pick">Feldman's Wrong Way Diner</span> (railroad theme, big kid hit) · <span class="pick">Tyler's Barbeque</span> · <span class="pick">The Big Texan</span> (novelty steak ranch)</span></div>
+          <div class="dm-row"><span class="dm-when">Dinner</span><span class="dm-where">Amarillo — <a class="pick" href="https://maps.apple.com/?q=Feldmans+Wrong+Way+Diner+Amarillo+TX">Feldman's Wrong Way Diner</a> (railroad theme, big kid hit) · <a class="pick" href="https://maps.apple.com/?q=Tylers+Barbeque+Amarillo+TX">Tyler's Barbeque</a> · <a class="pick" href="https://maps.apple.com/?q=Big+Texan+Steak+Ranch+Amarillo+TX">The Big Texan</a> (novelty steak ranch)</span></div>
         </div>
         <details class="day-logistics">
           <summary>📋 Map links</summary>
@@ -742,7 +744,7 @@ details.budget-collapse[open] > summary::after { transform: rotate(180deg); }
           <span class="dm-label">🍽️ Where we're eating</span>
           <div class="dm-row"><span class="dm-when">Breakfast</span><span class="dm-where">On the road (Seth + Nico) · airport grab (Krystal, Neelan, Noah)</span></div>
           <div class="dm-row"><span class="dm-when">Lunch</span><span class="dm-where">On the road / quick bite near arrival</span></div>
-          <div class="dm-row"><span class="dm-when">Dinner</span><span class="dm-where">Golden — <span class="pick">Woody's Wood-Fired Pizza</span> · <span class="pick">Bob's Atomic Burgers</span> · <span class="pick">Old Capitol Grill</span> on Washington Ave</span></div>
+          <div class="dm-row"><span class="dm-when">Dinner</span><span class="dm-where">Golden — <a class="pick" href="https://maps.apple.com/?q=Woodys+Wood+Fired+Pizza+Golden+CO">Woody's Wood-Fired Pizza</a> · <a class="pick" href="https://maps.apple.com/?q=Bobs+Atomic+Burgers+Golden+CO">Bob's Atomic Burgers</a> · <a class="pick" href="https://maps.apple.com/?q=Old+Capitol+Grill+Golden+CO">Old Capitol Grill</a> on Washington Ave</span></div>
         </div>
         <details class="day-logistics">
           <summary>📋 Hotel, contacts &amp; map links</summary>
@@ -779,8 +781,8 @@ details.budget-collapse[open] > summary::after { transform: rotate(180deg); }
         <div class="day-meals">
           <span class="dm-label">🍽️ Where we're eating</span>
           <div class="dm-row"><span class="dm-when">Breakfast</span><span class="dm-where"><span class="hotel">Free hot breakfast at Residence Inn Golden</span></span></div>
-          <div class="dm-row"><span class="dm-when">Lunch</span><span class="dm-where">Pearl Street Mall, Boulder — <span class="pick">Illegal Pete's</span> (burritos) · <span class="pick">Snarf's</span> (sandwiches) · <span class="pick">The Sink</span> (burgers, a CU institution)</span></div>
-          <div class="dm-row"><span class="dm-when">Dinner</span><span class="dm-where">Rawlins — <span class="pick">Aspen House</span> · <span class="pick">Anong's Thai Cuisine</span> · <span class="pick">Buck's Sports Grill</span></span></div>
+          <div class="dm-row"><span class="dm-when">Lunch</span><span class="dm-where">Pearl Street Mall, Boulder — <a class="pick" href="https://maps.apple.com/?q=Illegal+Petes+Pearl+Street+Boulder+CO">Illegal Pete's</a> (burritos) · <a class="pick" href="https://maps.apple.com/?q=Snarfs+Boulder+CO">Snarf's</a> (sandwiches) · <a class="pick" href="https://maps.apple.com/?q=The+Sink+Boulder+CO">The Sink</a> (burgers, a CU institution)</span></div>
+          <div class="dm-row"><span class="dm-when">Dinner</span><span class="dm-where">Rawlins — <a class="pick" href="https://maps.apple.com/?q=Aspen+House+Rawlins+WY">Aspen House</a> · <a class="pick" href="https://maps.apple.com/?q=Anongs+Thai+Cuisine+Rawlins+WY">Anong's Thai Cuisine</a> · <a class="pick" href="https://maps.apple.com/?q=Bucks+Sports+Grill+Rawlins+WY">Buck's Sports Grill</a></span></div>
         </div>
         <details class="day-logistics">
           <summary>📋 Hotel &amp; map links</summary>
@@ -814,8 +816,8 @@ details.budget-collapse[open] > summary::after { transform: rotate(180deg); }
         <div class="day-meals">
           <span class="dm-label">🍽️ Where we're eating</span>
           <div class="dm-row"><span class="dm-when">Breakfast</span><span class="dm-where"><span class="hotel">Free breakfast at Fairfield Rawlins</span></span></div>
-          <div class="dm-row"><span class="dm-when">Lunch</span><span class="dm-where">On the road — Lander: <span class="pick">Gannett Grill</span> / <span class="pick">Cowfish</span> · or Dubois: <span class="pick">Noon Rock Pizza</span> / <span class="pick">Cowboy Café</span></span></div>
-          <div class="dm-row"><span class="dm-when">Dinner</span><span class="dm-where">Jackson — <span class="pick">Pinky G's Pizzeria</span> · <span class="pick">The Bunnery</span> · <span class="pick">MacPhail's Burgers</span> · <em>(special night: Snake River Grill)</em></span></div>
+          <div class="dm-row"><span class="dm-when">Lunch</span><span class="dm-where">On the road — Lander: <a class="pick" href="https://maps.apple.com/?q=Gannett+Grill+Lander+WY">Gannett Grill</a> / <a class="pick" href="https://maps.apple.com/?q=Cowfish+Lander+WY">Cowfish</a> · or Dubois: <a class="pick" href="https://maps.apple.com/?q=Noon+Rock+Pizza+Dubois+WY">Noon Rock Pizza</a> / <a class="pick" href="https://maps.apple.com/?q=Cowboy+Cafe+Dubois+WY">Cowboy Café</a></span></div>
+          <div class="dm-row"><span class="dm-when">Dinner</span><span class="dm-where">Jackson — <a class="pick" href="https://maps.apple.com/?q=Pinky+G+Pizzeria+Jackson+WY">Pinky G's Pizzeria</a> · <a class="pick" href="https://maps.apple.com/?q=The+Bunnery+Jackson+WY">The Bunnery</a> · <a class="pick" href="https://maps.apple.com/?q=MacPhails+Burgers+Jackson+WY">MacPhail's Burgers</a> · <em>(special night: <a class="pick" href="https://maps.apple.com/?q=Snake+River+Grill+Jackson+WY">Snake River Grill</a>)</em></span></div>
         </div>
         <details class="day-logistics">
           <summary>📋 Hotel, contacts &amp; map links</summary>
@@ -852,9 +854,9 @@ details.budget-collapse[open] > summary::after { transform: rotate(180deg); }
         </ul>
         <div class="day-meals">
           <span class="dm-label">🍽️ Where we're eating</span>
-          <div class="dm-row"><span class="dm-when">Breakfast</span><span class="dm-where">After sunrise, back in Jackson — <span class="pick">Persephone Bakery</span> · or <span class="pick">The Bunnery</span></span></div>
-          <div class="dm-row"><span class="dm-when">Lunch</span><span class="dm-where">Picnic at Jenny Lake / String Lake · or <span class="pick">Dornan's Pizza &amp; Pasta</span> at Moose</span></div>
-          <div class="dm-row"><span class="dm-when">Dinner</span><span class="dm-where">Jackson — <span class="pick">Hand Fire Pizza</span> · <span class="pick">Liberty Burger</span> · <span class="pick">Merry Piglets</span> (Tex-Mex)</span></div>
+          <div class="dm-row"><span class="dm-when">Breakfast</span><span class="dm-where">After sunrise, back in Jackson — <a class="pick" href="https://maps.apple.com/?q=Persephone+Bakery+Jackson+WY">Persephone Bakery</a> · or <a class="pick" href="https://maps.apple.com/?q=The+Bunnery+Jackson+WY">The Bunnery</a></span></div>
+          <div class="dm-row"><span class="dm-when">Lunch</span><span class="dm-where">Picnic at Jenny Lake / String Lake · or <a class="pick" href="https://maps.apple.com/?q=Dornans+Pizza+Pasta+Moose+WY">Dornan's Pizza &amp; Pasta</a> at Moose</span></div>
+          <div class="dm-row"><span class="dm-when">Dinner</span><span class="dm-where">Jackson — <a class="pick" href="https://maps.apple.com/?q=Hand+Fire+Pizza+Jackson+WY">Hand Fire Pizza</a> · <a class="pick" href="https://maps.apple.com/?q=Liberty+Burger+Jackson+WY">Liberty Burger</a> · <a class="pick" href="https://maps.apple.com/?q=Merry+Piglets+Jackson+WY">Merry Piglets</a> (Tex-Mex)</span></div>
         </div>
         <details class="day-logistics">
           <summary>📋 Hotel, contacts &amp; map links</summary>
@@ -893,8 +895,8 @@ details.budget-collapse[open] > summary::after { transform: rotate(180deg); }
         <div class="day-meals">
           <span class="dm-label">🍽️ Where we're eating</span>
           <div class="dm-row"><span class="dm-when">Breakfast</span><span class="dm-where"><span class="hotel">Free breakfast at the 49er, Jackson</span></span></div>
-          <div class="dm-row"><span class="dm-when">Lunch</span><span class="dm-where">On the road — pack sandwiches, or grab at <span class="pick">Grant Village</span> before West Thumb</span></div>
-          <div class="dm-row"><span class="dm-when">Dinner</span><span class="dm-where">Lake area — <span class="pick">Wylie's Canteen at Lake Lodge</span> (casual burgers &amp; bison dogs, ~2 mi from camp) before the 7pm cruise · or easy no-cook camp dinner (sandwiches, wraps)</span></div>
+          <div class="dm-row"><span class="dm-when">Lunch</span><span class="dm-where">On the road — pack sandwiches, or grab at <a class="pick" href="https://maps.apple.com/?q=Grant+Village+Yellowstone">Grant Village</a> before West Thumb</span></div>
+          <div class="dm-row"><span class="dm-when">Dinner</span><span class="dm-where">Lake area — <a class="pick" href="https://maps.apple.com/?q=Lake+Lodge+Cafeteria+Yellowstone">Wylie's Canteen at Lake Lodge</a> (casual burgers &amp; bison dogs, ~2 mi from camp) before the 7pm cruise · or easy no-cook camp dinner (sandwiches, wraps)</span></div>
         </div>
         <details class="day-logistics">
           <summary>📋 Camp, cruise, contacts &amp; map links</summary>
@@ -945,8 +947,8 @@ details.budget-collapse[open] > summary::after { transform: rotate(180deg); }
         <div class="day-meals">
           <span class="dm-label">🍽️ Where we're eating</span>
           <div class="dm-row"><span class="dm-when">Breakfast</span><span class="dm-where">At camp — no-cook (cereal, pastries, fruit, yogurt)</span></div>
-          <div class="dm-row"><span class="dm-when">Lunch</span><span class="dm-where"><span class="pick">Roosevelt Lodge Dining Room</span> — hearty American + the famous Rosie's beans (built into the day, before the 1pm ride)</span></div>
-          <div class="dm-row"><span class="dm-when">Dinner</span><span class="dm-where"><span class="pick">Wylie's Canteen at Lake Lodge</span> on the way back · or easy no-cook camp dinner</span></div>
+          <div class="dm-row"><span class="dm-when">Lunch</span><span class="dm-where"><a class="pick" href="https://maps.apple.com/?q=Roosevelt+Lodge+Yellowstone">Roosevelt Lodge Dining Room</a> — hearty American + the famous Rosie's beans (built into the day, before the 1pm ride)</span></div>
+          <div class="dm-row"><span class="dm-when">Dinner</span><span class="dm-where"><a class="pick" href="https://maps.apple.com/?q=Lake+Lodge+Cafeteria+Yellowstone">Wylie's Canteen at Lake Lodge</a> on the way back · or easy no-cook camp dinner</span></div>
         </div>
         <details class="day-logistics">
           <summary>📋 Horseback booking &amp; map links</summary>
@@ -988,8 +990,8 @@ details.budget-collapse[open] > summary::after { transform: rotate(180deg); }
         <div class="day-meals">
           <span class="dm-label">🍽️ Where we're eating</span>
           <div class="dm-row"><span class="dm-when">Breakfast</span><span class="dm-where">At camp — no-cook</span></div>
-          <div class="dm-row"><span class="dm-when">Lunch</span><span class="dm-where">On the Circle of Fire tour — at the Old Faithful area (<span class="pick">Old Faithful Inn</span> / Geyser Grill)</span></div>
-          <div class="dm-row"><span class="dm-when">Dinner</span><span class="dm-where">After the tour (~6:30p) — <span class="pick">Wylie's Canteen at Lake Lodge</span> · or easy no-cook camp dinner</span></div>
+          <div class="dm-row"><span class="dm-when">Lunch</span><span class="dm-where">On the Circle of Fire tour — at the Old Faithful area (<a class="pick" href="https://maps.apple.com/?q=Old+Faithful+Inn+Yellowstone">Old Faithful Inn</a> / Geyser Grill)</span></div>
+          <div class="dm-row"><span class="dm-when">Dinner</span><span class="dm-where">After the tour (~6:30p) — <a class="pick" href="https://maps.apple.com/?q=Lake+Lodge+Cafeteria+Yellowstone">Wylie's Canteen at Lake Lodge</a> · or easy no-cook camp dinner</span></div>
         </div>
         <details class="day-logistics">
           <summary>📋 Tour booking &amp; map links</summary>
@@ -1028,8 +1030,8 @@ details.budget-collapse[open] > summary::after { transform: rotate(180deg); }
         <div class="day-meals">
           <span class="dm-label">🍽️ Where we're eating</span>
           <div class="dm-row"><span class="dm-when">Breakfast</span><span class="dm-where">At camp — last no-cook camp breakfast</span></div>
-          <div class="dm-row"><span class="dm-when">Lunch</span><span class="dm-where">Cody — <span class="pick">The Breadboard</span> (subs since 1978) · <span class="pick">Michael's Tacos</span> · <span class="pick">Annie's Soda Saloon</span> (old-timey, kids' menu)</span></div>
-          <div class="dm-row"><span class="dm-when">Dinner</span><span class="dm-where">Casper — <span class="pick">Wyoming's Rib &amp; Chop House</span> (kids' menu) · <span class="pick">FireRock Steakhouse</span> · <span class="pick">Branding Iron</span></span></div>
+          <div class="dm-row"><span class="dm-when">Lunch</span><span class="dm-where">Cody — <a class="pick" href="https://maps.apple.com/?q=The+Breadboard+Cody+WY">The Breadboard</a> (subs since 1978) · <a class="pick" href="https://maps.apple.com/?q=Michaels+Tacos+Cody+WY">Michael's Tacos</a> · <a class="pick" href="https://maps.apple.com/?q=Annies+Soda+Saloon+Cody+WY">Annie's Soda Saloon</a> (old-timey, kids' menu)</span></div>
+          <div class="dm-row"><span class="dm-when">Dinner</span><span class="dm-where">Casper — <a class="pick" href="https://maps.apple.com/?q=Wyomings+Rib+and+Chop+House+Casper+WY">Wyoming's Rib &amp; Chop House</a> (kids' menu) · <a class="pick" href="https://maps.apple.com/?q=FireRock+Steakhouse+Casper+WY">FireRock Steakhouse</a> · <a class="pick" href="https://maps.apple.com/?q=Branding+Iron+Casper+WY">Branding Iron</a></span></div>
         </div>
         <details class="day-logistics">
           <summary>📋 Hotel, contacts &amp; map links</summary>
