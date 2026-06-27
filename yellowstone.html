@@ -143,6 +143,23 @@ body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe 
 .dd-meals .dm-where .pick { font-weight: 600; }
 .dd-meals .dm-where a.pick { color: #8a6a1f; text-decoration: underline; text-decoration-color: #d9b870; text-underline-offset: 2px; }
 .dd-meals .dm-where a.pick:hover { color: #5f480f; text-decoration-color: #8a6a1f; }
+/* ALL-route summary card */
+.route-stats { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+.route-stats .rs { flex: 1 1 calc(50% - 8px); min-width: 130px; background: var(--accent-light); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; }
+.route-stats .rs b { display: block; font-size: 19px; font-weight: 800; color: var(--accent-dark); line-height: 1.1; }
+.route-stats .rs span { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.4px; color: var(--text-muted); font-weight: 700; }
+.route-sub { font-size: 11px; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase; color: var(--text-muted); margin: 2px 0 8px; }
+.route-list { list-style: none; padding: 0; margin: 0 0 16px; }
+.route-list li { display: flex; gap: 10px; align-items: baseline; padding: 9px 11px; border: 1px solid var(--border); border-radius: 9px; margin-bottom: 6px; cursor: pointer; background: var(--bg-soft); transition: background 0.15s, border-color 0.15s; }
+.route-list li:hover { border-color: var(--accent); background: var(--accent-light); }
+.route-list li.camp { border-left: 3px solid #4a7c3a; }
+.route-list .rl-day { flex: 0 0 50px; font-size: 11px; font-weight: 800; color: var(--accent-dark); line-height: 1.2; }
+.route-list li.camp .rl-day { color: #2d5020; }
+.route-list .rl-day .rl-date { display: block; font-weight: 600; color: var(--text-muted); font-size: 10px; }
+.route-list .rl-txt { flex: 1; font-size: 13.5px; line-height: 1.4; }
+.route-list .rl-go { color: var(--accent); font-size: 15px; align-self: center; }
+.route-booked { background: #f0f8ed; border-left: 3px solid #4a7c3a; border-radius: 8px; padding: 11px 14px; font-size: 13px; line-height: 1.8; }
+.route-booked b { color: #2d5020; }
 .day-chip-all { border-color: var(--accent); background: var(--accent-light); }
 .day-chip-all .dc-num, .day-chip-all .dc-date { color: var(--accent-dark); }
 .day-chip-all.active { background: var(--accent); border-color: var(--accent); }
@@ -581,7 +598,49 @@ details.budget-collapse[open] > summary::after { transform: rotate(180deg); }
 
       map.flyToBounds(L.polyline(fullRoute).getBounds(), { padding:[28,28], duration:0.9 });
       document.getElementById('mapCaption').textContent = 'Full trip loop · tap a day chip to zoom in';
-      document.getElementById('dayDetail').style.display = 'none'; document.getElementById('dayDetail').innerHTML = '';
+
+      var routeDays = [
+        [0,'PRE','Jul 9','Houston → Amarillo · camp overnight',false],
+        [1,'DAY 1','Jul 10','Denver · Golden · Red Rocks sunset',false],
+        [2,'DAY 2','Jul 11','Boulder morning → Rawlins',false],
+        [3,'DAY 3','Jul 12','Rawlins → Jackson · Togwotee reveal',false],
+        [4,'DAY 4','Jul 13','Grand Tetons full day',false],
+        [5,'DAY 5','Jul 14','→ Bridge Bay camp · 7pm Scenicruiser',true],
+        [6,'DAY 6','Jul 15','Canyon falls · 1pm horseback · Tower Fall',true],
+        [7,'DAY 7','Jul 16','Circle of Fire Tour (all day)',true],
+        [8,'DAY 8','Jul 17','Break camp → Cody → Casper',false],
+        [9,'DAY 9','Jul 18','Casper → Denver · fly + drive home',false]
+      ];
+      var rows = routeDays.map(function(r) {
+        return '<li class="'+(r[4]?'camp':'')+'" onclick="selectDay('+r[0]+')">'
+          + '<span class="rl-day">'+r[1]+'<span class="rl-date">'+r[2]+'</span></span>'
+          + '<span class="rl-txt">'+r[3]+'</span><span class="rl-go">›</span></li>';
+      }).join('');
+
+      document.getElementById('dayDetail').style.display = 'block';
+      document.getElementById('dayDetail').innerHTML =
+        '<div class="dd-header">'
+        + '<div class="dd-header-top"><span class="dd-num">FULL TRIP</span><span class="dd-date">Jul 9–18, 2026 · 10 days</span></div>'
+        + '<div class="dd-title">Houston → Denver → Tetons → Yellowstone → Home</div>'
+        + '<div class="dd-hotel">The whole loop at a glance — tap any day to zoom in</div>'
+        + '</div>'
+        + '<div class="dd-body">'
+        + '<div class="route-stats">'
+        +   '<div class="rs"><b>10</b><span>Days on the road</span></div>'
+        +   '<div class="rs"><b>~1,650 mi</b><span>Driving (round trip)</span></div>'
+        +   '<div class="rs"><b>3 nights</b><span>Camping · Bridge Bay</span></div>'
+        +   '<div class="rs"><b>4 booked</b><span>Xanterra activities</span></div>'
+        + '</div>'
+        + '<div class="route-sub">Day by day</div>'
+        + '<ol class="route-list">'+rows+'</ol>'
+        + '<div class="route-sub">Locked-in activities</div>'
+        + '<div class="route-booked">'
+        +   '🚢 <b>Jul 14</b> — Lake Yellowstone Scenicruiser, 7pm<br>'
+        +   '🐴 <b>Jul 15</b> — Roosevelt Corral horseback, 1pm<br>'
+        +   '🔥 <b>Jul 16</b> — Circle of Fire Tour, 9:30am–6:30pm<br>'
+        +   '⛺ <b>Jul 14–17</b> — Bridge Bay Campground (3 nights)'
+        + '</div>'
+        + '</div>';
     };
 
     window.selectDay = function(d) {
