@@ -124,6 +124,15 @@ body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe 
 .dd-logistics[open] > summary::after { transform: rotate(180deg); }
 .dd-logwrap { padding: 12px 14px; }
 .dd-logwrap > :last-child { margin-bottom: 0; }
+/* Meals strip */
+.dd-meals { background: #fff7e8; border: 1px solid #f0d9a8; border-radius: 10px; padding: 11px 14px; margin: 0 0 14px; }
+.dd-meals .dm-label { display: block; font-weight: 800; font-size: 11px; letter-spacing: 0.4px; text-transform: uppercase; color: #8a6a1f; margin-bottom: 8px; }
+.dd-meals .dm-row { display: flex; gap: 10px; align-items: baseline; padding: 5px 0; border-top: 1px solid #f0e2c4; }
+.dd-meals .dm-row:first-of-type { border-top: none; }
+.dd-meals .dm-when { flex: 0 0 72px; font-weight: 700; font-size: 12px; color: #8a6a1f; }
+.dd-meals .dm-where { flex: 1; font-size: 13.5px; line-height: 1.5; color: var(--text); }
+.dd-meals .dm-where .hotel { color: #2d7a2d; font-weight: 700; }
+.dd-meals .dm-where .pick { font-weight: 600; }
 .day-chip-all { border-color: var(--accent); background: var(--accent-light); }
 .day-chip-all .dc-num, .day-chip-all .dc-date { color: var(--accent-dark); }
 .day-chip-all.active { background: var(--accent); border-color: var(--accent); }
@@ -638,6 +647,7 @@ details.budget-collapse[open] > summary::after { transform: rotate(180deg); }
         + '<div class="dd-body">'
         + body.replace(/class="day-highlights"/g,'class="dd-highlights"')
               .replace(/class="day-timeline"/g,'class="dd-timeline"')
+              .replace(/class="day-meals"/g,'class="dd-meals"')
               .replace(/class="day-logistics"/g,'class="dd-logistics"')
               .replace(/class="drawer-bookings"/g,'class="dd-bookings"')
               .replace(/class="drawer-locations"/g,'class="dd-locations"')
@@ -697,6 +707,12 @@ details.budget-collapse[open] > summary::after { transform: rotate(180deg); }
           <li><span class="tl-time">Night</span><span class="tl-rail"><span class="tl-dot">🌌</span></span><div class="tl-card">Campfire + stars · early to bed</div></li>
           <li><span class="tl-time">7:00a<br>Fri</span><span class="tl-rail"><span class="tl-dot">⏰</span></span><div class="tl-card">On the road early for the ~6-hr push to Denver</div></li>
         </ul>
+        <div class="day-meals">
+          <span class="dm-label">🍽️ Where we're eating</span>
+          <div class="dm-row"><span class="dm-when">Breakfast</span><span class="dm-where">At home before we roll · or a quick stop heading out of Houston</span></div>
+          <div class="dm-row"><span class="dm-when">Lunch</span><span class="dm-where">On the road — grab-and-go somewhere along US-87 / I-27</span></div>
+          <div class="dm-row"><span class="dm-when">Dinner</span><span class="dm-where">Amarillo — <span class="pick">Feldman's Wrong Way Diner</span> (railroad theme, big kid hit) · <span class="pick">Tyler's Barbeque</span> · <span class="pick">The Big Texan</span> (novelty steak ranch)</span></div>
+        </div>
         <details class="day-logistics">
           <summary>📋 Map links</summary>
           <div class="dd-logwrap">
@@ -720,8 +736,14 @@ details.budget-collapse[open] > summary::after { transform: rotate(180deg); }
           <li><span class="tl-time">~2:30p</span><span class="tl-rail"><span class="tl-dot">🚙</span></span><div class="tl-card">Pick up Suburban from Turo (Sam) at Aurora · full crew meetup at the Golden hotel</div></li>
           <li><span class="tl-time">Afternoon</span><span class="tl-rail"><span class="tl-dot">⚒️</span></span><div class="tl-card"><strong>Colorado School of Mines</strong> — campus walk + free Geology Museum</div></li>
           <li class="anchor"><span class="tl-time">Sunset</span><span class="tl-rail"><span class="tl-dot">🎸</span></span><div class="tl-card anchor"><strong>Red Rocks Amphitheater</strong> — sunset visit · walk the venue · Trading Post Trail</div></li>
-          <li><span class="tl-time">Evening</span><span class="tl-rail"><span class="tl-dot">🍽️</span></span><div class="tl-card">Dinner: Washington Ave (Golden) or Belmar lifestyle center</div></li>
+          <li><span class="tl-time">Evening</span><span class="tl-rail"><span class="tl-dot">🍽️</span></span><div class="tl-card">Dinner in Golden after Red Rocks</div></li>
         </ul>
+        <div class="day-meals">
+          <span class="dm-label">🍽️ Where we're eating</span>
+          <div class="dm-row"><span class="dm-when">Breakfast</span><span class="dm-where">On the road (Seth + Nico) · airport grab (Krystal, Neelan, Noah)</span></div>
+          <div class="dm-row"><span class="dm-when">Lunch</span><span class="dm-where">On the road / quick bite near arrival</span></div>
+          <div class="dm-row"><span class="dm-when">Dinner</span><span class="dm-where">Golden — <span class="pick">Woody's Wood-Fired Pizza</span> · <span class="pick">Bob's Atomic Burgers</span> · <span class="pick">Old Capitol Grill</span> on Washington Ave</span></div>
+        </div>
         <details class="day-logistics">
           <summary>📋 Hotel, contacts &amp; map links</summary>
           <div class="dd-logwrap">
@@ -754,6 +776,12 @@ details.budget-collapse[open] > summary::after { transform: rotate(180deg); }
           <li><span class="tl-time">3:00p</span><span class="tl-rail"><span class="tl-dot">🚗</span></span><div class="tl-card">Depart Boulder · ~4 hrs · I-25 N → Cheyenne → I-80 W → Rawlins</div></li>
           <li><span class="tl-time">~7:00p</span><span class="tl-rail"><span class="tl-dot">🌅</span></span><div class="tl-card">Arrive Rawlins · dinner · early to bed</div></li>
         </ul>
+        <div class="day-meals">
+          <span class="dm-label">🍽️ Where we're eating</span>
+          <div class="dm-row"><span class="dm-when">Breakfast</span><span class="dm-where"><span class="hotel">Free hot breakfast at Residence Inn Golden</span></span></div>
+          <div class="dm-row"><span class="dm-when">Lunch</span><span class="dm-where">Pearl Street Mall, Boulder — <span class="pick">Illegal Pete's</span> (burritos) · <span class="pick">Snarf's</span> (sandwiches) · <span class="pick">The Sink</span> (burgers, a CU institution)</span></div>
+          <div class="dm-row"><span class="dm-when">Dinner</span><span class="dm-where">Rawlins — <span class="pick">Aspen House</span> · <span class="pick">Anong's Thai Cuisine</span> · <span class="pick">Buck's Sports Grill</span></span></div>
+        </div>
         <details class="day-logistics">
           <summary>📋 Hotel &amp; map links</summary>
           <div class="dd-logwrap">
@@ -783,6 +811,12 @@ details.budget-collapse[open] > summary::after { transform: rotate(180deg); }
           <li><span class="tl-time">Dinner</span><span class="tl-rail"><span class="tl-dot">🍽️</span></span><div class="tl-card">Snake River Grill, The Bunnery, or Pinky G's</div></li>
           <li><span class="tl-time">Night</span><span class="tl-rail"><span class="tl-dot">🛏️</span></span><div class="tl-card"><strong>Early to bed — 4:30am alarm tomorrow!</strong></div></li>
         </ul>
+        <div class="day-meals">
+          <span class="dm-label">🍽️ Where we're eating</span>
+          <div class="dm-row"><span class="dm-when">Breakfast</span><span class="dm-where"><span class="hotel">Free breakfast at Fairfield Rawlins</span></span></div>
+          <div class="dm-row"><span class="dm-when">Lunch</span><span class="dm-where">On the road — Lander: <span class="pick">Gannett Grill</span> / <span class="pick">Cowfish</span> · or Dubois: <span class="pick">Noon Rock Pizza</span> / <span class="pick">Cowboy Café</span></span></div>
+          <div class="dm-row"><span class="dm-when">Dinner</span><span class="dm-where">Jackson — <span class="pick">Pinky G's Pizzeria</span> · <span class="pick">The Bunnery</span> · <span class="pick">MacPhail's Burgers</span> · <em>(special night: Snake River Grill)</em></span></div>
+        </div>
         <details class="day-logistics">
           <summary>📋 Hotel, contacts &amp; map links</summary>
           <div class="dd-logwrap">
@@ -816,6 +850,12 @@ details.budget-collapse[open] > summary::after { transform: rotate(180deg); }
           <li><span class="tl-time">Afternoon</span><span class="tl-rail"><span class="tl-dot">🏊</span></span><div class="tl-card">String Lake swim</div></li>
           <li><span class="tl-time">Note</span><span class="tl-rail"><span class="tl-dot">🐻</span></span><div class="tl-card">Bear spray ✅ — two cans already purchased · packed for the trip</div></li>
         </ul>
+        <div class="day-meals">
+          <span class="dm-label">🍽️ Where we're eating</span>
+          <div class="dm-row"><span class="dm-when">Breakfast</span><span class="dm-where">After sunrise, back in Jackson — <span class="pick">Persephone Bakery</span> · or <span class="pick">The Bunnery</span></span></div>
+          <div class="dm-row"><span class="dm-when">Lunch</span><span class="dm-where">Picnic at Jenny Lake / String Lake · or <span class="pick">Dornan's Pizza &amp; Pasta</span> at Moose</span></div>
+          <div class="dm-row"><span class="dm-when">Dinner</span><span class="dm-where">Jackson — <span class="pick">Hand Fire Pizza</span> · <span class="pick">Liberty Burger</span> · <span class="pick">Merry Piglets</span> (Tex-Mex)</span></div>
+        </div>
         <details class="day-logistics">
           <summary>📋 Hotel, contacts &amp; map links</summary>
           <div class="dd-logwrap">
@@ -850,6 +890,12 @@ details.budget-collapse[open] > summary::after { transform: rotate(180deg); }
           <li class="anchor"><span class="tl-time">7:00p</span><span class="tl-rail"><span class="tl-dot">🚢</span></span><div class="tl-card anchor"><strong>Lake Yellowstone Scenicruiser ✅ BOOKED</strong> <span class="tl-tag">Booked</span><br>Walk to the marina from camp! Evening cruise · 4 adults + Neelan · ~2 hrs</div></li>
           <li><span class="tl-time">Night</span><span class="tl-rail"><span class="tl-dot">🌌</span></span><div class="tl-card">Golden hour on the lake · stars over Yellowstone back at camp</div></li>
         </ul>
+        <div class="day-meals">
+          <span class="dm-label">🍽️ Where we're eating</span>
+          <div class="dm-row"><span class="dm-when">Breakfast</span><span class="dm-where"><span class="hotel">Free breakfast at the 49er, Jackson</span></span></div>
+          <div class="dm-row"><span class="dm-when">Lunch</span><span class="dm-where">On the road — pack sandwiches, or grab at <span class="pick">Grant Village</span> before West Thumb</span></div>
+          <div class="dm-row"><span class="dm-when">Dinner</span><span class="dm-where">Lake area — <span class="pick">Wylie's Canteen at Lake Lodge</span> (casual burgers &amp; bison dogs, ~2 mi from camp) before the 7pm cruise · or easy no-cook camp dinner (sandwiches, wraps)</span></div>
+        </div>
         <details class="day-logistics">
           <summary>📋 Camp, cruise, contacts &amp; map links</summary>
           <div class="dd-logwrap">
@@ -894,8 +940,14 @@ details.budget-collapse[open] > summary::after { transform: rotate(180deg); }
           <li class="anchor"><span class="tl-time">1:00p</span><span class="tl-rail"><span class="tl-dot">🐴</span></span><div class="tl-card anchor"><strong>Roosevelt Corral Horseback ✅ BOOKED</strong> <span class="tl-tag">Booked</span><br>Arrive by 12:45 · 1-hr trail ride through sagebrush meadows · 5 guests · closed-toe shoes required</div></li>
           <li class="anchor"><span class="tl-time">~2:30p</span><span class="tl-rail"><span class="tl-dot">🌊</span></span><div class="tl-card anchor"><strong>Tower Fall</strong> — just 2 mi from Roosevelt · 132-ft drop · short hike to the overlook · don't skip it</div></li>
           <li><span class="tl-time">Evening</span><span class="tl-rail"><span class="tl-dot">🦬</span></span><div class="tl-card"><strong>Hayden Valley</strong> on the drive back south — evening light brings out the bison and sometimes grizzly</div></li>
-          <li><span class="tl-time">Night</span><span class="tl-rail"><span class="tl-dot">🌭</span></span><div class="tl-card">Campfire dinner · optional free ranger program at Bridge Bay amphitheater</div></li>
+          <li><span class="tl-time">Night</span><span class="tl-rail"><span class="tl-dot">🌭</span></span><div class="tl-card">Back at camp · easy no-cook dinner · optional free ranger program at Bridge Bay amphitheater</div></li>
         </ul>
+        <div class="day-meals">
+          <span class="dm-label">🍽️ Where we're eating</span>
+          <div class="dm-row"><span class="dm-when">Breakfast</span><span class="dm-where">At camp — no-cook (cereal, pastries, fruit, yogurt)</span></div>
+          <div class="dm-row"><span class="dm-when">Lunch</span><span class="dm-where"><span class="pick">Roosevelt Lodge Dining Room</span> — hearty American + the famous Rosie's beans (built into the day, before the 1pm ride)</span></div>
+          <div class="dm-row"><span class="dm-when">Dinner</span><span class="dm-where"><span class="pick">Wylie's Canteen at Lake Lodge</span> on the way back · or easy no-cook camp dinner</span></div>
+        </div>
         <details class="day-logistics">
           <summary>📋 Horseback booking &amp; map links</summary>
           <div class="dd-logwrap">
@@ -931,8 +983,14 @@ details.budget-collapse[open] > summary::after { transform: rotate(180deg); }
           <li><span class="tl-time">On tour</span><span class="tl-rail"><span class="tl-dot">♨️</span></span><div class="tl-card"><strong>Old Faithful</strong> — eruption + Geyser Hill boardwalk · Old Faithful Inn lobby (1904, largest log structure in the world)</div></li>
           <li><span class="tl-time">On tour</span><span class="tl-rail"><span class="tl-dot">🌡️</span></span><div class="tl-card">Norris, Fountain Paint Pots, and other thermal areas (guide-led all day)</div></li>
           <li><span class="tl-time">6:30p</span><span class="tl-rail"><span class="tl-dot">🚿</span></span><div class="tl-card"><strong>Tour ends</strong> · shower stop at Fishing Bridge on the drive back · bring quarters</div></li>
-          <li><span class="tl-time">Night</span><span class="tl-rail"><span class="tl-dot">🌭</span></span><div class="tl-card">Final campfire dinner at Bridge Bay · last night under the stars</div></li>
+          <li><span class="tl-time">Night</span><span class="tl-rail"><span class="tl-dot">🌌</span></span><div class="tl-card">Last night at camp · under the stars on Yellowstone Lake</div></li>
         </ul>
+        <div class="day-meals">
+          <span class="dm-label">🍽️ Where we're eating</span>
+          <div class="dm-row"><span class="dm-when">Breakfast</span><span class="dm-where">At camp — no-cook</span></div>
+          <div class="dm-row"><span class="dm-when">Lunch</span><span class="dm-where">On the Circle of Fire tour — at the Old Faithful area (<span class="pick">Old Faithful Inn</span> / Geyser Grill)</span></div>
+          <div class="dm-row"><span class="dm-when">Dinner</span><span class="dm-where">After the tour (~6:30p) — <span class="pick">Wylie's Canteen at Lake Lodge</span> · or easy no-cook camp dinner</span></div>
+        </div>
         <details class="day-logistics">
           <summary>📋 Tour booking &amp; map links</summary>
           <div class="dd-logwrap">
@@ -967,6 +1025,12 @@ details.budget-collapse[open] > summary::after { transform: rotate(180deg); }
           <li><span class="tl-time">Afternoon</span><span class="tl-rail"><span class="tl-dot">🚗</span></span><div class="tl-card">Continue Thermopolis + Wind River Canyon → Casper</div></li>
           <li class="anchor"><span class="tl-time">Evening</span><span class="tl-rail"><span class="tl-dot">🚿</span></span><div class="tl-card anchor"><strong>Real shower + real bed after 3 nights of camping!</strong></div></li>
         </ul>
+        <div class="day-meals">
+          <span class="dm-label">🍽️ Where we're eating</span>
+          <div class="dm-row"><span class="dm-when">Breakfast</span><span class="dm-where">At camp — last no-cook camp breakfast</span></div>
+          <div class="dm-row"><span class="dm-when">Lunch</span><span class="dm-where">Cody — <span class="pick">The Breadboard</span> (subs since 1978) · <span class="pick">Michael's Tacos</span> · <span class="pick">Annie's Soda Saloon</span> (old-timey, kids' menu)</span></div>
+          <div class="dm-row"><span class="dm-when">Dinner</span><span class="dm-where">Casper — <span class="pick">Wyoming's Rib &amp; Chop House</span> (kids' menu) · <span class="pick">FireRock Steakhouse</span> · <span class="pick">Branding Iron</span></span></div>
+        </div>
         <details class="day-logistics">
           <summary>📋 Hotel, contacts &amp; map links</summary>
           <div class="dd-logwrap">
@@ -998,6 +1062,12 @@ details.budget-collapse[open] > summary::after { transform: rotate(180deg); }
           <li class="anchor"><span class="tl-time">5:18p</span><span class="tl-rail"><span class="tl-dot">✈️</span></span><div class="tl-card anchor"><strong>Krystal · Nico · Neelan fly home</strong> <span class="tl-tag">Flight</span><br>UA 1585 · DEN dep 5:18pm → IAH arr 8:55pm · PNRs KYQDFG · K0T774</div></li>
           <li><span class="tl-time">Then</span><span class="tl-rail"><span class="tl-dot">🚗</span></span><div class="tl-card"><strong>Seth + Noah</strong> drive home with a 🎓 <strong>Texas Tech (Lubbock) campus stop</strong> en route (separate planning)</div></li>
         </ul>
+        <div class="day-meals">
+          <span class="dm-label">🍽️ Where we're eating</span>
+          <div class="dm-row"><span class="dm-when">Breakfast</span><span class="dm-where"><span class="hotel">Free breakfast at Residence Inn Casper</span></span></div>
+          <div class="dm-row"><span class="dm-when">Lunch</span><span class="dm-where">On the road to Denver / quick grab near the airport before the crew splits</span></div>
+          <div class="dm-row"><span class="dm-when">Dinner</span><span class="dm-where">Krystal · Nico · Neelan: home in Houston · Seth + Noah: on the road (Lubbock)</span></div>
+        </div>
         <details class="day-logistics">
           <summary>📋 Map links</summary>
           <div class="dd-logwrap">
