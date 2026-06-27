@@ -396,15 +396,6 @@ details.budget-collapse[open] > summary::after { transform: rotate(180deg); }
         <div class="countdown-sub">Seth + Nico hit the road</div>
       </div>
     </div>
-    <div class="stat"><div class="stat-value">9</div><div class="stat-label">Trip Days</div></div>
-    <div class="stat"><div class="stat-value">8</div><div class="stat-label">Nights Away</div></div>
-    <div class="stat"><div class="stat-value">~1,775</div><div class="stat-label">Total Miles</div></div>
-    <div class="stat"><div class="stat-value">5 🏨 · 3 ⛺</div><div class="stat-label">Hotel + Camp Nights</div></div>
-    <div class="stat"><div class="stat-value">12 / 12</div><div class="stat-label">Bookings Done ✅</div></div>
-    <div class="stat wx-card" id="wx-card" onclick="window.open('https://forecast.weather.gov/MapClick.php?lat=44.538&lon=-110.382','_blank')" title="Tap for 10-day forecast">
-      <div class="stat-value" id="wx-temp">—°</div>
-      <div class="stat-label">Bridge Bay Now<div class="wx-sub">TAP · 10-DAY FORECAST</div></div>
-    </div>
   </div>
   <script>
     (function() {
@@ -416,18 +407,22 @@ details.budget-collapse[open] > summary::after { transform: rotate(180deg); }
       else if (days === 0) el.textContent = 'TODAY!';
       else el.textContent = '🚗 On Trip';
     })();
-    // Live weather — Bridge Bay / Yellowstone Lake (Open-Meteo, no API key needed)
-    (function() {
+    // Live weather — Bridge Bay / Yellowstone Lake (Open-Meteo). Rendered inside the ALL-route card.
+    window.wxCache = null;
+    window.loadWx = function() {
+      var apply = function() { var el = document.getElementById('wx-temp'); if (el && window.wxCache) el.textContent = window.wxCache; };
+      if (window.wxCache) { apply(); return; }
       fetch('https://api.open-meteo.com/v1/forecast?latitude=44.538&longitude=-110.382&current=temperature_2m,weather_code&temperature_unit=fahrenheit&forecast_days=1')
         .then(function(r) { return r.json(); })
         .then(function(d) {
           var temp = Math.round(d.current.temperature_2m);
           var code = d.current.weather_code;
           var icon = code <= 1 ? '☀️' : code <= 3 ? '⛅' : code <= 49 ? '🌫️' : code <= 69 ? '🌧️' : code <= 79 ? '❄️' : code <= 99 ? '⛈️' : '🌡️';
-          document.getElementById('wx-temp').textContent = icon + ' ' + temp + '°F';
+          window.wxCache = icon + ' ' + temp + '°F';
+          apply();
         })
-        .catch(function() { document.getElementById('wx-temp').textContent = '🌡️ —°F'; });
-    })();
+        .catch(function() { window.wxCache = '🌡️ —°F'; apply(); });
+    };
   </script>
 
   <script>
@@ -620,16 +615,18 @@ details.budget-collapse[open] > summary::after { transform: rotate(180deg); }
       document.getElementById('dayDetail').style.display = 'block';
       document.getElementById('dayDetail').innerHTML =
         '<div class="dd-header">'
-        + '<div class="dd-header-top"><span class="dd-num">FULL TRIP</span><span class="dd-date">Jul 9–18, 2026 · 10 days</span></div>'
+        + '<div class="dd-header-top"><span class="dd-num">FULL TRIP</span><span class="dd-date">Jul 9–18, 2026</span></div>'
         + '<div class="dd-title">Houston → Denver → Tetons → Yellowstone → Home</div>'
         + '<div class="dd-hotel">The whole loop at a glance — tap any day to zoom in</div>'
         + '</div>'
         + '<div class="dd-body">'
-        + '<div class="route-stats">'
-        +   '<div class="rs"><b>10</b><span>Days on the road</span></div>'
-        +   '<div class="rs"><b>~1,650 mi</b><span>Driving (round trip)</span></div>'
-        +   '<div class="rs"><b>3 nights</b><span>Camping · Bridge Bay</span></div>'
-        +   '<div class="rs"><b>4 booked</b><span>Xanterra activities</span></div>'
+        + '<div class="stats" style="margin-top:0;margin-bottom:16px;">'
+        +   '<div class="stat"><div class="stat-value">9</div><div class="stat-label">Trip Days</div></div>'
+        +   '<div class="stat"><div class="stat-value">8</div><div class="stat-label">Nights Away</div></div>'
+        +   '<div class="stat"><div class="stat-value">~1,775</div><div class="stat-label">Total Miles</div></div>'
+        +   '<div class="stat"><div class="stat-value">5 🏨 · 3 ⛺</div><div class="stat-label">Hotel + Camp Nights</div></div>'
+        +   '<div class="stat"><div class="stat-value">12 / 12</div><div class="stat-label">Bookings ✅</div></div>'
+        +   '<a class="stat wx-card" id="wx-card" href="https://forecast.weather.gov/MapClick.php?lat=44.538&amp;lon=-110.382" target="_blank" rel="noopener" style="text-decoration:none;" title="Tap for 10-day forecast"><div class="stat-value" id="wx-temp">—°</div><div class="stat-label">Bridge Bay Now<div class="wx-sub">TAP · 10-DAY FORECAST</div></div></a>'
         + '</div>'
         + '<div class="route-sub">Day by day</div>'
         + '<ol class="route-list">'+rows+'</ol>'
@@ -641,6 +638,7 @@ details.budget-collapse[open] > summary::after { transform: rotate(180deg); }
         +   '⛺ <b>Jul 14–17</b> — Bridge Bay Campground (3 nights)'
         + '</div>'
         + '</div>';
+      if (window.loadWx) window.loadWx();
     };
 
     window.selectDay = function(d) {
